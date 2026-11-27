@@ -37,7 +37,7 @@ export default function AboutPage() {
           </p>
           <a
             href={whatsappLink("Olá, Qualilan! Gostaria de falar com um especialista.")}
-            className="mt-4 inline-flex items-center gap-2 rounded-full bg-laranja px-6 py-3 text-base font-semibold text-profundo hover:bg-amarelo"
+            className="mt-4 inline-flex items-center gap-2 rounded-lg bg-laranja px-6 py-3 text-base font-semibold text-profundo hover:bg-amarelo"
           >
             <span className="icon text-xl!">chat</span>
             Falar com um especialista

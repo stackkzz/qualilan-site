@@ -147,7 +147,7 @@ function QuoteDialog({ ref }: { ref: React.RefObject<HTMLDialogElement | null> }
                 href={href}
                 target="_blank"
                 rel="noopener"
-                className="flex w-full items-center justify-center gap-2 rounded-full bg-laranja px-6 py-3.5 font-semibold text-profundo transition-colors hover:bg-amarelo"
+                className="flex w-full items-center justify-center gap-2 rounded-lg bg-laranja px-6 py-3.5 font-semibold text-profundo transition-colors hover:bg-amarelo"
               >
                 <span className="icon text-xl!">chat</span>
                 Enviar pelo WhatsApp
@@ -174,7 +174,7 @@ export function QuoteCartButton() {
     <button
       type="button"
       onClick={open}
-      className="relative inline-flex items-center gap-2 whitespace-nowrap rounded-full bg-laranja px-4 py-2.5 text-sm font-semibold text-profundo transition-colors hover:bg-amarelo sm:px-5"
+      className="relative inline-flex items-center gap-2 whitespace-nowrap rounded-lg bg-laranja px-4 py-2.5 text-sm font-semibold text-profundo transition-colors hover:bg-amarelo sm:px-5"
     >
       <span className="icon text-xl!">request_quote</span>
       <span className="hidden sm:inline">Orçamento</span>
@@ -207,7 +207,8 @@ export function AddToQuote({
         setJustAdded(true);
         setTimeout(() => setJustAdded(false), 1500);
       }}
-      className={`inline-flex items-center justify-center gap-2 rounded-full font-semibold transition-colors ${
+      aria-label={size === "sm" ? `Adicionar ${product.name} ao orçamento` : undefined}
+      className={`inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-lg font-semibold transition-colors ${
         size === "sm"
           ? "w-full border border-royal/30 px-4 py-2 text-sm text-royal hover:border-royal hover:bg-royal hover:text-white"
           : "bg-royal px-6 py-3.5 text-white hover:bg-profundo"
@@ -215,7 +216,13 @@ export function AddToQuote({
     >
       <span className="icon text-xl!">{justAdded ? "check" : "playlist_add"}</span>
       <span aria-live="polite">
-        {justAdded ? "Adicionado" : inList ? `Na lista (${inList.qty})` : "Adicionar ao orçamento"}
+        {justAdded
+          ? "Adicionado"
+          : inList
+            ? `Na lista (${inList.qty})`
+            : size === "sm"
+              ? "Adicionar"
+              : "Adicionar ao orçamento"}
       </span>
     </button>
   );

@@ -118,7 +118,7 @@ async function ProductPageContent({ params }: { params: PageProps<"/produto/[slu
                 )}
                 target="_blank"
                 rel="noopener"
-                className="inline-flex items-center justify-center gap-2 rounded-full border border-profundo/15 px-6 py-3.5 font-semibold text-profundo transition-colors hover:border-laranja hover:bg-laranja"
+                className="inline-flex items-center justify-center gap-2 rounded-lg border border-profundo/15 px-6 py-3.5 font-semibold text-profundo transition-colors hover:border-laranja hover:bg-laranja"
               >
                 <span className="icon text-xl!">chat</span>
                 Orçar só este item

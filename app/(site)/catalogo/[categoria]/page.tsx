@@ -74,7 +74,7 @@ async function CategoryPageContent({ params }: { params: PageProps<"/catalogo/[c
             <p className="mt-2 text-marinho/60">Fale com a gente para saber o que temos em estoque.</p>
             <a
               href={whatsappLink(`Olá, Qualilan! Gostaria de um orçamento de ${cat.name.toLowerCase()}.`)}
-              className="mt-6 inline-flex items-center gap-2 rounded-full bg-laranja px-6 py-3 font-semibold text-profundo hover:bg-amarelo"
+              className="mt-6 inline-flex items-center gap-2 rounded-lg bg-laranja px-6 py-3 font-semibold text-profundo hover:bg-amarelo"
             >
               <span className="icon text-xl!">chat</span>
               Pedir orçamento de {cat.name.toLowerCase()}

@@ -24,7 +24,7 @@ export function ProductCard({ product }: { product: Product }) {
           )}
         </div>
         {product.brand && <p className="mt-4 text-xs font-semibold text-royal">{product.brand}</p>}
-        <h3 className="mt-1 line-clamp-3 text-sm leading-snug text-marinho group-hover:text-royal">
+        <h3 className="mt-1 line-clamp-3 text-[13px] leading-[1.45] text-marinho/80 group-hover:text-royal">
           {product.name}
         </h3>
       </Link>
