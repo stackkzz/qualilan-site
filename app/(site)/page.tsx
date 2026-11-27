@@ -71,7 +71,7 @@ const steps = [
 
 function SectionHeading({ title, text, light }: { title: string; text?: string; light?: boolean }) {
   return (
-    <div className="max-w-2xl">
+    <div className="reveal-title max-w-2xl">
       <h2
         className={`text-3xl font-bold tracking-[-0.02em] md:text-[2.5rem] md:leading-[1.1] ${light ? "text-white" : "text-profundo"}`}
       >
@@ -98,13 +98,15 @@ function WhatsAppButton({ message, children }: { message: string; children: Reac
 
 export default function Home() {
   return (
-    <main>
+    <main className="overflow-x-clip">
       {/* Hero: foto de cidade com trilhas de luz e a camada azul pedida no manual da marca. */}
       <section className="relative overflow-hidden bg-profundo text-white">
-        <Image src={cityNight} alt="" fill preload placeholder="blur" sizes="100vw" className="hero-photo object-cover object-right" />
+        <div aria-hidden className="parallax absolute inset-x-0 -top-[15%] h-[130%]">
+          <Image src={cityNight} alt="" fill preload placeholder="blur" sizes="100vw" className="hero-photo object-cover object-right" />
+        </div>
         <div aria-hidden className="absolute inset-0 bg-gradient-to-r from-profundo via-profundo/90 to-profundo/45" />
         <div className="relative mx-auto max-w-6xl px-5 pb-20 pt-16 md:pb-28 md:pt-24">
-          <h1 style={{ "--i": 0 } as React.CSSProperties} className="hero-in max-w-2xl text-[2.5rem] font-bold leading-[1.05] tracking-[-0.03em] md:text-[4rem]">
+          <h1 className="hero-title max-w-2xl text-[2.5rem] font-bold leading-[1.05] tracking-[-0.03em] md:text-[4rem]">
             Infraestrutura inteligente para a sua empresa.
           </h1>
           <p style={{ "--i": 1 } as React.CSSProperties} className="hero-in mt-6 max-w-xl text-lg leading-relaxed text-white/75">
@@ -188,12 +190,12 @@ export default function Home() {
               <li key={c.slug} className="border-b border-r border-profundo/10">
                 <Link
                   href={`/catalogo/${c.slug}`}
-                  className="group flex h-full items-center gap-4 px-5 py-6 transition-colors hover:bg-offwhite"
+                  className="group relative isolate flex h-full items-center gap-4 overflow-hidden px-5 py-6 before:absolute before:inset-0 before:-z-10 before:origin-bottom before:scale-y-0 before:bg-profundo before:transition-transform before:duration-300 hover:before:scale-y-100 focus-visible:before:scale-y-100"
                 >
-                  <span className="grid size-11 shrink-0 place-items-center rounded-lg bg-royal/8 text-royal transition-colors group-hover:bg-profundo group-hover:text-white">
+                  <span className="grid size-11 shrink-0 place-items-center rounded-lg bg-royal/8 text-royal transition-colors duration-300 group-hover:bg-white/10 group-hover:text-amarelo">
                     <span className="icon">{c.icon}</span>
                   </span>
-                  <span className="font-medium text-profundo">{c.name}</span>
+                  <span className="font-medium text-profundo transition-colors duration-300 group-hover:text-white">{c.name}</span>
                 </Link>
               </li>
             ))}
@@ -249,27 +251,48 @@ export default function Home() {
               />
             </figure>
           </div>
-          <ul className="reveal mt-14 grid gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-5">
-            {units.map((u) => (
-              <li key={u.city} className="flex flex-col border-t-2 border-profundo pt-5">
-                <p className="font-semibold text-profundo">
-                  {u.city}
-                  {u.note && <span className="ml-2 text-xs font-medium text-royal">{u.note}</span>}
-                </p>
-                <address className="mt-2 flex-1 text-sm not-italic leading-relaxed text-marinho/60">{u.address}</address>
-                <a href={telHref(u.phone)} className="mt-4 text-sm font-semibold text-profundo hover:text-royal">
-                  {u.phone}
-                </a>
-                <a
-                  href={mapsHref(u.address)}
-                  target="_blank"
-                  rel="noopener"
-                  className="mt-1 text-sm text-royal underline-offset-4 hover:underline"
+          <ul className="reveal mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
+            {units.map((u) => {
+              const main = Boolean(u.note);
+              return (
+                <li
+                  key={u.city}
+                  className={`lift flex flex-col rounded-2xl border p-5 ${
+                    main ? "border-profundo bg-profundo text-white" : "border-profundo/10 bg-white text-profundo"
+                  }`}
                 >
-                  Ver no mapa
-                </a>
-              </li>
-            ))}
+                  <div className="flex items-center justify-between">
+                    <span
+                      className={`grid size-10 place-items-center rounded-lg ${main ? "bg-white/10 text-amarelo" : "bg-royal/8 text-royal"}`}
+                    >
+                      <span className="icon text-xl!">location_on</span>
+                    </span>
+                    {u.note && (
+                      <span className="rounded-full bg-laranja px-2.5 py-0.5 text-xs font-semibold text-profundo">{u.note}</span>
+                    )}
+                  </div>
+                  <p className="mt-5 text-lg font-semibold">{u.city}</p>
+                  <address className={`mt-2 flex-1 text-sm not-italic leading-relaxed ${main ? "text-white/65" : "text-marinho/60"}`}>
+                    {u.address}
+                  </address>
+                  <div className={`mt-5 space-y-2 border-t pt-4 ${main ? "border-white/15" : "border-profundo/10"}`}>
+                    <a href={telHref(u.phone)} className="flex items-center gap-2 font-semibold hover:underline">
+                      <span className={`icon text-lg! ${main ? "text-amarelo" : "text-royal"}`}>call</span>
+                      {u.phone}
+                    </a>
+                    <a
+                      href={mapsHref(u.address)}
+                      target="_blank"
+                      rel="noopener"
+                      className={`flex items-center gap-2 text-sm hover:underline ${main ? "text-white/80" : "text-royal"}`}
+                    >
+                      <span className="icon text-lg!">map</span>
+                      Ver no mapa
+                    </a>
+                  </div>
+                </li>
+              );
+            })}
           </ul>
         </div>
       </section>
@@ -282,10 +305,10 @@ export default function Home() {
             title="Projetos customizados para os desafios de cada negócio"
             text="Além do catálogo, desenvolvemos projetos completos com parceiros especializados."
           />
-          <ul className="reveal mt-12 grid gap-6 md:grid-cols-2">
+          <ul className="wipe mt-12 grid gap-6 md:grid-cols-2">
             {customProjects.map((p) => (
-              <li key={p.partner} className="relative isolate flex min-h-80 flex-col justify-end overflow-hidden rounded-2xl p-8">
-                <Image src={p.image} alt="" fill sizes="(min-width: 768px) 560px, 100vw" className="-z-20 object-cover" />
+              <li key={p.partner} className="group relative isolate flex min-h-80 flex-col justify-end overflow-hidden rounded-2xl p-8">
+                <Image src={p.image} alt="" fill sizes="(min-width: 768px) 560px, 100vw" className="-z-20 object-cover transition-transform duration-700 group-hover:scale-105" />
                 <div aria-hidden className="absolute inset-0 -z-10 bg-gradient-to-t from-marinho via-profundo/85 to-profundo/40" />
                 <Image src={p.logo} alt={p.partner} width={1080} height={246} className="h-9 w-auto self-start" />
                 <h3 className="mt-6 text-2xl font-bold">{p.title}</h3>
@@ -322,7 +345,7 @@ export default function Home() {
       <section className="border-t border-profundo/10 bg-white py-24 md:py-32">
         <div className="mx-auto max-w-6xl px-5">
           <SectionHeading title="O que dizem nossos clientes" />
-          <ul className="reveal mt-12 grid gap-6 md:grid-cols-2">
+          <ul className="reveal-sides mt-12 grid gap-6 md:grid-cols-2">
             {testimonials.map((t) => (
               <li key={t.name}>
                 <figure className="flex h-full flex-col rounded-2xl border border-profundo/10 p-8">
