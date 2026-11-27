@@ -101,18 +101,18 @@ export default function Home() {
     <main>
       {/* Hero: foto de cidade com trilhas de luz e a camada azul pedida no manual da marca. */}
       <section className="relative overflow-hidden bg-profundo text-white">
-        <Image src={cityNight} alt="" fill preload placeholder="blur" sizes="100vw" className="object-cover object-right" />
+        <Image src={cityNight} alt="" fill preload placeholder="blur" sizes="100vw" className="hero-photo object-cover object-right" />
         <div aria-hidden className="absolute inset-0 bg-gradient-to-r from-profundo via-profundo/90 to-profundo/45" />
         <div className="relative mx-auto max-w-6xl px-5 pb-20 pt-16 md:pb-28 md:pt-24">
-          <h1 className="max-w-2xl text-[2.5rem] font-bold leading-[1.05] tracking-[-0.03em] md:text-[4rem]">
+          <h1 style={{ "--i": 0 } as React.CSSProperties} className="hero-in max-w-2xl text-[2.5rem] font-bold leading-[1.05] tracking-[-0.03em] md:text-[4rem]">
             Infraestrutura inteligente para a sua empresa.
           </h1>
-          <p className="mt-6 max-w-xl text-lg leading-relaxed text-white/75">
+          <p style={{ "--i": 1 } as React.CSSProperties} className="hero-in mt-6 max-w-xl text-lg leading-relaxed text-white/75">
             Infraestrutura de rede, segurança eletrônica e conectividade das marcas líderes, com pronta entrega em
             cinco unidades.
           </p>
 
-          <form action="/catalogo" role="search" className="mt-10 max-w-xl">
+          <form action="/catalogo" role="search" style={{ "--i": 2 } as React.CSSProperties} className="hero-in mt-10 max-w-xl">
             <label htmlFor="q" className="sr-only">
               Buscar no catálogo
             </label>
@@ -134,7 +134,7 @@ export default function Home() {
             </div>
           </form>
 
-          <p className="mt-5 text-sm leading-relaxed text-white/60">
+          <p style={{ "--i": 3 } as React.CSSProperties} className="hero-in mt-5 text-sm leading-relaxed text-white/60">
             Mais procurados:{" "}
             {categories.slice(0, 5).map((c, i) => (
               <span key={c.slug}>
@@ -156,13 +156,18 @@ export default function Home() {
           <h2 id="parceiros" className="text-center text-[15px] font-medium text-marinho/60">
             Parceira comercial de grandes marcas nacionais e internacionais
           </h2>
-          <ul id="marcas" className="mt-10 grid grid-cols-2 items-center gap-x-10 gap-y-10 sm:grid-cols-3 md:grid-cols-5">
-            {partners.map((p) => (
-              <li key={p.name} className="flex justify-center">
-                <Image src={p.logo} alt={p.name} width={p.w} height={p.h} className="h-10 w-32 object-contain" />
-              </li>
-            ))}
-          </ul>
+          <div id="marcas" className="marquee mt-10 overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_8%,black_92%,transparent)]">
+            <ul className="marquee-track flex w-max items-center gap-x-16 gap-y-8">
+              {[...partners, ...partners].map((p, i) => {
+                const copy = i >= partners.length;
+                return (
+                  <li key={i} aria-hidden={copy || undefined} className={copy ? "marquee-copy shrink-0" : "shrink-0"}>
+                    <Image src={p.logo} alt={copy ? "" : p.name} width={p.w} height={p.h} className="h-10 w-32 object-contain" />
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
         </div>
       </section>
 
@@ -178,7 +183,7 @@ export default function Home() {
               Ver todo o catálogo
             </Link>
           </div>
-          <ul className="mt-12 grid grid-cols-2 border-l border-t border-profundo/10 sm:grid-cols-3 lg:grid-cols-4">
+          <ul className="reveal mt-12 grid grid-cols-2 border-l border-t border-profundo/10 sm:grid-cols-3 lg:grid-cols-4">
             {categories.map((c) => (
               <li key={c.slug} className="border-b border-r border-profundo/10">
                 <Link
@@ -200,7 +205,7 @@ export default function Home() {
       <section id="segmentos" className="bg-offwhite py-24 md:py-32">
         <div className="mx-auto max-w-6xl px-5">
           <SectionHeading title="Por que grandes empresas confiam na Qualilan" />
-          <ul className="mt-14 grid gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-5">
+          <ul className="reveal mt-14 grid gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-5">
             {differentials.map((d) => (
               <li key={d.title}>
                 <Image src={d.icon} alt="" width={56} height={56} className="size-14 object-contain" />
@@ -222,7 +227,7 @@ export default function Home() {
             title="Logística eficiente e ágil"
             text="Logística própria e parcerias estratégicas: entregamos onde e quando você precisa."
           />
-          <div className="mt-12 grid gap-6 md:grid-cols-2">
+          <div className="reveal mt-12 grid gap-6 md:grid-cols-2">
             <figure className="rounded-2xl bg-offwhite p-6">
               <Image
                 src="/ref/mapa-brasil.png"
@@ -244,7 +249,7 @@ export default function Home() {
               />
             </figure>
           </div>
-          <ul className="mt-14 grid gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-5">
+          <ul className="reveal mt-14 grid gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-5">
             {units.map((u) => (
               <li key={u.city} className="flex flex-col border-t-2 border-profundo pt-5">
                 <p className="font-semibold text-profundo">
@@ -277,7 +282,7 @@ export default function Home() {
             title="Projetos customizados para os desafios de cada negócio"
             text="Além do catálogo, desenvolvemos projetos completos com parceiros especializados."
           />
-          <ul className="mt-12 grid gap-6 md:grid-cols-2">
+          <ul className="reveal mt-12 grid gap-6 md:grid-cols-2">
             {customProjects.map((p) => (
               <li key={p.partner} className="relative isolate flex min-h-80 flex-col justify-end overflow-hidden rounded-2xl p-8">
                 <Image src={p.image} alt="" fill sizes="(min-width: 768px) 560px, 100vw" className="-z-20 object-cover" />
@@ -301,7 +306,7 @@ export default function Home() {
             title="Orçamento sem cadastro, direto no WhatsApp"
             text="Sem carrinho e sem login. Você monta a lista no site e conversa com quem vai atender o seu pedido."
           />
-          <ol className="grid gap-px overflow-hidden rounded-2xl bg-profundo/10 sm:grid-cols-3">
+          <ol className="reveal grid gap-px overflow-hidden rounded-2xl bg-profundo/10 sm:grid-cols-3">
             {steps.map((step, i) => (
               <li key={step.title} className="bg-offwhite p-6">
                 <span className="text-sm font-semibold text-royal">{i + 1}</span>
@@ -317,7 +322,7 @@ export default function Home() {
       <section className="border-t border-profundo/10 bg-white py-24 md:py-32">
         <div className="mx-auto max-w-6xl px-5">
           <SectionHeading title="O que dizem nossos clientes" />
-          <ul className="mt-12 grid gap-6 md:grid-cols-2">
+          <ul className="reveal mt-12 grid gap-6 md:grid-cols-2">
             {testimonials.map((t) => (
               <li key={t.name}>
                 <figure className="flex h-full flex-col rounded-2xl border border-profundo/10 p-8">
@@ -337,7 +342,7 @@ export default function Home() {
       <section className="bg-white pb-24 md:pb-32">
         <div className="mx-auto max-w-6xl px-5">
           <div className="relative overflow-hidden rounded-3xl bg-profundo px-8 py-12 text-white md:px-14 md:py-16">
-            <div className="pointer-events-none absolute -right-40 -top-40 hidden size-[30rem] md:block">
+            <div className="signal-spin pointer-events-none absolute -right-40 -top-40 hidden size-[30rem] md:block">
               <SignalArcs />
             </div>
             <div className="relative max-w-xl">

@@ -86,7 +86,7 @@ function QuoteDialog({ ref }: { ref: React.RefObject<HTMLDialogElement | null> }
       ref={ref}
       aria-labelledby="quote-title"
       onClick={(e) => e.target === e.currentTarget && ref.current?.close()}
-      className="m-0 ml-auto h-dvh max-h-none w-full max-w-md bg-white p-0 text-marinho backdrop:bg-marinho/60"
+      className="drawer m-0 ml-auto h-dvh max-h-none w-full max-w-md bg-white p-0 text-marinho backdrop:bg-marinho/60"
     >
       <div className="flex h-full flex-col">
         <div className="flex items-center justify-between border-b border-profundo/10 px-6 py-5">
@@ -179,7 +179,7 @@ export function QuoteCartButton() {
       <span className="icon text-xl!">request_quote</span>
       <span className="hidden sm:inline">Orçamento</span>
       {count > 0 && (
-        <span className="grid min-w-6 place-items-center rounded-full bg-profundo px-1.5 text-xs text-white">
+        <span key={count} className="bump grid min-w-6 place-items-center rounded-full bg-profundo px-1.5 text-xs text-white">
           <span className="sr-only">itens na lista: </span>
           {count}
         </span>

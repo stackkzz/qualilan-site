@@ -39,17 +39,96 @@ body {
   outline-offset: 3px;
 }
 
-/* Única animação de página: os arcos do Q pulsam como sinal, uma vez. */
+/*
+ * Animações: só CSS (transform/opacity, que a GPU faz sozinha), sem JS e sem biblioteca.
+ * Tudo fica dentro de prefers-reduced-motion: no-preference; quem pede menos movimento vê o site parado.
+ */
 @keyframes signal {
   from { opacity: 0; transform: scale(0.92); }
   to { opacity: 1; transform: scale(1); }
 }
-.signal-arc {
-  transform-origin: 50% 50%;
-  animation: signal 900ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+@keyframes rise {
+  from { opacity: 0; transform: translateY(18px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes settle {
+  from { transform: scale(1.08); }
+  to { transform: scale(1); }
+}
+@keyframes marquee {
+  to { transform: translateX(-50%); }
+}
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+@keyframes drawer-in {
+  from { transform: translateX(100%); }
+  to { transform: none; }
+}
+@keyframes fade {
+  from { opacity: 0; }
+}
+@keyframes bump {
+  40% { transform: scale(1.35); }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /* Arcos do Q: aparecem como sinal e depois giram bem devagar. */
+  .signal-arc {
+    transform-origin: 50% 50%;
+    animation: signal 900ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  }
+  .signal-spin {
+    animation: spin 90s linear infinite;
+  }
+
+  /* Hero: a foto assenta e o texto entra em sequência, uma vez, ao abrir a página. */
+  .hero-photo {
+    animation: settle 1.8s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  }
+  .hero-in {
+    animation: rise 700ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+    animation-delay: calc(var(--i, 0) * 110ms + 150ms);
+  }
+
+  /* Logos dos parceiros passando em loop; para ao passar o mouse. */
+  .marquee-track {
+    animation: marquee 40s linear infinite;
+  }
+  .marquee:hover .marquee-track,
+  .marquee:focus-within .marquee-track {
+    animation-play-state: paused;
+  }
+
+  /* Revelação ao rolar, feita pelo navegador. Navegadores sem suporte mostram o conteúdo direto. */
+  @supports (animation-timeline: view()) {
+    .reveal > * {
+      animation: rise linear both;
+      animation-timeline: view();
+      animation-range: entry 5% entry 45%;
+    }
+  }
+
+  /* Lista de orçamento: desliza da direita ao abrir. */
+  dialog.drawer[open] {
+    animation: drawer-in 280ms cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+  dialog.drawer[open]::backdrop {
+    animation: fade 280ms ease-out;
+  }
+
+  /* Contador do botão Orçamento pulsa quando um item entra. */
+  .bump {
+    animation: bump 380ms ease-out;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  .signal-arc { animation: none; }
+}
+
+/* Sem movimento, o marquee vira uma grade estática (a segunda cópia dos logos some). */
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track { flex-wrap: wrap; justify-content: center; width: 100% !important; }
+  .marquee-copy { display: none; }
 }

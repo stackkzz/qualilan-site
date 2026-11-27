@@ -15,7 +15,7 @@ export default function AboutPage() {
   return (
     <main className="bg-white">
       <section className="relative overflow-hidden bg-profundo text-white">
-        <Image src={bgTech} alt="" fill preload placeholder="blur" sizes="100vw" className="object-cover object-right" />
+        <Image src={bgTech} alt="" fill preload placeholder="blur" sizes="100vw" className="hero-photo object-cover object-right" />
         <div aria-hidden className="absolute inset-0 bg-gradient-to-r from-profundo via-profundo/85 to-profundo/30" />
         <div className="relative mx-auto max-w-6xl px-5 py-20 md:py-28">
           <h1 className="max-w-3xl text-[2.5rem] font-bold leading-[1.05] tracking-[-0.03em] md:text-[3.75rem]">
@@ -76,7 +76,7 @@ export default function AboutPage() {
       <section className="bg-offwhite py-20 md:py-28">
         <div className="mx-auto max-w-6xl px-5">
           <h2 className="text-3xl font-bold tracking-[-0.02em] text-profundo md:text-[2.5rem]">O que nos diferencia</h2>
-          <ul className="mt-12 grid gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-5">
+          <ul className="reveal mt-12 grid gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-5">
             {differentials.map((d) => (
               <li key={d.title}>
                 <Image src={d.icon} alt="" width={56} height={56} className="size-14 object-contain" />
