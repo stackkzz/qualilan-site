@@ -2,7 +2,7 @@
 
 import { useActionState, useState } from "react";
 import { getMyProfile } from "@/app/(site)/conta/actions";
-import { sendQuoteRequest } from "@/app/(site)/pedido-actions";
+import { type RequestState, sendQuoteRequest } from "@/app/(site)/pedido-actions";
 import { useQuote } from "./quote-cart";
 import { SpinnerRing } from "./qualilan-loader";
 
@@ -10,19 +10,15 @@ const input =
   "w-full rounded-lg border border-profundo/20 bg-white px-3 py-2.5 text-sm outline-none focus:border-royal focus:ring-2 focus:ring-royal/20";
 
 // Alternativa ao WhatsApp para compradores que precisam de registro por e-mail (empresas, licitações).
-export function EmailQuoteForm() {
+export function EmailQuoteForm({ onSent }: { onSent: () => void }) {
   const { items } = useQuote();
-  const [state, action, pending] = useActionState(sendQuoteRequest, undefined);
+  const [state, action, pending] = useActionState(async (prev: RequestState, fd: FormData) => {
+    const result = await sendQuoteRequest(prev, fd);
+    if (result?.ok) onSent();
+    return result;
+  }, undefined);
   // Dados de quem está logado, buscados só quando o formulário abre (visitante recebe tudo em branco).
   const [me, setMe] = useState<{ name: string; company: string; email: string; phone: string } | null>(null);
-
-  if (state?.ok) {
-    return (
-      <div role="status" className="rounded-lg bg-emerald-50 px-4 py-3 text-sm text-emerald-900">
-        Pedido enviado. Nossa equipe responde por e-mail no horário de atendimento.
-      </div>
-    );
-  }
 
   return (
     <details

@@ -1,20 +1,24 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { NewPasswordForm } from "../forms";
+import { AccountShell, panel } from "../shell";
 
 export const metadata: Metadata = {
   title: "Nova senha | Qualilan",
   robots: { index: false, follow: false },
 };
 
-// Chega aqui pelo link do e-mail (/auth/callback já abriu a sessão); a action confere se ainda está logado.
+// Vem do link do e-mail (/auth/callback já abriu a sessão) ou do "Trocar senha" no painel; a action confere a sessão.
 export default function NewPasswordPage() {
   return (
-    <div className="mx-auto max-w-md px-5 py-14 md:py-20">
-      <h1 className="text-3xl font-bold tracking-tight text-profundo">Criar nova senha</h1>
-      <p className="mt-2 text-marinho/65">Escolha uma senha com pelo menos 8 caracteres.</p>
-      <div className="mt-8 rounded-2xl border border-profundo/10 bg-white p-6 md:p-8">
+    <AccountShell width="max-w-md" title="Nova senha" intro="Escolha uma senha com pelo menos 8 caracteres.">
+      <div className={panel}>
         <NewPasswordForm />
       </div>
-    </div>
+      <Link href="/conta" className="mt-6 flex items-center justify-center gap-1 text-sm font-semibold text-marinho/60 hover:text-profundo">
+        <span className="icon text-lg!">arrow_back</span>
+        Minha conta
+      </Link>
+    </AccountShell>
   );
 }

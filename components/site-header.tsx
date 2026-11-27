@@ -3,6 +3,7 @@ import { WhatsAppIcon } from "@/components/whatsapp-icon";
 import Link from "next/link";
 import { HomeLink } from "./home-link";
 import { site, whatsappLink } from "@/lib/site";
+import { AccountLink } from "./account-link";
 import { QuoteCartButton } from "./quote-cart";
 
 const nav = [
@@ -62,14 +63,9 @@ export function SiteHeader() {
             >
               <span className="icon">search</span>
             </Link>
-            <Link
-              href="/conta"
-              aria-label="Minha conta"
-              className="grid size-11 place-items-center rounded-lg border border-profundo/10 text-profundo transition-colors hover:border-profundo/30"
-            >
-              <span className="icon">person</span>
-            </Link>
             <QuoteCartButton />
+            <span aria-hidden className="mx-1 hidden h-7 w-px bg-profundo/10 sm:block" />
+            <AccountLink />
             {/* Menu do celular sem JavaScript: <details> abre e fecha nativamente. */}
             <details className="group relative md:hidden">
               <summary className="grid size-11 cursor-pointer list-none place-items-center rounded-lg border border-profundo/10 text-profundo [&::-webkit-details-marker]:hidden">

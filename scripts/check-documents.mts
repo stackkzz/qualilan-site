@@ -12,3 +12,10 @@ assert.ok(isValidCNPJ("11222333000181"));
 assert.ok(!isValidCNPJ("11.222.333/0001-80"));
 assert.ok(!isValidCNPJ("00.000.000/0000-00"));
 console.log("documentos ok");
+
+import { formatPhone, mask, MASKS } from "../lib/documents";
+assert.equal(mask("11746517000140", MASKS.cnpj), "11.746.517/0001-40");
+assert.equal(mask("1702684", MASKS.cep), "17026-84");
+assert.equal(formatPhone("+5514910044852"), "(14) 91004-4852");
+assert.equal(formatPhone("1430210437"), "(14) 3021-0437");
+console.log("máscaras ok");

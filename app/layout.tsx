@@ -11,7 +11,7 @@ const icons = [
   "fingerprint", "format_bold", "format_list_bulleted", "graphic_eq", "grid_view", "groups", "hub", "inventory_2", "lightbulb", "link", "local_hospital", "local_shipping", "location_on", "logout",
   "mail", "map", "menu", "play_circle", "playlist_add", "print", "remove", "request_quote", "savings", "schedule", "school", "search",
   "settings_ethernet", "shopping_cart", "star", "support_agent", "swap_vert", "sync_alt", "title", "upload", "verified", "videocam", "view_stream",
-  "visibility_off", "warehouse", "wifi", "workspace_premium",
+  "visibility", "visibility_off", "lock", "key", "receipt_long", "home_pin", "warehouse", "wifi", "workspace_premium",
 ].sort().join(","); // a API exige nomes em ordem alfabética
 
 export const metadata: Metadata = {
@@ -32,6 +32,13 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <link
           rel="stylesheet"
           href={`https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0..1,0&icon_names=${icons}&display=block`}
+        />
+        {/* Contorno laranja de foco só para quem navega pelo teclado: clique e toque escondem, Tab mostra de novo. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              "addEventListener('pointerdown',function(){document.documentElement.dataset.pointer=''},true);addEventListener('keydown',function(e){if(e.key==='Tab')delete document.documentElement.dataset.pointer},true)",
+          }}
         />
       </head>
       <body className="flex min-h-screen flex-col font-sans">{children}</body>

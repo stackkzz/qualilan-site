@@ -17,6 +17,7 @@ type QuoteState = {
   setQty: (slug: string, qty: number) => void;
   remove: (slug: string) => void;
   clear: () => void;
+  restore: (items: QuoteItem[]) => void;
   open: () => void;
 };
 
@@ -75,6 +76,7 @@ export function QuoteProvider({ children }: { children: ReactNode }) {
       setItems((prev) => prev.map((i) => (i.slug === slug ? { ...i, qty: Math.max(1, Math.min(9999, qty || 1)) } : i))),
     remove: (slug) => setItems((prev) => prev.filter((i) => i.slug !== slug)),
     clear: () => setItems([]),
+    restore: setItems,
     open: () => dialogRef.current?.showModal(),
   };
 
@@ -122,7 +124,13 @@ function QtyStepper({ item }: { item: QuoteItem }) {
 }
 
 function QuoteDialog({ ref }: { ref: React.RefObject<HTMLDialogElement | null> }) {
-  const { items, count, clear } = useQuote();
+  const { items, count, clear, restore } = useQuote();
+  // Depois do envio a lista esvazia; guardamos a última para "Recuperar lista" (WhatsApp fechado sem enviar).
+  const [sent, setSent] = useState<{ channel: "whatsapp" | "email"; items: QuoteItem[] } | null>(null);
+  const finish = (channel: "whatsapp" | "email") => {
+    setSent({ channel, items });
+    clear();
+  };
   const href = `https://wa.me/${site.whatsapp}?text=${encodeURIComponent(buildQuoteMessage(items))}`;
   const close = () => ref.current?.close();
 
@@ -148,7 +156,41 @@ function QuoteDialog({ ref }: { ref: React.RefObject<HTMLDialogElement | null> }
           </button>
         </div>
 
-        {items.length === 0 ? (
+        {items.length === 0 && sent ? (
+          <div role="status" className="flex flex-1 flex-col items-center justify-center px-8 text-center">
+            <span className="grid size-20 place-items-center rounded-full bg-emerald-50 text-emerald-700">
+              <span className="icon icon-fill text-5xl!">check_circle</span>
+            </span>
+            <p className="mt-6 text-lg font-semibold text-profundo">
+              {sent.channel === "email" ? "Pedido enviado" : "Pedido aberto no WhatsApp"}
+            </p>
+            <p className="mt-2 text-sm leading-relaxed text-marinho/60">
+              {sent.channel === "email"
+                ? "Nossa equipe responde por e-mail no horário de atendimento."
+                : "Confira a mensagem no WhatsApp e toque em enviar. Nossa equipe responde por lá."}
+            </p>
+            <div className="mt-6 flex flex-col items-center gap-3">
+              <Link
+                href="/catalogo"
+                onClick={close}
+                className="inline-flex items-center gap-2 rounded-lg bg-profundo px-5 py-3 text-sm font-semibold text-white hover:bg-royal"
+              >
+                <span className="icon text-xl!">grid_view</span>
+                Continuar no catálogo
+              </Link>
+              <button
+                type="button"
+                onClick={() => {
+                  restore(sent.items);
+                  setSent(null);
+                }}
+                className="text-sm font-semibold text-royal hover:underline"
+              >
+                Recuperar a lista
+              </button>
+            </div>
+          </div>
+        ) : items.length === 0 ? (
           <div className="flex flex-1 flex-col items-center justify-center px-8 text-center">
             <span className="relative grid size-24 place-items-center rounded-full bg-royal/8 text-royal">
               <span className="absolute inset-0 rounded-full border-2 border-dashed border-royal/20" />
@@ -208,7 +250,10 @@ function QuoteDialog({ ref }: { ref: React.RefObject<HTMLDialogElement | null> }
               <a
                 href={href}
                 data-track="lista"
-                onClick={() => void logWhatsappQuote(items.map(({ slug, name, sku, qty }) => ({ slug, name, sku, qty })))}
+                onClick={() => {
+                  void logWhatsappQuote(items.map(({ slug, name, sku, qty }) => ({ slug, name, sku, qty })));
+                  finish("whatsapp");
+                }}
                 target="_blank"
                 rel="noopener"
                 className={`w-full ${whatsappButtonClass}`}
@@ -217,7 +262,7 @@ function QuoteDialog({ ref }: { ref: React.RefObject<HTMLDialogElement | null> }
                 Fazer orçamento no WhatsApp
               </a>
               <p className="text-center text-xs text-marinho/55">Atendimento: {site.hours.toLowerCase()}.</p>
-              <EmailQuoteForm />
+              <EmailQuoteForm onSent={() => finish("email")} />
               <button type="button" onClick={clear} className="w-full text-xs text-marinho/50 hover:text-marinho">
                 Limpar lista
               </button>

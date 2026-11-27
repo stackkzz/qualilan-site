@@ -45,6 +45,10 @@ body {
   outline: 2px solid var(--color-laranja);
   outline-offset: 3px;
 }
+/* Clique/toque: o navegador às vezes marca foco "visível" (diálogos, foco devolvido); aí não mostra. */
+html[data-pointer] :focus-visible {
+  outline: none;
+}
 
 /* Campos de busca: o foco aparece na caixa inteira (focus-within), não como um contorno dentro dela. */
 input[type="search"]:focus-visible {
