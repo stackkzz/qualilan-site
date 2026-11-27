@@ -46,7 +46,7 @@ async function PostContent({ params }: { params: PageProps<"/blog/[slug]">["para
     description: post.excerpt,
     datePublished: post.publishedAt,
     image: post.cover ?? undefined,
-    author: { "@type": "Organization", name: "Qualilan" },
+    author: { "@type": "Organization", name: "Equipe técnica Qualilan" },
   };
 
   return (
@@ -70,7 +70,7 @@ async function PostContent({ params }: { params: PageProps<"/blog/[slug]">["para
           <p className="mt-5 text-lg leading-relaxed text-marinho/70">{post.excerpt}</p>
           <p className="mt-6 flex items-center gap-2 text-sm text-marinho/50">
             <span className="icon text-lg!">schedule</span>
-            {formatDate(post.publishedAt)}, {readingMinutes(post.body)} min de leitura
+            Por equipe técnica Qualilan, {formatDate(post.publishedAt)}, {readingMinutes(post.body)} min de leitura
           </p>
         </div>
       </header>

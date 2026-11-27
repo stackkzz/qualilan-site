@@ -1,7 +1,10 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { QuoteProvider } from "@/components/quote-cart";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
+
+export const metadata: Metadata = { title: "Página não encontrada | Qualilan" };
 
 // Fica fora do grupo (site), então monta o cabeçalho e o rodapé por conta própria.
 export default function NotFound() {

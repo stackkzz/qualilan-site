@@ -63,10 +63,16 @@ export const brands = [
 export const units = [
   { city: "Campinas", note: "Matriz", address: "R. Anita Moretzsohn, 336, Jardim Santana, Campinas, SP, 13088-603", phone: "(19) 3256-1042" },
   { city: "São Paulo", address: "R. Benedito Campos Morais, 230, Vila Anastácio, São Paulo, SP, 05094-010", phone: "(11) 3714-0818" },
-  { city: "Bauru", address: "R. Jorge Pimentel, 5-54, Vila Engler, Bauru, SP, 17047-010", phone: "(14) 3021-0437" },
-  { city: "Vale do Paraíba", address: "Rod. Geraldo Scavone, 2080, Galpão U20, Jardim Califórnia, Jacareí, SP, 12305-490", phone: "(12) 3958-7735" },
-  { city: "Minas Gerais", address: "R. Capitão Vicente Ribeiro do Vale, 354, Santa Rita do Sapucaí, MG, 37540-000", phone: "(35) 3471-4172" },
+  { city: "Bauru", note: "Central SAC", address: "R. Jorge Pimentel, 5-54, Vila Engler, Bauru, SP, 17047-010", phone: "(14) 3021-0437" },
+  { city: "Jacareí", address: "Rod. Geraldo Scavone, 2080, Galpão U20, Jardim Califórnia, Jacareí, SP, 12305-490", phone: "(12) 3958-7735" },
+  { city: "Santa Rita do Sapucaí", address: "R. Capitão Vicente Ribeiro do Vale, 354, Santa Rita do Sapucaí, MG, 37540-000", phone: "(35) 3471-4172" },
 ];
+
+// Endereço em duas linhas: rua e número / o resto (bairro, cidade, CEP).
+export function addressLines(address: string) {
+  const parts = address.split(", ");
+  return [parts.slice(0, 2).join(", "), parts.slice(2).join(", ")] as const;
+}
 
 export const telHref = (phone: string) => `tel:+55${phone.replace(/\D/g, "")}`;
 export const mapsHref = (address: string) =>
@@ -126,9 +132,11 @@ export const customProjects = [
     partner: "ITMAX",
     logo: "/ref/logos/itmax.png",
     title: "Soluções para data center",
-    text: "Infraestrutura para salas técnicas e data centers, em parceria com a ITMAX.",
+    text: "Projetos de infraestrutura para ambientes que não podem parar, desenvolvidos junto com a ITMAX.",
     visual: "rack",
-    features: ["Salas técnicas", "Data centers", "Projeto com parceiro especializado"],
+    features: ["Salas técnicas e CPDs", "Racks, energia e cabeamento no mesmo projeto", "Especificação feita com o fabricante"],
+    href: whatsappLink("Olá, Qualilan! Gostaria de falar sobre um projeto de data center com a ITMAX."),
+    hrefLabel: "Falar sobre um projeto",
   },
 ] as const;
 
@@ -156,8 +164,8 @@ export const testimonials: Testimonial[] = [
 ];
 
 // Cases em vídeo publicados no site institucional (qualilan.com.br, nov/2026).
-export const cases: { id: string; client: string; tag?: string }[] = [
-  { id: "zFgLWH_TgAQ", client: "Colégio Chaminade", tag: "Soluções Lightera" },
+export const cases: { id: string; client: string; tag?: string; lowResOnly?: boolean }[] = [
+  { id: "zFgLWH_TgAQ", lowResOnly: true, client: "Colégio Chaminade", tag: "Soluções Lightera" },
   { id: "jPcqPEUNJro", client: "Santuário de Aparecida" },
   { id: "Frz_uTJEcGU", client: "TV Aparecida" },
   { id: "KDXv-jH1FlI", client: "Cidade do Romeiro" },

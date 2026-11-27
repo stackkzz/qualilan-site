@@ -93,7 +93,7 @@ async function ProductPageContent({ params }: { params: PageProps<"/produto/[slu
           </div>
           <div className="flex flex-col">
             {logo ? (
-              <Image src={logo.logo} alt={product.brand ?? logo.name} width={logo.w} height={logo.h} className="h-8 w-auto self-start object-contain" />
+              <Image src={logo.logo} alt={product.brand ?? logo.name} width={Math.round((logo.w * 32) / logo.h)} height={32} className="h-8 w-auto self-start object-contain" />
             ) : (
               product.brand && <p className="font-semibold text-royal">{product.brand}</p>
             )}
@@ -103,8 +103,20 @@ async function ProductPageContent({ params }: { params: PageProps<"/produto/[slu
             <dl className="mt-6 grid grid-cols-[auto_1fr] gap-x-6 gap-y-2 text-sm">
               {product.sku && (
                 <>
-                  <dt className="text-marinho/60">Código</dt>
+                  <dt className="text-marinho/60">Código Qualilan</dt>
                   <dd className="font-medium">{product.sku}</dd>
+                </>
+              )}
+              {product.mfrCode && (
+                <>
+                  <dt className="text-marinho/60">Código do fabricante</dt>
+                  <dd className="font-medium">{product.mfrCode}</dd>
+                </>
+              )}
+              {product.unit && (
+                <>
+                  <dt className="text-marinho/60">Vendido em</dt>
+                  <dd className="font-medium">{product.unit}</dd>
                 </>
               )}
               <dt className="text-marinho/60">Disponibilidade</dt>
@@ -119,7 +131,16 @@ async function ProductPageContent({ params }: { params: PageProps<"/produto/[slu
               </div>
             )}
             {product.description && (
-              <p className="mt-6 whitespace-pre-line leading-relaxed text-marinho/80">{product.description}</p>
+              <details open className="group mt-6 rounded-xl border border-profundo/10 bg-white">
+                <summary className="flex cursor-pointer list-none items-center justify-between px-4 py-3 font-semibold text-profundo [&::-webkit-details-marker]:hidden">
+                  Especificações
+                  <span className="icon transition-transform group-open:rotate-90">chevron_right</span>
+                </summary>
+                {/* Texto da ficha da loja antiga, linha a linha */}
+                <p className="max-h-96 overflow-y-auto whitespace-pre-line px-4 pb-4 text-sm leading-relaxed text-marinho/80">
+                  {product.description}
+                </p>
+              </details>
             )}
 
             <div className="mt-auto flex flex-col gap-3 pt-10 xl:flex-row">

@@ -6,9 +6,9 @@ function initials(name: string) {
   return (parts[0][0] + (parts.length > 1 ? parts[parts.length - 1][0] : "")).toUpperCase();
 }
 
-function Card({ t }: { t: Testimonial }) {
+function Card({ t, full }: { t: Testimonial; full?: boolean }) {
   return (
-    <figure className="flex h-full w-[20rem] flex-col rounded-2xl border border-profundo/10 bg-white p-6 md:w-[24rem]">
+    <figure className={`flex h-full flex-col ${full ? "w-full" : "w-[20rem] md:w-[24rem]"} rounded-2xl border border-profundo/10 bg-white p-6`}>
       <div className="text-amarelo" aria-label="5 estrelas">
         ★★★★★
       </div>
@@ -70,9 +70,24 @@ export function TestimonialsMarquee() {
           </span>
         </div>
       </div>
-      <div className="mt-12 space-y-5">
+      {/* Meio-termo: no computador as faixas rolam (e param com o mouse em cima); no celular, 3 depoimentos fixos */}
+      <div className="mt-12 hidden space-y-5 md:block">
         <Row items={testimonials.slice(0, half)} />
         <Row items={testimonials.slice(half)} reverse />
+      </div>
+      <div className="mt-10 space-y-4 px-5 md:hidden">
+        {testimonials.slice(0, 3).map((t) => (
+          <Card key={t.name} t={t} full />
+        ))}
+        <a
+          href="https://www.google.com/maps/search/?api=1&query=Qualilan%20Bauru"
+          target="_blank"
+          rel="noopener"
+          className="flex items-center justify-center gap-1 rounded-full border-2 border-profundo/15 px-5 py-3 font-semibold text-profundo"
+        >
+          Ver todas as avaliações no Google
+          <span className="icon text-xl!">chevron_right</span>
+        </a>
       </div>
     </section>
   );

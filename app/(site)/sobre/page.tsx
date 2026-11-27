@@ -60,10 +60,10 @@ function FactVisual({ kind }: { kind: (typeof facts)[number]["visual"] }) {
 }
 
 const areas = [
-  { icon: "settings_ethernet", title: "Infraestrutura de rede e conectividade", text: "Cabeamento estruturado, fibra óptica, switches e wireless.", href: "/catalogo/cabos-lan" },
-  { icon: "dns", title: "Data center", text: "Soluções para salas técnicas, racks e conectividade de alta densidade.", href: "/catalogo/rede-optica" },
-  { icon: "videocam", title: "Segurança eletrônica", text: "CFTV e controle de acesso, do projeto à capacitação da equipe.", href: "/catalogo/cftv" },
-  { icon: "electrical_services", title: "Elétrica", text: "Cabos, canaletas e acabamento para instalações organizadas e seguras.", href: "/catalogo/cabos-eletricos" },
+  { icon: "settings_ethernet", title: "Infraestrutura de rede e conectividade", text: "Cabeamento estruturado, fibra óptica, switches e wireless.", href: "/catalogo/cabos-lan", cta: "Ver cabos de rede" },
+  { icon: "dns", title: "Data center", text: "Soluções para salas técnicas, racks e conectividade de alta densidade.", href: "/#projetos", cta: "Ver projetos de data center" },
+  { icon: "videocam", title: "Segurança eletrônica", text: "CFTV e controle de acesso, do projeto à capacitação da equipe.", href: "/catalogo/cftv", cta: "Ver CFTV" },
+  { icon: "electrical_services", title: "Elétrica", text: "Cabos elétricos e acabamento para instalações organizadas e seguras.", href: "/catalogo/cabos-eletricos", cta: "Ver cabos elétricos" },
 ];
 
 const sustainability = [
@@ -144,6 +144,11 @@ export default function AboutPage() {
             <p className="relative mt-4 text-3xl font-bold leading-tight tracking-[-0.02em] text-profundo md:text-4xl">
               Apoiar parceiros na conquista de novos negócios.
             </p>
+            {/* Valores: página "Quem somos" da loja atual */}
+            <p className="relative mt-6 text-sm leading-relaxed text-marinho/65">
+              <span className="font-semibold text-profundo">Valores:</span> ética e transparência, disciplina, humildade,
+              excelência e proatividade.
+            </p>
           </blockquote>
         </div>
       </section>
@@ -162,7 +167,7 @@ export default function AboutPage() {
                   <IconTile icon={a.icon} />
                   <h3 className="mt-5 font-semibold leading-snug text-profundo">{a.title}</h3>
                   <p className="mt-2 flex-1 text-[15px] leading-relaxed text-marinho/65">{a.text}</p>
-                  <span className="mt-5 text-sm font-semibold text-royal group-hover:underline">Ver no catálogo</span>
+                  <span className="mt-5 text-sm font-semibold text-royal group-hover:underline">{a.cta}</span>
                 </Link>
               </li>
             ))}

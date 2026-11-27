@@ -7,10 +7,10 @@ import { DOTS_FAR, DOTS_MID, DOTS_NEAR } from "@/lib/map-dots";
 // Enquadramento mostra os dois estados inteiros; etiquetas e brilhos são maiores para compensar a escala.
 const hub = { city: "Campinas", x: 838, y: 1284 };
 const nodes = [
-  { city: "Bauru", x: 551, y: 1198, lx: 400, ly: 1100 },
+  { city: "Bauru", x: 551, y: 1198, lx: 390, ly: 1300 },
   { city: "São Paulo", x: 899, y: 1380, lx: 780, ly: 1520 },
   { city: "Jacareí", x: 994, y: 1343, lx: 1250, ly: 1440 },
-  { city: "Minas Gerais", x: 1031, y: 1187, lx: 1290, ly: 1090 },
+  { city: "Santa Rita do Sapucaí", x: 1031, y: 1187, lx: 1330, ly: 975 },
 ] as const;
 
 function route(a: { x: number; y: number }, b: { x: number; y: number }) {
@@ -45,7 +45,7 @@ export function NetworkMap() {
     <svg
         viewBox="-40 -40 1940 1720"
         role="img"
-        aria-label="Mapa de São Paulo e Minas Gerais com as unidades Qualilan: matriz em Campinas ligada a Bauru, São Paulo, Jacareí e Minas Gerais"
+        aria-label="Mapa de São Paulo e Minas Gerais com as unidades Qualilan: matriz em Campinas ligada a Bauru, São Paulo, Jacareí e Santa Rita do Sapucaí (MG)"
         className="h-auto w-full "
       >
         <defs>
@@ -89,7 +89,7 @@ export function NetworkMap() {
         <circle cx={hub.x} cy={hub.y} r="100" fill="none" stroke="#FF9900" strokeOpacity="0.8" strokeWidth="7" className="node-ping" />
         <circle cx={hub.x} cy={hub.y} r="48" fill="#FF9900" />
         <circle cx={hub.x} cy={hub.y} r="18" fill="#121744" />
-        <Pill x={hub.x - 120} y={hub.y - 170} text="Campinas" tone="hub" />
+        <Pill x={hub.x - 100} y={hub.y - 160} text="Campinas" tone="hub" />
       </svg>
   );
 }

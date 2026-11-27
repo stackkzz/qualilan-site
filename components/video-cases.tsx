@@ -5,6 +5,9 @@ import { useState } from "react";
 import { cases } from "@/lib/site";
 
 const thumb = (id: string) => `https://i.ytimg.com/vi/${id}/hqdefault.jpg`;
+// Capa grande em 1280×720; alguns vídeos antigos não têm essa versão no YouTube.
+const cover = (c: (typeof cases)[number]) =>
+  c.lowResOnly ? thumb(c.id) : `https://i.ytimg.com/vi/${c.id}/maxresdefault.jpg`;
 
 // Player principal + lista ao lado. Clicar na lista (ou nas setas) troca o vídeo em destaque.
 // O player do YouTube só carrega quando a pessoa clica em play.
@@ -73,7 +76,7 @@ export function VideoCases() {
                 >
                   <Image
                     key={current.id}
-                    src={thumb(current.id)}
+                    src={cover(current)}
                     alt=""
                     fill
                     sizes="(min-width: 1024px) 700px, 100vw"

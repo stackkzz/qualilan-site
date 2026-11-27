@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { WhatsAppIcon, whatsappButtonClass } from "@/components/whatsapp-icon";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import { BrandPills } from "@/components/brand-pills";
@@ -43,7 +44,13 @@ async function CategoryPageContent({
   if (!cat) notFound();
 
   const sp = await searchParams;
-  const list = (await getProducts()).filter((p) => p.category === categoria);
+  const all = (await getProducts()).filter((p) => p.category === categoria);
+  // Subcategorias da loja antiga (Patch cords, Conectores…). Só viram filtro quando há mais de uma.
+  const subs = [...new Set(all.map((p) => p.subcategory).filter((s): s is string => !!s && s !== cat.name))].sort((a, b) =>
+    a.localeCompare(b, "pt-BR"),
+  );
+  const tipo = subs.includes(one(sp.tipo) ?? "") ? one(sp.tipo) : undefined;
+  const list = tipo ? all.filter((p) => p.subcategory === tipo) : all;
   const brands = brandCounts(list);
   const hrefFor = (b?: string) => (b ? `/catalogo?categoria=${categoria}&marca=${encodeURIComponent(b)}` : `/catalogo/${categoria}`);
 
@@ -62,11 +69,34 @@ async function CategoryPageContent({
           <BrandFilter brands={brands} hrefFor={hrefFor} />
         </aside>
         <section className="min-w-0">
+          {subs.length > 1 && (
+            <nav aria-label="Tipos de produto" className="mb-6">
+              <ul className="no-scrollbar -mx-5 flex gap-2 overflow-x-auto px-5 text-sm md:mx-0 md:flex-wrap md:px-0">
+                {[undefined, ...subs].map((s) => {
+                  const active = s === tipo;
+                  return (
+                    <li key={s ?? "todos"} className="shrink-0">
+                      <Link
+                        href={s ? `/catalogo/${categoria}?tipo=${encodeURIComponent(s)}` : `/catalogo/${categoria}`}
+                        aria-current={active ? "true" : undefined}
+                        className={`inline-block rounded-full px-4 py-2 ${active ? "bg-profundo text-white" : "border border-profundo/15 bg-white hover:border-profundo"}`}
+                      >
+                        {s ?? "Todos"}
+                        <span className={`ml-1.5 tabular-nums ${active ? "text-white/60" : "text-marinho/40"}`}>
+                          {s ? all.filter((p) => p.subcategory === s).length : all.length}
+                        </span>
+                      </Link>
+                    </li>
+                  );
+                })}
+              </ul>
+            </nav>
+          )}
           <BrandPills brands={brands.map((b) => b.name)} hrefFor={hrefFor} />
           <ProductListing
             products={list}
             base={`/catalogo/${categoria}`}
-            params={{}}
+            params={{ tipo }}
             sort={parseSort(one(sp.ordem))}
             page={one(sp.pagina)}
             empty={

@@ -4,7 +4,7 @@ import Link from "next/link";
 export function BrandPills({ brands, active, hrefFor }: { brands: string[]; active?: string; hrefFor: (b?: string) => string }) {
   if (brands.length < 2) return null;
   return (
-    <ul className="-mx-5 mb-6 flex gap-2 overflow-x-auto px-5 pb-1 text-sm lg:hidden" aria-label="Filtrar por marca">
+    <ul className="no-scrollbar -mx-5 mb-6 flex gap-2 overflow-x-auto px-5 pb-1 text-sm [mask-image:linear-gradient(to_right,black_85%,transparent)] lg:hidden" aria-label="Filtrar por marca">
       {[undefined, ...brands].map((b) => {
         const isActive = b === active;
         return (
@@ -14,7 +14,7 @@ export function BrandPills({ brands, active, hrefFor }: { brands: string[]; acti
               aria-current={isActive ? "true" : undefined}
               className={`inline-block rounded-full px-4 py-1.5 ${isActive ? "bg-royal text-white" : "border border-profundo/15 bg-white"}`}
             >
-              {b ?? "Todas"}
+              {b ? (b.toLowerCase() === "lightera" ? `${b} (antiga Furukawa)` : b) : "Todas"}
             </Link>
           </li>
         );

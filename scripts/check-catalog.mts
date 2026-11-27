@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 import { paginate, parseSort, sortProducts, type Product } from "../lib/catalog";
 
 const p = (name: string, inStock = true, sku = name): Product =>
-  ({ id: name, slug: name, sku, name, category: "x", brand: null, image: null, inStock, description: "" });
+  ({ id: name, slug: name, sku, name, category: "x", brand: null, image: null, inStock, description: "", mfrCode: null, unit: null, subcategory: null });
 
 const list = Array.from({ length: 50 }, (_, i) => p(`Item ${i + 1}`, i % 2 === 0));
 assert.equal(paginate(list).pages, 3);

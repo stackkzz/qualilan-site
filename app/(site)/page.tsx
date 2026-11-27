@@ -2,6 +2,7 @@ import Image from "next/image";
 import { WhatsAppIcon, whatsappButtonDarkClass } from "@/components/whatsapp-icon";
 import Link from "next/link";
 import { BlogTeaser } from "@/components/blog-teaser";
+import { getProducts, listedCategories } from "@/lib/catalog";
 import { FiberLines } from "@/components/fiber-lines";
 import { RackVisual } from "@/components/rack-visual";
 import { IconTile } from "@/components/icon-tile";
@@ -11,6 +12,7 @@ import { TestimonialsMarquee } from "@/components/testimonials-marquee";
 import { VideoCases } from "@/components/video-cases";
 import { Wave } from "@/components/wave";
 import {
+  addressLines,
   categories,
   customProjects,
   differentials,
@@ -80,7 +82,7 @@ export default function Home() {
                 id="q"
                 name="q"
                 type="search"
-                placeholder="Produto, marca ou código"
+                placeholder="Nome, marca ou código"
                 className="min-w-0 flex-1 bg-transparent px-3 py-3 text-base outline-none placeholder:text-marinho/40"
               />
               <button
@@ -92,17 +94,19 @@ export default function Home() {
             </div>
           </form>
 
-          <p style={{ "--i": 3 } as React.CSSProperties} className="hero-in mt-5 text-sm leading-relaxed text-white/60">
-            Mais procurados:{" "}
-            {categories.slice(0, 5).map((c, i) => (
-              <span key={c.slug}>
-                <Link href={`/catalogo/${c.slug}`} className="text-white/85 underline-offset-4 hover:text-white hover:underline">
-                  {c.name}
-                </Link>
-                {i < 4 ? ", " : ""}
-              </span>
+          {/* Mais procurados em pílulas: área de toque confortável no celular */}
+          <div style={{ "--i": 3 } as React.CSSProperties} className="hero-in mt-5 flex flex-wrap items-center gap-2 text-sm text-white/60">
+            <span className="mr-1">Mais procurados:</span>
+            {categories.slice(0, 5).map((c) => (
+              <Link
+                key={c.slug}
+                href={`/catalogo/${c.slug}`}
+                className="rounded-full border border-white/20 px-3 py-1.5 text-white/85 transition-colors hover:border-white/50 hover:text-white"
+              >
+                {c.name}
+              </Link>
             ))}
-          </p>
+          </div>
         </div>
         <div aria-hidden className="pointer-events-none absolute inset-y-0 right-0 hidden w-[38%] lg:block">
           <div className="float-a absolute right-[18%] top-[26%] flex items-center gap-3 rounded-xl border border-white/15 bg-white/10 px-4 py-3 text-sm text-white backdrop-blur-md">
@@ -141,7 +145,7 @@ export default function Home() {
                 const copy = i >= partners.length;
                 return (
                   <li key={i} aria-hidden={copy || undefined} className={copy ? "marquee-copy shrink-0" : "shrink-0"}>
-                    <Image src={p.logo} alt={copy ? "" : p.name} width={p.w} height={p.h} className="h-10 w-32 object-contain" />
+                    <Image src={p.logo} alt={copy ? "" : p.name} width={Math.round((p.w * 40) / p.h)} height={40} className="h-10 w-32 object-contain" />
                   </li>
                 );
               })}
@@ -151,34 +155,7 @@ export default function Home() {
       </section>
 
       {/* Categorias */}
-      <section className="border-t border-profundo/10 bg-white py-24 md:py-32">
-        <div className="mx-auto max-w-6xl px-5">
-          <div className="flex flex-col justify-between gap-6 md:flex-row md:items-end">
-            <SectionHeading
-              title="Catálogo completo para o seu projeto"
-              text="Do cabo ao rack, do switch à câmera. Monte sua lista e receba o orçamento pelo WhatsApp."
-            />
-            <Link href="/catalogo" className="shrink-0 font-semibold text-royal hover:text-profundo">
-              Ver todo o catálogo
-            </Link>
-          </div>
-          <ul className="reveal mt-12 grid grid-cols-2 border-l border-t border-profundo/10 sm:grid-cols-3 lg:grid-cols-4">
-            {categories.map((c) => (
-              <li key={c.slug} className="border-b border-r border-profundo/10">
-                <Link
-                  href={`/catalogo/${c.slug}`}
-                  className="group relative isolate flex h-full items-center gap-4 overflow-hidden px-5 py-6 before:absolute before:inset-0 before:-z-10 before:origin-bottom before:scale-y-0 before:bg-profundo before:transition-transform before:duration-300 hover:before:scale-y-100 focus-visible:before:scale-y-100"
-                >
-                  <span className="grid size-11 shrink-0 place-items-center rounded-lg bg-royal/8 text-royal transition-colors duration-300 group-hover:bg-white/10 group-hover:text-amarelo">
-                    <span className="icon icon-hover-fill">{c.icon}</span>
-                  </span>
-                  <span className="font-medium text-profundo transition-colors duration-300 group-hover:text-white">{c.name}</span>
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </section>
+      <CategoriesSection />
 
       {/* Diferenciais, com os ícones do site institucional */}
       <section id="segmentos" className="bg-offwhite py-24 md:py-32">
@@ -221,12 +198,13 @@ export default function Home() {
               <NetworkMap />
             </div>
           </div>
-          <ul className="reveal mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
+          {/* No celular, os cards rolam para o lado (antes eram 5 cards empilhados, ~2.400 px) */}
+          <ul className="reveal no-scrollbar -mx-5 mt-14 flex snap-x snap-mandatory gap-4 overflow-x-auto px-5 pb-2 sm:mx-0 sm:grid sm:grid-cols-2 sm:overflow-visible sm:px-0 sm:pb-0 lg:grid-cols-5">
             {units.map((u) => {
               return (
                 <li
                   key={u.city}
-                  className="lift group flex flex-col rounded-2xl border border-profundo/10 bg-white p-5 text-profundo"
+                  className="lift group flex w-[80%] shrink-0 snap-start flex-col rounded-2xl border border-profundo/10 bg-white p-5 text-profundo sm:w-auto"
                 >
                   <div className="flex items-center justify-between">
                     <IconTile icon="location_on" size="sm" />
@@ -236,7 +214,9 @@ export default function Home() {
                   </div>
                   <p className="mt-5 text-lg font-semibold">{u.city}</p>
                   <address className="mt-2 flex-1 text-sm not-italic leading-relaxed text-marinho/60">
-                    {u.address}
+                    {addressLines(u.address)[0]}
+                    <br />
+                    {addressLines(u.address)[1]}
                   </address>
                   <div className="mt-5 space-y-2 border-t border-profundo/10 pt-4">
                     <a href={telHref(u.phone)} className="flex items-center gap-2 font-semibold hover:underline">
@@ -261,7 +241,7 @@ export default function Home() {
       </section>
 
       {/* Projetos customizados */}
-      <section className="relative isolate overflow-hidden bg-profundo py-24 text-white md:py-32">
+      <section id="projetos" className="relative isolate overflow-hidden bg-profundo py-24 text-white md:py-32">
         <div aria-hidden className="tech-grid absolute inset-0 -z-10 opacity-60" />
         <div className="mx-auto max-w-6xl px-5">
           <SectionHeading
@@ -278,7 +258,7 @@ export default function Home() {
                   {p.visual === "fiber" ? <FiberLines masked={false} /> : <RackVisual />}
                 </div>
                 <div className="flex flex-1 flex-col p-8">
-                  <Image src={p.logo} alt={p.partner} width={1080} height={246} className="h-8 w-auto self-start" />
+                  <Image src={p.logo} alt={p.partner} width={140} height={32} className="h-8 w-auto self-start" />
                   <h3 className="mt-6 text-2xl font-bold">{p.title}</h3>
                   <p className="mt-2 max-w-md leading-relaxed text-white/70">{p.text}</p>
                   <ul className="mt-6 flex-1 space-y-2.5">
@@ -336,9 +316,8 @@ export default function Home() {
               </Link>
             </div>
           </div>
-          {/* Símbolo Q da marca emitindo sinal: anéis que se expandem e um brilho laranja respirando. */}
+          {/* Símbolo Q limpo (o manual proíbe brilho e sombra no logo), com anéis de sinal ao redor. */}
           <div aria-hidden className="pointer-events-none relative mx-auto hidden aspect-square w-full max-w-[22rem] md:block">
-            <span className="q-glow absolute inset-12 rounded-full bg-laranja/60 blur-3xl" />
             {[0, 1, 2].map((i) => (
               <span
                 key={i}
@@ -351,11 +330,47 @@ export default function Home() {
               alt=""
               width={1204}
               height={1244}
-              className="q-float absolute inset-14 h-auto w-[calc(100%-7rem)] drop-shadow-[0_20px_40px_rgba(0,0,26,0.5)]"
+              className="q-float absolute inset-14 h-auto w-[calc(100%-7rem)]"
             />
           </div>
         </div>
       </section>
     </main>
+  );
+}
+
+// Só categorias com produto; o título usa a contagem real do catálogo (arredondada para baixo).
+async function CategoriesSection() {
+  const [list, products] = await Promise.all([listedCategories(), getProducts()]);
+  const total = Math.floor(products.length / 10) * 10;
+  return (
+      <section className="border-t border-profundo/10 bg-white py-24 md:py-32">
+        <div className="mx-auto max-w-6xl px-5">
+          <div className="flex flex-col justify-between gap-6 md:flex-row md:items-end">
+            <SectionHeading
+              title={`Mais de ${total} produtos para o seu projeto`}
+              text="Do cabo ao rack, do switch à câmera. Monte sua lista e receba o orçamento pelo WhatsApp."
+            />
+            <Link href="/catalogo" className="shrink-0 font-semibold text-royal hover:text-profundo">
+              Ver todo o catálogo
+            </Link>
+          </div>
+          <ul className="reveal mt-12 grid grid-cols-2 border-l border-t border-profundo/10 sm:grid-cols-3 lg:grid-cols-4">
+            {list.map((c) => (
+              <li key={c.slug} className="border-b border-r border-profundo/10">
+                <Link
+                  href={`/catalogo/${c.slug}`}
+                  className="group relative isolate flex h-full items-center gap-4 overflow-hidden px-5 py-6 before:absolute before:inset-0 before:-z-10 before:origin-bottom before:scale-y-0 before:bg-profundo before:transition-transform before:duration-300 hover:before:scale-y-100 focus-visible:before:scale-y-100"
+                >
+                  <span className="grid size-11 shrink-0 place-items-center rounded-lg bg-royal/8 text-royal transition-colors duration-300 group-hover:bg-white/10 group-hover:text-amarelo">
+                    <span className="icon icon-hover-fill">{c.icon}</span>
+                  </span>
+                  <span className="font-medium text-profundo transition-colors duration-300 group-hover:text-white">{c.name}</span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
   );
 }

@@ -36,7 +36,7 @@ export function SiteHeader() {
             </ul>
           </nav>
 
-          <form action="/catalogo" role="search" className="ml-auto hidden lg:block">
+          <form action="/catalogo" role="search" className="header-search ml-auto hidden lg:block">
             <label htmlFor="header-q" className="sr-only">
               Buscar no catálogo
             </label>
@@ -53,6 +53,14 @@ export function SiteHeader() {
           </form>
 
           <div className="ml-auto flex items-center gap-2 lg:ml-0">
+            {/* Lupa no celular e tablet: leva à busca do catálogo */}
+            <Link
+              href="/catalogo#busca"
+              aria-label="Buscar no catálogo"
+              className="grid size-11 place-items-center rounded-lg border border-profundo/10 text-profundo lg:hidden"
+            >
+              <span className="icon">search</span>
+            </Link>
             <QuoteCartButton />
             {/* Menu do celular sem JavaScript: <details> abre e fecha nativamente. */}
             <details className="group relative md:hidden">

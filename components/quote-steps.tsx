@@ -11,7 +11,7 @@ function SearchMock() {
           patch cord cat6
         </span>
       </div>
-      {["Patch cord Cat.6 1,5 m azul", "Patch cord Cat.6 2,5 m verde"].map((name) => (
+      {["Patch cord Gigalan Green Cat.6 5 m azul", "Patch cord Gigalan Green Cat.6 3 m vermelho"].map((name) => (
         <div key={name} className="mt-2 flex items-center gap-3 rounded-lg bg-white p-2">
           <span className="grid size-9 place-items-center rounded-md bg-royal/8 text-royal">
             <span className="icon text-lg!">cable</span>
@@ -28,8 +28,8 @@ function SearchMock() {
 
 function ListMock() {
   const items = [
-    { name: "Patch cord Cat.6 1,5 m", qty: 20 },
-    { name: "Switch 24p PoE+", qty: 2 },
+    { name: "Patch cord Gigalan Green Cat.6 5 m", qty: 20 },
+    { name: "Switch TP-Link 8 portas (4 PoE)", qty: 2 },
     { name: "Câmera bullet Full HD", qty: 8 },
   ];
   return (
@@ -67,8 +67,8 @@ function WhatsAppMock() {
       <div className="p-3">
         <div className="ml-auto max-w-[90%] rounded-lg rounded-tr-none bg-[#d9fdd3] px-3 py-2 text-xs leading-relaxed text-[#111b21] shadow-sm">
           Olá, Qualilan! Gostaria de um orçamento destes itens:
-          <br />• 20x Patch cord Cat.6 1,5 m
-          <br />• 2x Switch 24p PoE+
+          <br />• 20x Patch cord Gigalan Green Cat.6 5 m
+          <br />• 2x Switch TP-Link 8 portas (4 PoE)
           <br />• 8x Câmera bullet Full HD
           <span className="mt-1 flex items-center justify-end gap-0.5 text-[10px] text-[#667781]">
             09:41 <span className="icon text-sm! text-[#53bdeb]">done_all</span>
@@ -89,11 +89,13 @@ function StepCard({ i, title, text, mock }: { i: number; title: string; text: st
   return (
     <div className="grid items-center gap-6 rounded-2xl bg-white p-6 md:grid-cols-2 md:p-8">
       <div>
-        <span className="rounded-full bg-royal/8 px-3 py-1 text-xs font-semibold text-royal">Passo {i + 1}</span>
-        <h3 className="mt-4 text-xl font-bold tracking-tight text-profundo md:text-2xl">{title}</h3>
+        {/* O número do passo já está no círculo da linha do tempo */}
+        <h3 className="text-xl font-bold tracking-tight text-profundo md:text-2xl">
+          <span className="sr-only">Passo {i + 1}: </span>{title}</h3>
         <p className="mt-2 text-[15px] leading-relaxed text-marinho/65">{text}</p>
       </div>
-      {mock}
+      {/* A tela de exemplo só aparece a partir do tablet: no celular o passo vira texto simples */}
+      <div className="hidden md:block">{mock}</div>
     </div>
   );
 }

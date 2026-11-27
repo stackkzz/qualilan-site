@@ -11,7 +11,7 @@ async function EditProduct({ params }: { params: PageProps<"/admin/produtos/[id]
   if (!/^[0-9a-f-]{36}$/i.test(id)) notFound();
   const { data } = await supabase
     .from("products")
-    .select("id, slug, name, sku, brand, category, description, image_url, in_stock, published")
+    .select("id, slug, name, sku, brand, category, description, image_url, in_stock, published, mfr_code, unit, subcategory")
     .eq("id", id)
     .maybeSingle();
   if (!data) notFound();

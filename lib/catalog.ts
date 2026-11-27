@@ -14,6 +14,9 @@ export type Product = {
   image: string | null;
   inStock: boolean;
   description: string;
+  mfrCode: string | null;
+  unit: string | null;
+  subcategory: string | null;
 };
 
 export const PRODUCTS_TAG = "products";
@@ -28,6 +31,9 @@ type ProductRow = {
   image_url: string | null;
   in_stock: boolean;
   description: string;
+  mfr_code?: string | null;
+  unit?: string | null;
+  subcategory?: string | null;
 };
 
 export function toProduct(r: ProductRow): Product {
@@ -41,6 +47,9 @@ export function toProduct(r: ProductRow): Product {
     image: r.image_url,
     inStock: r.in_stock,
     description: r.description,
+    mfrCode: r.mfr_code ?? null,
+    unit: r.unit ?? null,
+    subcategory: r.subcategory ?? null,
   };
 }
 
@@ -51,7 +60,7 @@ export async function getProducts(): Promise<Product[]> {
   cacheLife("days");
   const { data, error } = await createSupabasePublicClient()
     .from("products")
-    .select("id, slug, sku, name, category, brand, image_url, in_stock, description")
+    .select("id, slug, sku, name, category, brand, image_url, in_stock, description, mfr_code, unit, subcategory")
     .eq("published", true)
     .order("name");
   if (error) throw new Error(`Falha ao carregar produtos: ${error.message}`);
@@ -68,6 +77,20 @@ export function getCategory(slug: string) {
 
 export function brandsOf(list: Product[]) {
   return [...new Set(list.map((p) => p.brand).filter((b): b is string => !!b))].sort();
+}
+
+// Nome da marca para exibir e buscar: a Lightera é a antiga Furukawa, e o comprador ainda procura pelo nome antigo.
+export function brandLabel(brand: string | null) {
+  if (!brand) return "";
+  return brand.toLowerCase() === "lightera" ? `${brand} (antiga Furukawa)` : brand;
+}
+
+// Categorias com pelo menos um produto publicado: as vazias somem do menu e da Home (a página continua no ar).
+export async function listedCategories() {
+  const products = await getProducts();
+  return categories
+    .map((c) => ({ ...c, count: products.filter((p) => p.category === c.slug).length }))
+    .filter((c) => c.count > 0);
 }
 
 export function brandCounts(list: Product[]) {
@@ -92,7 +115,7 @@ export function searchProducts(
     if (categoria && p.category !== categoria) return false;
     if (marca && p.brand !== marca) return false;
     if (!terms.length) return true;
-    const hay = normalize(`${p.name} ${p.brand ?? ""} ${p.sku ?? ""}`);
+    const hay = normalize(`${p.name} ${brandLabel(p.brand)} ${p.sku ?? ""} ${p.mfrCode ?? ""}`);
     return terms.every((t) => hay.includes(t));
   });
 }
@@ -109,8 +132,10 @@ export function sortProducts(list: Product[], sort: Sort) {
   if (sort === "az") return copy.sort(byName);
   if (sort === "za") return copy.sort((a, b) => byName(b, a));
   if (sort === "codigo") return copy.sort((a, b) => (a.sku ?? "").localeCompare(b.sku ?? "", "pt-BR", { numeric: true }));
-  return copy.sort((a, b) => Number(b.inStock) - Number(a.inStock) || byName(a, b));
+  // Padrão: pronta entrega primeiro, depois na ordem das categorias (cabos, fibra, switches… antes de iluminação).
+  return copy.sort((a, b) => Number(b.inStock) - Number(a.inStock) || catIndex(a) - catIndex(b) || byName(a, b));
 }
+const catIndex = (p: Product) => categories.findIndex((c) => c.slug === p.category);
 
 export const PAGE_SIZE = 24;
 

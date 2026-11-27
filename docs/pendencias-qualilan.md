@@ -39,3 +39,12 @@ Lista para levar na apresentação do site novo. Os itens marcados como "decisã
 ## Acesso ao painel
 
 - E-mails de quem da equipe vai editar o catálogo. Cada pessoa recebe um login próprio.
+
+## Da análise do novo site (27/11/2026)
+
+- **Encarregado de dados (LGPD):** nome e contato do encarregado. Hoje a Privacidade aponta para o e-mail geral.
+- **ITMAX:** o que a Qualilan entrega de fato com a ITMAX (os destaques do card são genéricos).
+- **Nomes de produto:** foram padronizados automaticamente a partir dos nomes da loja (caixa normal, acentos, código separado). Vale uma revisão rápida da equipe pelo painel.
+- **Pedidos por e-mail:** ficam em /admin/pedidos. Se quiserem aviso por e-mail a cada pedido novo, é preciso um serviço de envio (ex.: Resend), com o domínio da Qualilan.
+- **Foto do topo em alta:** a atual tem 1400 px; uma foto própria com 2400 px ou mais deixaria o topo nítido em telas grandes.
+- **Uma foto de produto (cód. 36014)** não tem versão original na loja e segue em baixa resolução.

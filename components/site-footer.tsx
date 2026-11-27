@@ -11,12 +11,12 @@ function Column({ title, children, wide }: { title: string; children: ReactNode;
   return (
     <div className={wide ? "col-span-2 lg:col-span-1" : undefined}>
       <h2 className="text-sm font-semibold text-white">{title}</h2>
-      <ul className="mt-4 space-y-2.5 text-sm">{children}</ul>
+      <ul className="mt-4 text-sm md:space-y-2.5">{children}</ul>
     </div>
   );
 }
 
-const linkClass = "text-white/60 transition-colors hover:text-white";
+const linkClass = "inline-block py-2 text-white/60 transition-colors hover:text-white md:py-0"; // área de toque maior no celular
 
 export function SiteFooter() {
   return (
@@ -103,7 +103,6 @@ export function SiteFooter() {
           </Column>
 
           <Column title="Unidades" wide>
-            <li className="text-xs text-white/45">Central SAC {site.sac}</li>
             {units.map((u) => (
               <li key={u.city} className="flex items-baseline justify-between gap-4">
                 <span className="text-white/60">

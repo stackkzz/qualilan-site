@@ -17,6 +17,9 @@ export type EditableProduct = {
   in_stock: boolean;
   published: boolean;
   slug: string;
+  mfr_code: string | null;
+  unit: string | null;
+  subcategory: string | null;
 };
 
 export function ProductForm({ product, brands }: { product?: EditableProduct; brands: string[] }) {
@@ -55,9 +58,23 @@ export function ProductForm({ product, brands }: { product?: EditableProduct; br
           </Field>
         </div>
 
-        <Field label="Código" htmlFor="sku" hint="Aparece no site e na mensagem de orçamento.">
-          <input id="sku" name="sku" maxLength={60} defaultValue={product?.sku ?? ""} className={inputClass} />
-        </Field>
+        <div className="grid gap-5 sm:grid-cols-2">
+          <Field label="Código Qualilan" htmlFor="sku" hint="Aparece no site e na mensagem de orçamento.">
+            <input id="sku" name="sku" maxLength={60} defaultValue={product?.sku ?? ""} className={inputClass} />
+          </Field>
+          <Field label="Código do fabricante" htmlFor="mfr_code" hint="Opcional. A busca do site também encontra por ele.">
+            <input id="mfr_code" name="mfr_code" maxLength={60} defaultValue={product?.mfr_code ?? ""} className={inputClass} />
+          </Field>
+        </div>
+
+        <div className="grid gap-5 sm:grid-cols-2">
+          <Field label="Tipo (subcategoria)" htmlFor="subcategory" hint="Ex.: Patch cord Cat.6. Vira filtro na categoria.">
+            <input id="subcategory" name="subcategory" maxLength={60} defaultValue={product?.subcategory ?? ""} className={inputClass} />
+          </Field>
+          <Field label="Vendido em" htmlFor="unit" hint="Opcional. Ex.: caixa 305 m, peça.">
+            <input id="unit" name="unit" maxLength={60} defaultValue={product?.unit ?? ""} className={inputClass} />
+          </Field>
+        </div>
 
         <Field label="Descrição" htmlFor="description" hint="Opcional. Especificações, aplicações, o que vem na caixa.">
           <textarea

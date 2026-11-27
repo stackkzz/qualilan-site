@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { createContext, useContext, useEffect, useRef, useState, type ReactNode } from "react";
 import { categories, site } from "@/lib/site";
+import { EmailQuoteForm } from "./email-quote-form";
 import { WhatsAppIcon, whatsappButtonClass } from "./whatsapp-icon";
 
 export type QuoteItem = { slug: string; name: string; sku: string | null; image?: string | null; qty: number };
@@ -119,7 +120,7 @@ function QtyStepper({ item }: { item: QuoteItem }) {
 }
 
 function QuoteDialog({ ref }: { ref: React.RefObject<HTMLDialogElement | null> }) {
-  const { items, count, remove, clear } = useQuote();
+  const { items, count, clear } = useQuote();
   const href = `https://wa.me/${site.whatsapp}?text=${encodeURIComponent(buildQuoteMessage(items))}`;
   const close = () => ref.current?.close();
 
@@ -193,11 +194,9 @@ function QuoteDialog({ ref }: { ref: React.RefObject<HTMLDialogElement | null> }
                   <div className="min-w-0 flex-1">
                     <p className="line-clamp-2 text-[13px] font-medium leading-snug text-profundo">{i.name}</p>
                     {i.sku && <p className="mt-0.5 text-xs text-marinho/50">Cód. {i.sku}</p>}
-                    <div className="mt-2 flex items-center justify-between gap-2">
+                    {/* Uma só forma de remover: o "−" vira lixeira quando a quantidade é 1 */}
+                    <div className="mt-2">
                       <QtyStepper item={i} />
-                      <button type="button" onClick={() => remove(i.slug)} className="text-xs text-marinho/50 hover:text-red-700">
-                        Remover
-                      </button>
                     </div>
                   </div>
                 </li>
@@ -214,6 +213,7 @@ function QuoteDialog({ ref }: { ref: React.RefObject<HTMLDialogElement | null> }
                 Fazer orçamento no WhatsApp
               </a>
               <p className="text-center text-xs text-marinho/55">Atendimento: {site.hours.toLowerCase()}.</p>
+              <EmailQuoteForm />
               <button type="button" onClick={clear} className="w-full text-xs text-marinho/50 hover:text-marinho">
                 Limpar lista
               </button>
@@ -253,7 +253,7 @@ export function QuoteCartButton() {
 function FloatingQuoteButton() {
   const { count, open } = useQuote();
   const cls =
-    "float-in fixed bottom-5 right-5 z-30 grid size-14 place-items-center rounded-full bg-[#25D366] text-white shadow-[0_16px_32px_-10px_rgba(18,140,126,0.7)] transition-transform hover:scale-105";
+    "quote-float float-in fixed bottom-4 right-4 z-30 grid size-12 place-items-center md:bottom-5 md:right-5 md:size-14 rounded-full bg-[#25D366] text-white shadow-[0_16px_32px_-10px_rgba(18,140,126,0.7)] transition-transform hover:scale-105";
   if (!count) {
     return (
       <a

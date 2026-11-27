@@ -17,6 +17,9 @@ export function AdminHeader({ email }: { email?: string }) {
           <Link href="/admin/blog" className="rounded-full px-3 py-1.5 text-white/75 hover:bg-white/10 hover:text-white">
             Blog
           </Link>
+          <Link href="/admin/pedidos" className="rounded-full px-3 py-1.5 text-white/75 hover:bg-white/10 hover:text-white">
+            Pedidos
+          </Link>
         </nav>
         <div className="ml-auto flex items-center gap-5 text-sm">
           <Link href="/" target="_blank" className="hidden text-white/70 hover:text-white sm:inline">

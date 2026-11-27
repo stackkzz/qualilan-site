@@ -1,6 +1,6 @@
 // Separado de catalog.ts para poder ser usado no navegador (sem levar o acesso ao banco junto).
 export const SORTS = [
-  { value: "disponiveis", label: "Disponíveis primeiro" },
+  { value: "disponiveis", label: "Recomendados" },
   { value: "az", label: "Nome (A–Z)" },
   { value: "za", label: "Nome (Z–A)" },
   { value: "codigo", label: "Código" },

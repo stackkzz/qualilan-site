@@ -23,8 +23,16 @@ export function ProductCard({ product }: { product: Product }) {
             </span>
           )}
         </div>
-        {product.brand && <p className="mt-4 text-xs font-semibold text-royal">{product.brand}</p>}
-        <h3 className="mt-1 line-clamp-3 text-[13px] leading-[1.45] text-marinho/80 group-hover:text-royal">
+        <p className="mt-4 flex items-center justify-between gap-2 text-xs">
+          {product.brand && <span className="font-semibold text-royal">{product.brand}</span>}
+          {product.inStock && (
+            <span className="ml-auto flex items-center gap-1 text-emerald-700">
+              <span className="icon text-sm!">check</span>
+              Pronta entrega
+            </span>
+          )}
+        </p>
+        <h3 className="mt-1.5 line-clamp-3 text-[15px] font-medium leading-snug text-marinho/85 group-hover:text-royal">
           {product.name}
         </h3>
       </Link>

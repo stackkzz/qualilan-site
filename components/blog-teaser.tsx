@@ -28,8 +28,8 @@ export async function BlogTeaser() {
           </Link>
         </div>
         <ul className="reveal mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {posts.map((p) => (
-            <li key={p.slug} className="flex">
+          {posts.map((p, i) => (
+            <li key={p.slug} className={i === 2 ? "hidden lg:flex" : "flex"}>
               <PostCard post={p} />
             </li>
           ))}

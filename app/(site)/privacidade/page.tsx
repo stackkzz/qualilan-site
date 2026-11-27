@@ -35,6 +35,13 @@ export default function PrivacyPage() {
         .
       </p>
 
+      <h2>Encarregado de dados (DPO)</h2>
+      <p>
+        {/* shortcut: nome do encarregado ainda não informado pela Qualilan; trocar quando definido. */}
+        O contato do encarregado pelo tratamento de dados pessoais é o e-mail{" "}
+        <a href={`mailto:${site.email}`}>{site.email}</a>, com o assunto “LGPD”.
+      </p>
+
       <h2>Limpar a lista de orçamento</h2>
       <p>Abra a lista pelo botão “Orçamento” no topo e use “Limpar lista”, ou apague os dados do site no seu navegador.</p>
     </LegalPage>

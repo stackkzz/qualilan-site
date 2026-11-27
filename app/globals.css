@@ -178,7 +178,7 @@ input[type="search"]::-webkit-search-cancel-button {
     .reveal > * {
       animation: reveal-up linear both;
       animation-timeline: view();
-      animation-range: entry calc(var(--n, 0) * 6%) cover calc(28% + var(--n, 0) * 4%);
+      animation-range: entry calc(var(--n, 0) * 4%) cover calc(12% + var(--n, 0) * 2%); /* termina logo após entrar: nada fica meio apagado na tela */
     }
     .reveal > :nth-child(2) { --n: 1; }
     .reveal > :nth-child(3) { --n: 2; }
@@ -190,7 +190,7 @@ input[type="search"]::-webkit-search-cancel-button {
     .reveal-sides > * {
       animation: from-left linear both;
       animation-timeline: view();
-      animation-range: entry 0% cover 30%;
+      animation-range: entry 0% cover 15%;
     }
     .reveal-sides > :nth-child(even) {
       animation-name: from-right;
@@ -200,17 +200,17 @@ input[type="search"]::-webkit-search-cancel-button {
     .wipe > * {
       animation: wipe linear both;
       animation-timeline: view();
-      animation-range: entry 0% cover 35%;
+      animation-range: entry 0% cover 15%;
     }
     .wipe > :nth-child(2) {
-      animation-range: entry 10% cover 45%;
+      animation-range: entry 5% cover 20%;
     }
 
     /* Títulos de seção sobem junto com a rolagem. */
     .reveal-title {
       animation: rise linear both;
       animation-timeline: view();
-      animation-range: entry 0% cover 25%;
+      animation-range: entry 0% cover 12%;
     }
   }
 
@@ -469,4 +469,27 @@ input[type="search"]::-webkit-search-cancel-button {
 }
 @keyframes led {
   50% { opacity: 0.25; }
+}
+
+/* Com a lista de orçamento aberta, o botão flutuante some para não cobrir a gaveta. */
+body:has(dialog[open]) .quote-float {
+  display: none;
+}
+
+/* Faixas que rolam sozinhas param quando o mouse está em cima, para dar tempo de ler. */
+.marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+
+/* No catálogo já existe uma busca no corpo da página: a do cabeçalho some (mantém o espaço). */
+body:has(#catalog-q) .header-search {
+  visibility: hidden;
+}
+
+/* Listas de chips que rolam na horizontal: sem barra de rolagem cinza. */
+.no-scrollbar {
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
 }

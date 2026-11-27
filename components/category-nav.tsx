@@ -1,16 +1,15 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
-import { getProducts } from "@/lib/catalog";
-import { categories } from "@/lib/site";
+import { brandLabel, listedCategories } from "@/lib/catalog";
 
 export async function CategoryNav({ active }: { active?: string }) {
-  const products = await getProducts();
+  const list = await listedCategories();
   return (
     <nav aria-label="Categorias">
       <h2 className="mb-3 text-sm font-semibold text-profundo">Categorias</h2>
-      <ul className="flex gap-2 overflow-x-auto pb-2 lg:flex-col lg:gap-0.5 lg:overflow-visible">
-        {categories.map((c) => {
-          const count = products.filter((p) => p.category === c.slug).length;
+      <ul className="no-scrollbar flex gap-2 overflow-x-auto pb-2 [mask-image:linear-gradient(to_right,black_85%,transparent)] lg:flex-col lg:gap-0.5 lg:overflow-visible lg:[mask-image:none]">
+        {list.map((c) => {
+          const count = c.count;
           const isActive = c.slug === active;
           return (
             <li key={c.slug} className="shrink-0">
@@ -64,7 +63,7 @@ export function BrandFilter({
                   isActive ? "bg-royal/10 font-semibold text-royal" : "text-marinho/75 hover:bg-white hover:text-profundo"
                 }`}
               >
-                {b.name ?? "Todas as marcas"}
+                {b.name ? brandLabel(b.name) : "Todas as marcas"}
                 <span className="text-xs tabular-nums text-marinho/40">{b.count}</span>
               </Link>
             </li>
@@ -128,7 +127,7 @@ export function CatalogHeader({
 
 export function CatalogSearch({ defaultValue, categoria }: { defaultValue?: string; categoria?: string }) {
   return (
-    <form action="/catalogo" role="search" className="w-full">
+    <form id="busca" action="/catalogo" role="search" className="w-full scroll-mt-24">
       <label htmlFor="catalog-q" className="sr-only">
         Buscar no catálogo
       </label>
@@ -140,7 +139,7 @@ export function CatalogSearch({ defaultValue, categoria }: { defaultValue?: stri
           name="q"
           type="search"
           defaultValue={defaultValue}
-          placeholder="Produto, marca ou código"
+          placeholder="Nome, marca ou código"
           className="min-w-0 flex-1 bg-transparent px-3 py-3 outline-none placeholder:text-marinho/45"
         />
         <button type="submit" className="rounded-lg bg-profundo px-5 py-3 text-sm font-semibold text-white hover:bg-royal">
