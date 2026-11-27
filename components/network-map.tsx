@@ -1,14 +1,16 @@
 import { DOTS_FAR, DOTS_MID, DOTS_NEAR } from "@/lib/map-dots";
 
 // Mapa das unidades sobre o formato de SP e MG (amostrado do mapa original da Qualilan).
+// Posições REAIS: latitude/longitude de cada cidade projetadas no desenho, calibrado pelos extremos dos estados
+// (oeste de SP -53,11; leste de MG -39,86; norte de MG -14,23; sul de SP -25,31). Erro esperado: poucos km.
 // Pontos mais claros = mais perto de uma unidade.
-// As posições das unidades são as mesmas do mapa original.
-const hub = { city: "Campinas", x: 737, y: 1077 };
+// O enquadramento aproxima a região das unidades (leste de SP e sul de MG); as bordas esmaecem.
+const hub = { city: "Campinas", x: 838, y: 1284 };
 const nodes = [
-  { city: "Bauru", x: 407, y: 1103, side: "below" },
-  { city: "São Paulo", x: 809, y: 1337, side: "below" },
-  { city: "Jacareí", x: 1041, y: 1300, side: "right" },
-  { city: "Minas Gerais", x: 1262, y: 640, side: "above" },
+  { city: "Bauru", x: 551, y: 1198, lx: 470, ly: 1290 },
+  { city: "São Paulo", x: 899, y: 1380, lx: 860, ly: 1478 },
+  { city: "Jacareí", x: 994, y: 1343, lx: 1170, ly: 1395 },
+  { city: "Minas Gerais", x: 1031, y: 1187, lx: 1130, ly: 1090 },
 ] as const;
 
 function route(a: { x: number; y: number }, b: { x: number; y: number }) {
@@ -39,16 +41,12 @@ function Pill({ x, y, text, tone = "light" }: { x: number; y: number; text: stri
 }
 
 export function NetworkMap() {
-  const labelPos = (n: (typeof nodes)[number]) =>
-    n.side === "below" ? { x: n.x, y: n.y + 95 } : n.side === "above" ? { x: n.x, y: n.y - 95 } : { x: n.x + 210, y: n.y };
-
   return (
-    <div>
-      <svg
-        viewBox="-60 -40 1980 1720"
+    <svg
+        viewBox="300 930 1060 680"
         role="img"
         aria-label="Mapa de São Paulo e Minas Gerais com as unidades Qualilan: matriz em Campinas ligada a Bauru, São Paulo, Jacareí e Minas Gerais"
-        className="h-auto w-full"
+        className="h-auto w-full [mask-image:radial-gradient(ellipse_at_center,black_62%,transparent_100%)]"
       >
         <defs>
           <radialGradient id="hubGlow">
@@ -72,19 +70,18 @@ export function NetworkMap() {
               <path d={d} fill="none" stroke="#FF9900" strokeOpacity="0.35" strokeWidth="6" strokeLinecap="round" />
               <path d={d} fill="none" stroke="#FF9900" strokeWidth="6" strokeLinecap="round" className="flow-lg" />
               <circle r="13" fill="#FFCC4D" className="packet">
-                <animateMotion dur={`${2.6 + i * 0.5}s`} begin={`${i * 0.7}s`} repeatCount="indefinite" path={d} />
+                <animateMotion dur={`${2.6 + i * 0.5}s`} begin={`-${i * 0.7}s`} repeatCount="indefinite" path={d} />
               </circle>
             </g>
           );
         })}
 
         {nodes.map((n, i) => {
-          const l = labelPos(n);
           return (
             <g key={n.city}>
               <circle cx={n.x} cy={n.y} r="46" fill="none" stroke="#ffffff" strokeOpacity="0.5" strokeWidth="4" className="node-ping" style={{ animationDelay: `${i * 0.6}s` }} />
               <circle cx={n.x} cy={n.y} r="22" fill="#121744" stroke="#ffffff" strokeWidth="7" />
-              <Pill x={l.x} y={l.y} text={n.city} />
+              <Pill x={n.lx} y={n.ly} text={n.city} />
             </g>
           );
         })}
@@ -92,20 +89,7 @@ export function NetworkMap() {
         <circle cx={hub.x} cy={hub.y} r="70" fill="none" stroke="#FF9900" strokeOpacity="0.8" strokeWidth="5" className="node-ping" />
         <circle cx={hub.x} cy={hub.y} r="36" fill="#FF9900" />
         <circle cx={hub.x} cy={hub.y} r="14" fill="#121744" />
-        <Pill x={hub.x - 60} y={hub.y - 150} text="Campinas, Matriz" tone="hub" />
+        <Pill x={hub.x - 60} y={hub.y - 120} text="Campinas" tone="hub" />
       </svg>
-
-      <ul className="mt-2 flex flex-wrap gap-x-6 gap-y-2 px-2 text-xs text-white/65">
-        <li className="flex items-center gap-2">
-          <span className="size-3 rounded-full bg-laranja" /> Matriz
-        </li>
-        <li className="flex items-center gap-2">
-          <span className="size-3 rounded-full border-2 border-white bg-profundo" /> Unidade com estoque
-        </li>
-        <li className="flex items-center gap-2">
-          <span className="size-2 rounded-full bg-[#8EA2FF]" /> Perto de uma unidade
-        </li>
-      </ul>
-    </div>
   );
 }
