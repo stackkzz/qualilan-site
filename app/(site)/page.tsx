@@ -2,6 +2,8 @@ import Image from "next/image";
 import { WhatsAppIcon, whatsappButtonDarkClass } from "@/components/whatsapp-icon";
 import Link from "next/link";
 import { BlogTeaser } from "@/components/blog-teaser";
+import { FiberLines } from "@/components/fiber-lines";
+import { RackVisual } from "@/components/rack-visual";
 import { IconTile } from "@/components/icon-tile";
 import { NetworkMap } from "@/components/network-map";
 import { QuoteSteps } from "@/components/quote-steps";
@@ -259,21 +261,41 @@ export default function Home() {
       </section>
 
       {/* Projetos customizados */}
-      <section className="bg-profundo py-24 text-white md:py-32">
+      <section className="relative isolate overflow-hidden bg-profundo py-24 text-white md:py-32">
+        <div aria-hidden className="tech-grid absolute inset-0 -z-10 opacity-60" />
         <div className="mx-auto max-w-6xl px-5">
           <SectionHeading
             light
             title="Projetos customizados para os desafios de cada negócio"
             text="Além do catálogo, desenvolvemos projetos completos com parceiros especializados."
           />
-          <ul className="wipe mt-12 grid gap-6 md:grid-cols-2">
+          <ul className="reveal mt-12 grid gap-6 md:grid-cols-2">
             {customProjects.map((p) => (
-              <li key={p.partner} className="group relative isolate flex min-h-80 flex-col justify-end overflow-hidden rounded-2xl p-8">
-                <Image src={p.image} alt="" fill sizes="(min-width: 768px) 560px, 100vw" className="-z-20 object-cover transition-transform duration-700 group-hover:scale-105" />
-                <div aria-hidden className="absolute inset-0 -z-10 bg-gradient-to-t from-marinho via-profundo/85 to-profundo/40" />
-                <Image src={p.logo} alt={p.partner} width={1080} height={246} className="h-9 w-auto self-start" />
-                <h3 className="mt-6 text-2xl font-bold">{p.title}</h3>
-                <p className="mt-2 max-w-md text-white/75">{p.text}</p>
+              <li key={p.partner} className="group flex flex-col overflow-hidden rounded-3xl bg-[#1A2056] ring-1 ring-white/10 transition-shadow hover:ring-white/25">
+                {/* Visual próprio de cada parceiro: fibras para a rede óptica, racks para o data center */}
+                <div className="relative isolate h-48 overflow-hidden border-b border-white/10 bg-marinho/40">
+                  <div aria-hidden className="tech-grid absolute inset-0 -z-10" />
+                  {p.visual === "fiber" ? <FiberLines masked={false} /> : <RackVisual />}
+                </div>
+                <div className="flex flex-1 flex-col p-8">
+                  <Image src={p.logo} alt={p.partner} width={1080} height={246} className="h-8 w-auto self-start" />
+                  <h3 className="mt-6 text-2xl font-bold">{p.title}</h3>
+                  <p className="mt-2 max-w-md leading-relaxed text-white/70">{p.text}</p>
+                  <ul className="mt-6 flex-1 space-y-2.5">
+                    {p.features.map((f) => (
+                      <li key={f} className="flex items-center gap-2.5 text-[15px] text-white/85">
+                        <span className="icon text-xl! text-laranja">check</span>
+                        {f}
+                      </li>
+                    ))}
+                  </ul>
+                  {"href" in p && (
+                    <Link href={p.href} className="mt-8 inline-flex items-center gap-1 self-start font-semibold text-amarelo hover:underline">
+                      {p.hrefLabel}
+                      <span className="icon text-xl!">chevron_right</span>
+                    </Link>
+                  )}
+                </div>
               </li>
             ))}
           </ul>
@@ -291,37 +313,46 @@ export default function Home() {
 
       <BlogTeaser />
 
-      {/* Chamada final */}
-      <section className="bg-white pb-24 md:pb-32">
-        <div className="mx-auto max-w-6xl px-5">
-          <div className="relative overflow-hidden rounded-3xl bg-profundo px-8 py-12 text-white md:px-14 md:py-16">
-            {/* Símbolo Q da marca emitindo sinal: anéis que se expandem e um brilho laranja respirando. */}
-            <div aria-hidden className="pointer-events-none absolute right-8 top-1/2 hidden size-[22rem] -translate-y-1/2 md:block lg:right-16">
-              <span className="q-glow absolute inset-12 rounded-full bg-laranja/60 blur-3xl" />
-              {[0, 1, 2].map((i) => (
-                <span
-                  key={i}
-                  style={{ animationDelay: `${i * 1.2}s` }}
-                  className={`q-ripple absolute inset-0 rounded-full border-2 ${i === 1 ? "border-laranja/60" : "border-white/35"}`}
-                />
-              ))}
-              <Image
-                src="/brand/q-branco.png"
-                alt=""
-                width={1204}
-                height={1244}
-                className="q-float absolute inset-14 h-auto w-[calc(100%-7rem)] drop-shadow-[0_20px_40px_rgba(0,0,26,0.5)]"
+      {/* Chamada final: faixa de ponta a ponta, com o mesmo fundo de grade e fibras do Sobre */}
+      <section className="relative isolate overflow-hidden bg-profundo py-20 text-white md:py-28">
+        <div aria-hidden className="tech-grid absolute inset-0 -z-10" />
+        <FiberLines className="-z-10" />
+        <div className="mx-auto grid max-w-6xl items-center gap-12 px-5 md:grid-cols-[1.2fr_0.8fr]">
+          <div className="reveal-title max-w-xl">
+            <h2 className="text-3xl font-bold tracking-[-0.02em] md:text-[2.75rem] md:leading-[1.1]">
+              Você busca produtos de rede de qualidade, entrega rápida e suporte especializado?
+            </h2>
+            <p className="mt-5 text-[17px] leading-relaxed text-white/70">
+              Nossa equipe analisa a sua necessidade e envia uma cotação personalizada.
+            </p>
+            <div className="mt-8 flex flex-wrap gap-3">
+              <WhatsAppButton message={quoteMessage}>Solicitar orçamento</WhatsAppButton>
+              <Link
+                href="/catalogo"
+                className="inline-flex items-center gap-1 rounded-full px-5 py-3 font-semibold text-white/80 hover:text-white"
+              >
+                Ver o catálogo
+                <span className="icon text-xl!">chevron_right</span>
+              </Link>
+            </div>
+          </div>
+          {/* Símbolo Q da marca emitindo sinal: anéis que se expandem e um brilho laranja respirando. */}
+          <div aria-hidden className="pointer-events-none relative mx-auto hidden aspect-square w-full max-w-[22rem] md:block">
+            <span className="q-glow absolute inset-12 rounded-full bg-laranja/60 blur-3xl" />
+            {[0, 1, 2].map((i) => (
+              <span
+                key={i}
+                style={{ animationDelay: `${i * 1.2}s` }}
+                className={`q-ripple absolute inset-0 rounded-full border-2 ${i === 1 ? "border-laranja/60" : "border-white/35"}`}
               />
-            </div>
-            <div className="relative max-w-xl">
-              <h2 className="text-3xl font-bold tracking-[-0.02em] md:text-4xl">
-                Você busca produtos de rede de qualidade, entrega rápida e suporte especializado?
-              </h2>
-              <p className="mt-4 text-[17px] text-white/70">Nossa equipe analisa a sua necessidade e envia uma cotação personalizada.</p>
-              <div className="mt-8">
-                <WhatsAppButton message={quoteMessage}>Solicitar orçamento</WhatsAppButton>
-              </div>
-            </div>
+            ))}
+            <Image
+              src="/brand/q-branco.png"
+              alt=""
+              width={1204}
+              height={1244}
+              className="q-float absolute inset-14 h-auto w-[calc(100%-7rem)] drop-shadow-[0_20px_40px_rgba(0,0,26,0.5)]"
+            />
           </div>
         </div>
       </section>

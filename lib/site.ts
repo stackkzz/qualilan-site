@@ -110,22 +110,27 @@ export const differentials = [
   { icon: "domain", title: "Atuação em diversos setores", text: "Universidades, hospitais, indústria, centros logísticos e data centers." },
 ];
 
+// Destaques da Laserway: artigo "Laserway para redes à prova de futuro" (blog da loja, 2022).
 export const customProjects = [
   {
     partner: "Laserway",
     logo: "/ref/logos/laserway.png",
     title: "Solução óptica inovadora",
     text: "Redes 100% ópticas para ambientes corporativos, à prova de futuro, com menos plástico e menor consumo de energia.",
-    image: "/ref/city-cta.jpg",
+    visual: "fiber",
+    features: ["Rede óptica passiva (GPON)", "Até 20 km sem equipamentos ativos", "Até 70% menos cabos"],
+    href: "/blog/laserway-para-redes-a-prova-de-futuro",
+    hrefLabel: "Entenda a Laserway",
   },
   {
     partner: "ITMAX",
     logo: "/ref/logos/itmax.png",
     title: "Soluções para data center",
     text: "Infraestrutura para salas técnicas e data centers, em parceria com a ITMAX.",
-    image: "/ref/bg-tech.jpeg",
+    visual: "rack",
+    features: ["Salas técnicas", "Data centers", "Projeto com parceiro especializado"],
   },
-];
+] as const;
 
 // Avaliações públicas: Google Maps (unidades Bauru e Campinas, nov/2026) e depoimentos da loja antiga.
 // Trechos longos foram encurtados sem mudar o sentido.

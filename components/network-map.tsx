@@ -4,13 +4,13 @@ import { DOTS_FAR, DOTS_MID, DOTS_NEAR } from "@/lib/map-dots";
 // Posições REAIS: latitude/longitude de cada cidade projetadas no desenho, calibrado pelos extremos dos estados
 // (oeste de SP -53,11; leste de MG -39,86; norte de MG -14,23; sul de SP -25,31). Erro esperado: poucos km.
 // Pontos mais claros = mais perto de uma unidade.
-// O enquadramento aproxima a região das unidades (leste de SP e sul de MG); as bordas esmaecem.
+// Enquadramento mostra os dois estados inteiros; etiquetas e brilhos são maiores para compensar a escala.
 const hub = { city: "Campinas", x: 838, y: 1284 };
 const nodes = [
-  { city: "Bauru", x: 551, y: 1198, lx: 470, ly: 1290 },
-  { city: "São Paulo", x: 899, y: 1380, lx: 860, ly: 1478 },
-  { city: "Jacareí", x: 994, y: 1343, lx: 1170, ly: 1395 },
-  { city: "Minas Gerais", x: 1031, y: 1187, lx: 1130, ly: 1090 },
+  { city: "Bauru", x: 551, y: 1198, lx: 400, ly: 1100 },
+  { city: "São Paulo", x: 899, y: 1380, lx: 780, ly: 1520 },
+  { city: "Jacareí", x: 994, y: 1343, lx: 1250, ly: 1440 },
+  { city: "Minas Gerais", x: 1031, y: 1187, lx: 1290, ly: 1090 },
 ] as const;
 
 function route(a: { x: number; y: number }, b: { x: number; y: number }) {
@@ -21,7 +21,7 @@ function route(a: { x: number; y: number }, b: { x: number; y: number }) {
 
 // Etiqueta em pílula; largura estimada pelo número de letras.
 function Pill({ x, y, text, tone = "light" }: { x: number; y: number; text: string; tone?: "light" | "hub" }) {
-  const fs = tone === "hub" ? 50 : 42;
+  const fs = tone === "hub" ? 76 : 64;
   const w = text.length * fs * 0.56 + 56;
   const h = fs + 34;
   return (
@@ -43,10 +43,10 @@ function Pill({ x, y, text, tone = "light" }: { x: number; y: number; text: stri
 export function NetworkMap() {
   return (
     <svg
-        viewBox="300 930 1060 680"
+        viewBox="-40 -40 1940 1720"
         role="img"
         aria-label="Mapa de São Paulo e Minas Gerais com as unidades Qualilan: matriz em Campinas ligada a Bauru, São Paulo, Jacareí e Minas Gerais"
-        className="h-auto w-full [mask-image:radial-gradient(ellipse_at_center,black_62%,transparent_100%)]"
+        className="h-auto w-full "
       >
         <defs>
           <radialGradient id="hubGlow">
@@ -56,11 +56,17 @@ export function NetworkMap() {
         </defs>
 
         {/* Formato dos estados em pontos, em três intensidades */}
-        <path d={DOTS_FAR} stroke="#ffffff" strokeOpacity="0.1" strokeWidth="17" strokeLinecap="round" />
-        <path d={DOTS_MID} stroke="#ffffff" strokeOpacity="0.22" strokeWidth="18" strokeLinecap="round" />
+        <path d={DOTS_FAR} stroke="#ffffff" strokeOpacity="0.2" strokeWidth="17" strokeLinecap="round" />
+        <path d={DOTS_MID} stroke="#ffffff" strokeOpacity="0.32" strokeWidth="18" strokeLinecap="round" />
         <path d={DOTS_NEAR} stroke="#8EA2FF" strokeOpacity="0.55" strokeWidth="19" strokeLinecap="round" />
 
-        <circle cx={hub.x} cy={hub.y} r="260" fill="url(#hubGlow)" className="q-glow-svg" />
+        {/* Siglas dos estados, bem suaves, para o mapa se ler como SP + MG */}
+        <g className="fill-white/10 font-bold" style={{ fontSize: 240, letterSpacing: 20 }} aria-hidden>
+          <text x="1180" y="620" textAnchor="middle">MG</text>
+          <text x="360" y="1420" textAnchor="middle">SP</text>
+        </g>
+
+        <circle cx={hub.x} cy={hub.y} r="420" fill="url(#hubGlow)" className="q-glow-svg" />
 
         {/* Rotas e "entregas" saindo da matriz */}
         {nodes.map((n, i) => {
@@ -79,17 +85,17 @@ export function NetworkMap() {
         {nodes.map((n, i) => {
           return (
             <g key={n.city}>
-              <circle cx={n.x} cy={n.y} r="46" fill="none" stroke="#ffffff" strokeOpacity="0.5" strokeWidth="4" className="node-ping" style={{ animationDelay: `${i * 0.6}s` }} />
-              <circle cx={n.x} cy={n.y} r="22" fill="#121744" stroke="#ffffff" strokeWidth="7" />
+              <circle cx={n.x} cy={n.y} r="70" fill="none" stroke="#ffffff" strokeOpacity="0.5" strokeWidth="6" className="node-ping" style={{ animationDelay: `${i * 0.6}s` }} />
+              <circle cx={n.x} cy={n.y} r="30" fill="#121744" stroke="#ffffff" strokeWidth="10" />
               <Pill x={n.lx} y={n.ly} text={n.city} />
             </g>
           );
         })}
 
-        <circle cx={hub.x} cy={hub.y} r="70" fill="none" stroke="#FF9900" strokeOpacity="0.8" strokeWidth="5" className="node-ping" />
-        <circle cx={hub.x} cy={hub.y} r="36" fill="#FF9900" />
-        <circle cx={hub.x} cy={hub.y} r="14" fill="#121744" />
-        <Pill x={hub.x - 60} y={hub.y - 120} text="Campinas" tone="hub" />
+        <circle cx={hub.x} cy={hub.y} r="100" fill="none" stroke="#FF9900" strokeOpacity="0.8" strokeWidth="7" className="node-ping" />
+        <circle cx={hub.x} cy={hub.y} r="48" fill="#FF9900" />
+        <circle cx={hub.x} cy={hub.y} r="18" fill="#121744" />
+        <Pill x={hub.x - 120} y={hub.y - 170} text="Campinas" tone="hub" />
       </svg>
   );
 }

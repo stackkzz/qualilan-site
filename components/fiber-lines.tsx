@@ -11,7 +11,15 @@ const tones = {
   green: { from: "#7DDB8E", to: "#8EA2FF", pulse: "#C8F5D0" },
 };
 
-export function FiberLines({ tone = "brand", className = "" }: { tone?: keyof typeof tones; className?: string }) {
+export function FiberLines({
+  tone = "brand",
+  className = "",
+  masked = true,
+}: {
+  tone?: keyof typeof tones;
+  className?: string;
+  masked?: boolean; // false em áreas pequenas (cards), onde a máscara apagaria quase tudo
+}) {
   const t = tones[tone];
   const id = `fiber-${tone}`;
   return (
@@ -19,7 +27,7 @@ export function FiberLines({ tone = "brand", className = "" }: { tone?: keyof ty
       viewBox="0 0 1200 600"
       preserveAspectRatio="xMidYMid slice"
       aria-hidden
-      className={`pointer-events-none absolute inset-0 size-full [mask-image:radial-gradient(ellipse_at_62%_45%,black_40%,transparent_88%)] ${className}`}
+      className={`pointer-events-none absolute inset-0 size-full ${masked ? "[mask-image:radial-gradient(ellipse_at_62%_45%,black_40%,transparent_88%)]" : ""} ${className}`}
     >
       <defs>
         <linearGradient id={id} x1="0" x2="1">
