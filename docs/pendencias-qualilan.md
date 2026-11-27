@@ -8,6 +8,8 @@ Lista para levar na apresentação do site novo. Os itens marcados como "decisã
 - **Azul oficial do logo:** o manual indica Azul Profundo `#121744`, mas os arquivos do logo usam um azul diferente (perto de `#2B365C`). Qual vale?
 - **Tempo de mercado:** o site institucional diz "mais de 25 anos" e a página Quem Somos da loja diz "20 anos". Qual número usar?
 - **Fonte Helvetica Neue:** o manual pede essa fonte, que tem licença paga para web. Vocês têm a licença? Sem ela, o site usa Inter, que é parecida e gratuita.
+- **Anúncios e métricas:** o site atual tem Google Analytics (`G-KBXJ69M354`) e tags de conversão de três contas do Google Ads. Quem cuida dos anúncios? Precisamos saber quais conversões contam (clique no WhatsApp, envio do formulário) para replicar no site novo e não perder o histórico das campanhas.
+- **Formulário de orçamento:** o site atual tem um formulário (nome, e-mail, telefone, empresa, cargo). Para onde vão esses pedidos hoje, e querem manter um formulário além do WhatsApp?
 - **E-mail de contato:** o único e-mail público é `e-commerce@qualilan.com.br`. Ele continua valendo sem a loja, ou há outro (comercial, contato)?
 
 ## Conteúdo
