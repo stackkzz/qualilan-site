@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { createContext, useContext, useEffect, useRef, useState, type ReactNode } from "react";
 import { categories, site } from "@/lib/site";
+import { WhatsAppIcon } from "./whatsapp-icon";
 
 export type QuoteItem = { slug: string; name: string; sku: string | null; image?: string | null; qty: number };
 
@@ -202,19 +203,17 @@ function QuoteDialog({ ref }: { ref: React.RefObject<HTMLDialogElement | null> }
                 </li>
               ))}
             </ul>
-            <div className="space-y-3 border-t border-profundo/10 bg-offwhite/60 px-6 py-5">
+            <div className="space-y-3 border-t border-profundo/10 px-6 py-5">
               <a
                 href={href}
                 target="_blank"
                 rel="noopener"
-                className="flex w-full items-center justify-center gap-2 rounded-xl bg-laranja px-6 py-4 text-base font-bold text-profundo shadow-[0_12px_30px_-12px_rgba(255,153,0,0.8)] transition-colors hover:bg-amarelo"
+                className="flex w-full items-center justify-center gap-2.5 whitespace-nowrap rounded-xl bg-[#128C7E] px-6 py-3.5 font-semibold text-white transition-colors hover:bg-[#075E54]"
               >
-                <span className="icon icon-fill text-2xl!">chat</span>
-                Fazer meu orçamento
+                <WhatsAppIcon className="size-[22px]" />
+                Fazer orçamento no WhatsApp
               </a>
-              <p className="text-center text-xs text-marinho/55">
-                A lista vai pronta pelo WhatsApp. Atendimento: {site.hours.toLowerCase()}.
-              </p>
+              <p className="text-center text-xs text-marinho/55">Atendimento: {site.hours.toLowerCase()}.</p>
               <button type="button" onClick={clear} className="w-full text-xs text-marinho/50 hover:text-marinho">
                 Limpar lista
               </button>
