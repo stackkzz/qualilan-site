@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { brandLabel, type Product } from "@/lib/catalog";
+import type { Product } from "@/lib/catalog";
 import { AddToQuote } from "./quote-cart";
 
 export function ProductCard({ product }: { product: Product }) {
@@ -23,7 +23,7 @@ export function ProductCard({ product }: { product: Product }) {
             </span>
           )}
         </div>
-        {product.brand && <p className="mt-4 text-xs font-semibold text-royal">{brandLabel(product.brand)}</p>}
+        {product.brand && <p className="mt-4 text-xs font-semibold text-royal">{product.brand}</p>}
         <h3 className="mt-1 line-clamp-3 text-sm leading-snug text-marinho group-hover:text-royal">
           {product.name}
         </h3>

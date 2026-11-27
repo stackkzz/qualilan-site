@@ -5,19 +5,19 @@ import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import { ProductGrid } from "@/components/product-card";
 import { AddToQuote } from "@/components/quote-cart";
-import { brandLabel, getCategory, getProduct, products, sortForDisplay } from "@/lib/catalog";
+import { getCategory, getProduct, getProducts, sortForDisplay } from "@/lib/catalog";
 import { whatsappLink } from "@/lib/site";
 
-export function generateStaticParams() {
-  return products.map((p) => ({ slug: p.slug }));
+export async function generateStaticParams() {
+  return (await getProducts()).map((p) => ({ slug: p.slug }));
 }
 
 export async function generateMetadata({ params }: PageProps<"/produto/[slug]">): Promise<Metadata> {
-  const p = getProduct((await params).slug);
+  const p = await getProduct((await params).slug);
   if (!p) return {};
   return {
     title: `${p.name} | Qualilan`,
-    description: `${p.name}${p.brand ? `, ${brandLabel(p.brand)}` : ""}. Peça orçamento pelo WhatsApp.`,
+    description: `${p.name}${p.brand ? `, ${p.brand}` : ""}. Peça orçamento pelo WhatsApp.`,
     openGraph: p.image ? { images: [p.image] } : undefined,
   };
 }
@@ -32,11 +32,11 @@ export default function ProductPage({ params }: PageProps<"/produto/[slug]">) {
 }
 
 async function ProductPageContent({ params }: { params: PageProps<"/produto/[slug]">["params"] }) {
-  const product = getProduct((await params).slug);
+  const product = await getProduct((await params).slug);
   if (!product) notFound();
   const cat = getCategory(product.category);
   const related = sortForDisplay(
-    products.filter((p) => p.category === product.category && p.slug !== product.slug),
+    (await getProducts()).filter((p) => p.category === product.category && p.slug !== product.slug),
   ).slice(0, 4);
 
   const jsonLd = {
@@ -45,7 +45,7 @@ async function ProductPageContent({ params }: { params: PageProps<"/produto/[slu
     name: product.name,
     sku: product.sku,
     image: product.image,
-    brand: product.brand ? { "@type": "Brand", name: brandLabel(product.brand) } : undefined,
+    brand: product.brand ? { "@type": "Brand", name: product.brand } : undefined,
   };
 
   return (
@@ -89,7 +89,7 @@ async function ProductPageContent({ params }: { params: PageProps<"/produto/[slu
             )}
           </div>
           <div className="flex flex-col">
-            {product.brand && <p className="font-semibold text-royal">{brandLabel(product.brand)}</p>}
+            {product.brand && <p className="font-semibold text-royal">{product.brand}</p>}
             <h1 className="mt-2 text-2xl font-bold leading-tight tracking-tight text-profundo md:text-3xl">
               {product.name}
             </h1>

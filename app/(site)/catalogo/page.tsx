@@ -3,7 +3,7 @@ import Link from "next/link";
 import { Suspense } from "react";
 import { CatalogSearch, CategoryNav } from "@/components/category-nav";
 import { ProductGrid } from "@/components/product-card";
-import { brandLabel, brandsOf, getCategory, searchProducts, sortForDisplay } from "@/lib/catalog";
+import { brandsOf, getCategory, getProducts, searchProducts, sortForDisplay } from "@/lib/catalog";
 
 export const metadata: Metadata = {
   title: "Catálogo | Qualilan",
@@ -18,7 +18,7 @@ async function Results({ searchParams }: { searchParams: PageProps<"/catalogo">[
   const categoria = one(sp.categoria);
   const marca = one(sp.marca);
 
-  const base = searchProducts({ q, categoria });
+  const base = searchProducts(await getProducts(), { q, categoria });
   const list = sortForDisplay(marca ? base.filter((p) => p.brand === marca) : base);
   const cat = categoria ? getCategory(categoria) : undefined;
 
@@ -58,7 +58,7 @@ async function Results({ searchParams }: { searchParams: PageProps<"/catalogo">[
                     active ? "bg-royal text-white" : "border border-profundo/15 bg-white hover:border-royal"
                   }`}
                 >
-                  {b ? brandLabel(b) : "Todas as marcas"}
+                  {b ?? "Todas as marcas"}
                 </Link>
               </li>
             );

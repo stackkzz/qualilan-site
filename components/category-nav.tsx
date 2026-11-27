@@ -1,8 +1,9 @@
 import Link from "next/link";
-import { products } from "@/lib/catalog";
+import { getProducts } from "@/lib/catalog";
 import { categories } from "@/lib/site";
 
-export function CategoryNav({ active }: { active?: string }) {
+export async function CategoryNav({ active }: { active?: string }) {
+  const products = await getProducts();
   return (
     <nav aria-label="Categorias">
       <h2 className="mb-3 text-sm font-semibold text-marinho/60">Categorias</h2>

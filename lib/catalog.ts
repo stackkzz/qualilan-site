@@ -1,8 +1,9 @@
-// shortcut: catálogo lido de data/products.json (importado da loja antiga); trocar pelo CMS quando o painel existir.
-import raw from "@/data/products.json";
+import { cacheLife, cacheTag } from "next/cache";
+import { createSupabasePublicClient } from "./supabase/server";
 import { categories } from "./site";
 
 export type Product = {
+  id: string;
   slug: string;
   sku: string | null;
   name: string;
@@ -13,40 +14,71 @@ export type Product = {
   description: string;
 };
 
-export const products = raw as Product[];
+export const PRODUCTS_TAG = "products";
+
+type ProductRow = {
+  id: string;
+  slug: string;
+  sku: string | null;
+  name: string;
+  category: string;
+  brand: string | null;
+  image_url: string | null;
+  in_stock: boolean;
+  description: string;
+};
+
+export function toProduct(r: ProductRow): Product {
+  return {
+    id: r.id,
+    slug: r.slug,
+    sku: r.sku,
+    name: r.name,
+    category: r.category,
+    brand: r.brand,
+    image: r.image_url,
+    inStock: r.in_stock,
+    description: r.description,
+  };
+}
+
+// Catálogo inteiro em cache; o painel invalida a tag "products" a cada alteração.
+export async function getProducts(): Promise<Product[]> {
+  "use cache";
+  cacheTag(PRODUCTS_TAG);
+  cacheLife("days");
+  const { data, error } = await createSupabasePublicClient()
+    .from("products")
+    .select("id, slug, sku, name, category, brand, image_url, in_stock, description")
+    .eq("published", true)
+    .order("name");
+  if (error) throw new Error(`Falha ao carregar produtos: ${error.message}`);
+  return (data as ProductRow[]).map(toProduct);
+}
+
+export async function getProduct(slug: string) {
+  return (await getProducts()).find((p) => p.slug === slug);
+}
 
 export function getCategory(slug: string) {
   return categories.find((c) => c.slug === slug);
-}
-
-export function getProduct(slug: string) {
-  return products.find((p) => p.slug === slug);
 }
 
 export function brandsOf(list: Product[]) {
   return [...new Set(list.map((p) => p.brand).filter((b): b is string => !!b))].sort();
 }
 
-// Marcas vêm em caixa alta da loja antiga; exibimos no formato oficial de cada uma.
-const BRAND_LABELS: Record<string, string> = {
-  "TP-LINK": "TP-Link",
-  "CONTROL ID": "Control iD",
-  "O-TECH": "O-Tech",
-  ALM: "ALM",
-  SIL: "SIL",
-};
-export function brandLabel(brand: string) {
-  return BRAND_LABELS[brand] ?? brand.charAt(0) + brand.slice(1).toLowerCase();
-}
-
-const normalize =(s: string) =>
+const normalize = (s: string) =>
   s
     .normalize("NFD")
     .replace(/[̀-ͯ]/g, "")
     .toLowerCase();
 
 // Busca simples: todas as palavras precisam aparecer em nome, marca ou código.
-export function searchProducts({ q, categoria, marca }: { q?: string; categoria?: string; marca?: string }) {
+export function searchProducts(
+  products: Product[],
+  { q, categoria, marca }: { q?: string; categoria?: string; marca?: string },
+) {
   const terms = normalize(q ?? "")
     .split(/\s+/)
     .filter(Boolean);

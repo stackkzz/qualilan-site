@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import { CatalogSearch, CategoryNav } from "@/components/category-nav";
 import { ProductGrid } from "@/components/product-card";
-import { brandLabel, brandsOf, getCategory, products, sortForDisplay } from "@/lib/catalog";
+import { brandsOf, getCategory, getProducts, sortForDisplay } from "@/lib/catalog";
 import { categories, whatsappLink } from "@/lib/site";
 
 export function generateStaticParams() {
@@ -32,7 +32,7 @@ async function CategoryPageContent({ params }: { params: PageProps<"/catalogo/[c
   const cat = getCategory(categoria);
   if (!cat) notFound();
 
-  const list = sortForDisplay(products.filter((p) => p.category === categoria));
+  const list = sortForDisplay((await getProducts()).filter((p) => p.category === categoria));
   const brands = brandsOf(list);
 
   return (
@@ -59,7 +59,7 @@ async function CategoryPageContent({ params }: { params: PageProps<"/catalogo/[c
                   href={`/catalogo?categoria=${categoria}&marca=${encodeURIComponent(b)}`}
                   className="inline-block rounded-full border border-profundo/15 bg-white px-4 py-1.5 transition-colors hover:border-royal"
                 >
-                  {brandLabel(b)}
+                  {b}
                 </Link>
               </li>
             ))}
