@@ -10,36 +10,9 @@ const nav = [
   { label: "Quem somos", href: "/sobre" },
 ];
 
-function TopBar() {
-  return (
-    <div className="hidden bg-profundo text-[13px] text-white/75 md:block">
-      <div className="mx-auto flex h-9 max-w-6xl items-center justify-between px-5">
-        <p className="flex items-center gap-2">
-          <span className="relative flex size-2">
-            <span className="absolute inline-flex size-full rounded-full bg-[#25d366] opacity-75 motion-safe:animate-ping" />
-            <span className="relative inline-flex size-2 rounded-full bg-[#25d366]" />
-          </span>
-          Pronta entrega em 5 unidades em SP e MG
-        </p>
-        <div className="flex items-center gap-6">
-          <a href={whatsappLink("Olá, Qualilan! Gostaria de um orçamento.")} className="flex items-center gap-1.5 hover:text-white">
-            <span className="icon text-base!">chat</span>
-            WhatsApp {site.whatsappLabel}
-          </a>
-          <a href={`mailto:${site.email}`} className="hidden items-center gap-1.5 hover:text-white lg:flex">
-            <span className="icon text-base!">mail</span>
-            {site.email}
-          </a>
-        </div>
-      </div>
-    </div>
-  );
-}
-
 export function SiteHeader() {
   return (
     <>
-      <TopBar />
       <header className="header-scroll sticky top-0 z-40 border-b border-profundo/10 bg-white/85 backdrop-blur-lg">
         <div className="mx-auto flex h-16 max-w-6xl items-center gap-6 px-5 md:h-[4.5rem]">
           <Link href="/" aria-label="Qualilan, página inicial" className="shrink-0">
