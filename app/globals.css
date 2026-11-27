@@ -198,6 +198,60 @@ body {
   .bump {
     animation: bump 380ms ease-out;
   }
+
+  /* Mini-tela do passo 1: a busca sendo digitada em loop, com cursor piscando. */
+  .typing {
+    animation: typing 5s steps(16) infinite, caret 0.8s step-end infinite;
+  }
+
+  /* Borda em gradiente girando no card do último passo (ideia da LP da Zaion). */
+  .spin-border {
+    animation: spin 5s linear infinite;
+  }
+
+  /* Etiquetas que flutuam sobre a foto do hero. */
+  .float-a {
+    animation: float 4s ease-in-out infinite alternate;
+  }
+  .float-b {
+    animation: float 4.6s ease-in-out 0.8s infinite alternate;
+  }
+
+  @supports (animation-timeline: view()) {
+    /* Linha do tempo dos passos: enche conforme a rolagem. */
+    .rail-fill {
+      animation: grow-y linear both;
+      animation-timeline: view();
+      animation-range: entry 60% cover 70%;
+    }
+    /* Número do passo acende quando o card chega no meio da tela. */
+    .step-dot {
+      animation: dot-on linear both;
+      animation-timeline: view();
+      animation-range: entry 100% cover 45%;
+    }
+  }
+}
+
+@keyframes typing {
+  0% { width: 0; }
+  55%, 85% { width: 16ch; }
+  100% { width: 0; }
+}
+@keyframes caret {
+  50% { border-color: transparent; }
+}
+@keyframes float {
+  from { transform: translateY(0); }
+  to { transform: translateY(-10px); }
+}
+@keyframes grow-y {
+  from { transform: scaleY(0); }
+  to { transform: scaleY(1); }
+}
+@keyframes dot-on {
+  from { background: #fff; color: rgb(18 23 68 / 0.4); border-color: rgb(18 23 68 / 0.15); }
+  to { background: var(--color-profundo); color: #fff; border-color: var(--color-laranja); }
 }
 
 @media (prefers-reduced-motion: reduce) {

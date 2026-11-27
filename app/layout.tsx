@@ -7,7 +7,7 @@ const inter = Inter({ variable: "--font-inter", subsets: ["latin"] });
 
 const icons = [
   "account_balance", "agriculture", "arrow_back", "badge", "bolt", "cable", "add", "delete", "edit", "logout", "upload", "visibility_off", "call", "chat", "check",
-  "close", "dns", "electric_bolt", "factory", "inventory_2", "label", "lan", "lightbulb",
+  "close", "dns", "done_all", "electric_bolt", "factory", "inventory_2", "label", "lan", "lightbulb",
   "local_hospital", "local_shipping", "location_on", "map", "playlist_add", "request_quote", "school",
   "search", "settings_ethernet", "swap_horiz", "videocam", "view_stream", "wifi",
 ].sort().join(","); // a API exige nomes em ordem alfabética

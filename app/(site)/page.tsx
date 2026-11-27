@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { QuoteSteps } from "@/components/quote-steps";
 import { Wave } from "@/components/wave";
 import {
   categories,
@@ -63,11 +64,6 @@ function SignalArcs() {
   );
 }
 
-const steps = [
-  { title: "Encontre os produtos", text: "Busque por nome, marca ou código no catálogo." },
-  { title: "Monte sua lista", text: "Adicione os itens e as quantidades de que precisa." },
-  { title: "Envie pelo WhatsApp", text: "A mensagem vai pronta para o nosso time de vendas." },
-];
 
 function SectionHeading({ title, text, light }: { title: string; text?: string; light?: boolean }) {
   return (
@@ -147,6 +143,27 @@ export default function Home() {
               </span>
             ))}
           </p>
+        </div>
+        <div aria-hidden className="pointer-events-none absolute inset-y-0 right-0 hidden w-[38%] lg:block">
+          <div className="float-a absolute right-[18%] top-[26%] flex items-center gap-3 rounded-xl border border-white/15 bg-white/10 px-4 py-3 text-sm text-white backdrop-blur-md">
+            <span className="grid size-9 place-items-center rounded-lg bg-laranja text-profundo">
+              <span className="icon text-xl!">inventory_2</span>
+            </span>
+            <span>
+              <span className="block font-semibold">Pronta entrega</span>
+              <span className="text-white/70">em 5 unidades</span>
+            </span>
+          </div>
+          <div className="float-b absolute bottom-[22%] right-[30%] flex items-center gap-3 rounded-xl border border-white/15 bg-white/10 px-4 py-3 text-sm text-white backdrop-blur-md">
+            <span className="relative flex size-2.5">
+              <span className="absolute inline-flex size-full rounded-full bg-[#25d366] opacity-75 motion-safe:animate-ping" />
+              <span className="relative inline-flex size-2.5 rounded-full bg-[#25d366]" />
+            </span>
+            <span>
+              <span className="block font-semibold">Orçamento pelo WhatsApp</span>
+              <span className="text-white/70">sem cadastro</span>
+            </span>
+          </div>
         </div>
       </section>
 
@@ -253,17 +270,14 @@ export default function Home() {
           </div>
           <ul className="reveal mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
             {units.map((u) => {
-              const main = Boolean(u.note);
               return (
                 <li
                   key={u.city}
-                  className={`lift flex flex-col rounded-2xl border p-5 ${
-                    main ? "border-profundo bg-profundo text-white" : "border-profundo/10 bg-white text-profundo"
-                  }`}
+                  className="lift flex flex-col rounded-2xl border border-profundo/10 bg-white p-5 text-profundo"
                 >
                   <div className="flex items-center justify-between">
                     <span
-                      className={`grid size-10 place-items-center rounded-lg ${main ? "bg-white/10 text-amarelo" : "bg-royal/8 text-royal"}`}
+                      className="grid size-10 place-items-center rounded-lg bg-royal/8 text-royal"
                     >
                       <span className="icon text-xl!">location_on</span>
                     </span>
@@ -272,19 +286,19 @@ export default function Home() {
                     )}
                   </div>
                   <p className="mt-5 text-lg font-semibold">{u.city}</p>
-                  <address className={`mt-2 flex-1 text-sm not-italic leading-relaxed ${main ? "text-white/65" : "text-marinho/60"}`}>
+                  <address className="mt-2 flex-1 text-sm not-italic leading-relaxed text-marinho/60">
                     {u.address}
                   </address>
-                  <div className={`mt-5 space-y-2 border-t pt-4 ${main ? "border-white/15" : "border-profundo/10"}`}>
+                  <div className="mt-5 space-y-2 border-t border-profundo/10 pt-4">
                     <a href={telHref(u.phone)} className="flex items-center gap-2 font-semibold hover:underline">
-                      <span className={`icon text-lg! ${main ? "text-amarelo" : "text-royal"}`}>call</span>
+                      <span className="icon text-lg! text-royal">call</span>
                       {u.phone}
                     </a>
                     <a
                       href={mapsHref(u.address)}
                       target="_blank"
                       rel="noopener"
-                      className={`flex items-center gap-2 text-sm hover:underline ${main ? "text-white/80" : "text-royal"}`}
+                      className="flex items-center gap-2 text-sm text-royal hover:underline"
                     >
                       <span className="icon text-lg!">map</span>
                       Ver no mapa
@@ -322,24 +336,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Orçamento: é sequência real, por isso numerada. */}
-      <section className="bg-white py-24 md:py-32">
-        <div className="mx-auto grid max-w-6xl gap-12 px-5">
-          <SectionHeading
-            title="Orçamento sem cadastro, direto no WhatsApp"
-            text="Sem carrinho e sem login. Você monta a lista no site e conversa com quem vai atender o seu pedido."
-          />
-          <ol className="reveal grid gap-px overflow-hidden rounded-2xl bg-profundo/10 sm:grid-cols-3">
-            {steps.map((step, i) => (
-              <li key={step.title} className="bg-offwhite p-6">
-                <span className="text-sm font-semibold text-royal">{i + 1}</span>
-                <h3 className="mt-6 text-lg font-semibold text-profundo">{step.title}</h3>
-                <p className="mt-2 text-[15px] leading-relaxed text-marinho/65">{step.text}</p>
-              </li>
-            ))}
-          </ol>
-        </div>
-      </section>
+      <QuoteSteps />
 
       {/* Depoimentos reais publicados na loja */}
       <section className="border-t border-profundo/10 bg-white py-24 md:py-32">
