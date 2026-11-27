@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { createContext, useContext, useEffect, useRef, useState, type ReactNode } from "react";
 import { categories, site } from "@/lib/site";
-import { WhatsAppIcon } from "./whatsapp-icon";
+import { WhatsAppIcon, whatsappButtonClass } from "./whatsapp-icon";
 
 export type QuoteItem = { slug: string; name: string; sku: string | null; image?: string | null; qty: number };
 
@@ -208,7 +208,7 @@ function QuoteDialog({ ref }: { ref: React.RefObject<HTMLDialogElement | null> }
                 href={href}
                 target="_blank"
                 rel="noopener"
-                className="flex w-full items-center justify-center gap-2.5 whitespace-nowrap rounded-xl bg-[#128C7E] px-6 py-3.5 font-semibold text-white transition-colors hover:bg-[#075E54]"
+                className={`w-full rounded-xl ${whatsappButtonClass}`}
               >
                 <WhatsAppIcon className="size-[22px]" />
                 Fazer orçamento no WhatsApp

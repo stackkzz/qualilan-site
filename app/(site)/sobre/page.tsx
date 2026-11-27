@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { WhatsAppIcon, whatsappButtonClass } from "@/components/whatsapp-icon";
 import Image from "next/image";
 import Link from "next/link";
 import { IconTile } from "@/components/icon-tile";
@@ -44,9 +45,9 @@ export default function AboutPage() {
           <div className="pt-4">
             <a
               href={whatsappLink("Olá, Qualilan! Gostaria de falar com um especialista.")}
-              className="inline-flex items-center gap-2 rounded-lg bg-laranja px-6 py-3.5 text-base font-semibold text-profundo hover:bg-amarelo"
+              className={whatsappButtonClass}
             >
-              <span className="icon text-xl!">chat</span>
+              <WhatsAppIcon />
               Falar com um especialista
             </a>
           </div>

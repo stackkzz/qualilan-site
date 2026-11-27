@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { WhatsAppIcon } from "@/components/whatsapp-icon";
 import Link from "next/link";
 import { site, whatsappLink } from "@/lib/site";
 import { QuoteCartButton } from "./quote-cart";
@@ -86,9 +87,9 @@ export function SiteHeader() {
                   <li className="mt-2 border-t border-profundo/10 pt-2">
                     <a
                       href={whatsappLink("Olá, Qualilan! Gostaria de um orçamento.")}
-                      className="flex items-center gap-2 rounded-lg px-3 py-2.5 text-sm text-royal hover:bg-offwhite"
+                      className="flex items-center gap-2 rounded-lg px-3 py-2.5 text-sm font-medium text-[#128C7E] hover:bg-offwhite"
                     >
-                      <span className="icon text-lg!">chat</span>
+                      <WhatsAppIcon className="size-[18px]" />
                       WhatsApp {site.whatsappLabel}
                     </a>
                   </li>

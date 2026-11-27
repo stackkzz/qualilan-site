@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { WhatsAppIcon, whatsappButtonClass } from "@/components/whatsapp-icon";
 import Link from "next/link";
 import { IconTile } from "@/components/icon-tile";
 import { NetworkMap } from "@/components/network-map";
@@ -40,9 +41,9 @@ function WhatsAppButton({ message, children }: { message: string; children: Reac
   return (
     <a
       href={whatsappLink(message)}
-      className="inline-flex items-center gap-2 rounded-lg bg-laranja px-6 py-3.5 font-semibold text-profundo transition-colors hover:bg-amarelo"
+      className={whatsappButtonClass}
     >
-      <span className="icon text-xl!">chat</span>
+      <WhatsAppIcon />
       {children}
     </a>
   );

@@ -15,3 +15,7 @@ export function WhatsAppIcon({ className = "size-5" }: { className?: string }) {
     </svg>
   );
 }
+
+// Visual padrão de todo botão que abre o WhatsApp.
+export const whatsappButtonClass =
+  "inline-flex items-center justify-center gap-2.5 whitespace-nowrap rounded-lg bg-[#128C7E] px-6 py-3.5 font-semibold text-white transition-colors hover:bg-[#075E54]";

@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { WhatsAppIcon } from "@/components/whatsapp-icon";
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { categories, site, telHref, units, whatsappLink } from "@/lib/site";
@@ -64,8 +65,8 @@ export function SiteFooter() {
             </p>
             <ul className="mt-6 space-y-2 text-sm">
               <li>
-                <a href={whatsappLink("Olá, Qualilan! Gostaria de um orçamento.")} className="flex items-center gap-2 text-white/85 hover:text-laranja">
-                  <span className="icon text-lg! text-laranja">chat</span>
+                <a href={whatsappLink("Olá, Qualilan! Gostaria de um orçamento.")} className="flex items-center gap-2 text-white/85 hover:text-[#25D366]">
+                  <WhatsAppIcon className="size-[18px] text-[#25D366]" />
                   WhatsApp {site.whatsappLabel}
                 </a>
               </li>

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { WhatsAppIcon, whatsappButtonClass } from "@/components/whatsapp-icon";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import { BrandPills } from "@/components/brand-pills";
@@ -75,9 +76,9 @@ async function CategoryPageContent({
               <p className="mt-2 text-marinho/60">Fale com a gente para saber o que temos em estoque.</p>
               <a
                 href={whatsappLink(`Olá, Qualilan! Gostaria de um orçamento de ${cat.name.toLowerCase()}.`)}
-                className="mt-6 inline-flex items-center gap-2 rounded-lg bg-laranja px-6 py-3 font-semibold text-profundo hover:bg-amarelo"
+                className={`mt-6 ${whatsappButtonClass}`}
               >
-                <span className="icon text-xl!">chat</span>
+                <WhatsAppIcon />
                 Pedir orçamento de {cat.name.toLowerCase()}
               </a>
             </div>
