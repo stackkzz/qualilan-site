@@ -3,8 +3,8 @@ import Link from "next/link";
 import { Suspense } from "react";
 import { BrandPills } from "@/components/brand-pills";
 import { BrandFilter, CatalogHeader, CatalogSearch, CategoryNav } from "@/components/category-nav";
-import { ProductGrid } from "@/components/product-card";
-import { brandCounts, getCategory, getProducts, searchProducts, sortForDisplay } from "@/lib/catalog";
+import { ProductListing } from "@/components/product-listing";
+import { brandCounts, getCategory, getProducts, parseSort, searchProducts } from "@/lib/catalog";
 
 export const metadata: Metadata = {
   title: "Catálogo | Qualilan",
@@ -20,7 +20,8 @@ async function Catalog({ searchParams }: { searchParams: PageProps<"/catalogo">[
   const marca = one(sp.marca);
 
   const base = searchProducts(await getProducts(), { q, categoria });
-  const list = sortForDisplay(marca ? base.filter((p) => p.brand === marca) : base);
+  const list = marca ? base.filter((p) => p.brand === marca) : base;
+  const sort = parseSort(one(sp.ordem));
   const cat = categoria ? getCategory(categoria) : undefined;
   const brands = brandCounts(base);
 
@@ -49,20 +50,25 @@ async function Catalog({ searchParams }: { searchParams: PageProps<"/catalogo">[
         </aside>
         <section className="min-w-0">
           <BrandPills brands={brands.map((b) => b.name)} active={marca} hrefFor={hrefFor} />
-          {list.length ? (
-            <ProductGrid products={list} />
-          ) : (
-            <div className="rounded-2xl border border-profundo/10 bg-white px-6 py-16 text-center">
-              <span className="icon text-5xl! text-royal/40">search</span>
-              <p className="mt-3 text-lg font-semibold text-profundo">Nenhum produto encontrado.</p>
-              <p className="mt-2 text-marinho/60">
-                Tente outro termo ou fale com a gente: temos itens que ainda não estão no catálogo.
-              </p>
-              <Link href="/catalogo" className="mt-6 inline-block font-semibold text-royal underline underline-offset-4">
-                Ver todos os produtos
-              </Link>
-            </div>
-          )}
+          <ProductListing
+            products={list}
+            base="/catalogo"
+            params={{ q, categoria, marca }}
+            sort={sort}
+            page={one(sp.pagina)}
+            empty={
+              <div className="rounded-2xl border border-profundo/10 bg-white px-6 py-16 text-center">
+                <span className="icon text-5xl! text-royal/40">search</span>
+                <p className="mt-3 text-lg font-semibold text-profundo">Nenhum produto encontrado.</p>
+                <p className="mt-2 text-marinho/60">
+                  Tente outro termo ou fale com a gente: temos itens que ainda não estão no catálogo.
+                </p>
+                <Link href="/catalogo" className="mt-6 inline-block font-semibold text-royal underline underline-offset-4">
+                  Ver todos os produtos
+                </Link>
+              </div>
+            }
+          />
         </section>
       </div>
     </>

@@ -1,6 +1,8 @@
 import { cacheLife, cacheTag } from "next/cache";
 import { createSupabasePublicClient } from "./supabase/server";
 import { categories } from "./site";
+import type { Sort } from "./sorts";
+export { SORTS, parseSort, type Sort } from "./sorts";
 
 export type Product = {
   id: string;
@@ -98,4 +100,24 @@ export function searchProducts(
 // Disponíveis primeiro; a loja antiga mostrava esgotados misturados.
 export function sortForDisplay(list: Product[]) {
   return [...list].sort((a, b) => Number(b.inStock) - Number(a.inStock));
+}
+
+const byName = (a: Product, b: Product) => a.name.localeCompare(b.name, "pt-BR", { numeric: true });
+
+export function sortProducts(list: Product[], sort: Sort) {
+  const copy = [...list];
+  if (sort === "az") return copy.sort(byName);
+  if (sort === "za") return copy.sort((a, b) => byName(b, a));
+  if (sort === "codigo") return copy.sort((a, b) => (a.sku ?? "").localeCompare(b.sku ?? "", "pt-BR", { numeric: true }));
+  return copy.sort((a, b) => Number(b.inStock) - Number(a.inStock) || byName(a, b));
+}
+
+export const PAGE_SIZE = 24;
+
+// Página pedida na URL, limitada ao intervalo válido.
+export function paginate<T>(list: T[], pageParam?: string) {
+  const pages = Math.max(1, Math.ceil(list.length / PAGE_SIZE));
+  const page = Math.min(pages, Math.max(1, Number.parseInt(pageParam ?? "1", 10) || 1));
+  const start = (page - 1) * PAGE_SIZE;
+  return { page, pages, start, items: list.slice(start, start + PAGE_SIZE) };
 }
