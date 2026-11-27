@@ -4,7 +4,7 @@ import { Suspense } from "react";
 import { PageLoader } from "@/components/qualilan-loader";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { signOutCustomer } from "./actions";
-import { LoginLinkForm, ProfileForm, ReorderButton } from "./forms";
+import { ProfileForm, type ProfileValues, ReorderButton, SignInForm, emptyProfile } from "./forms";
 
 export const metadata: Metadata = {
   title: "Minha conta | Qualilan",
@@ -25,41 +25,54 @@ async function Account({ searchParams }: { searchParams: PageProps<"/conta">["se
   const supabase = await createSupabaseServerClient();
   const { data } = await supabase.auth.getUser();
   const user = data.user;
-  const linkError = (await searchParams).erro === "link";
+  const params = await searchParams;
+  const linkError = params.erro === "link";
+  const passwordChanged = params.senha === "ok";
 
   if (!user) {
     return (
-      <div className="mx-auto grid max-w-5xl gap-10 px-5 py-14 md:grid-cols-[1fr_400px] md:py-20">
-        <div>
-          <h1 className="text-3xl font-bold tracking-tight text-profundo md:text-4xl">Minha conta</h1>
-          <p className="mt-3 max-w-md text-[17px] leading-relaxed text-marinho/70">
-            Para clientes que fazem orçamentos com frequência. A conta é opcional: a lista e o envio pelo WhatsApp
-            continuam funcionando sem login.
+      <div className="mx-auto max-w-5xl px-5 py-14 md:py-20">
+        <h1 className="text-3xl font-bold tracking-tight text-profundo md:text-4xl">Minha conta</h1>
+        {linkError && (
+          <p role="alert" className="mt-6 rounded-lg bg-red-50 px-4 py-3 text-sm text-red-800">
+            O link expirou ou já foi usado. Entre com sua senha ou peça um novo em “Esqueceu a sua senha?”.
           </p>
-          <ul className="mt-8 space-y-4">
-            {perks.map((p) => (
-              <li key={p.icon} className="flex gap-3">
-                <span className="icon mt-0.5 text-xl! text-royal">{p.icon}</span>
-                <span className="text-marinho/80">{p.text}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-        <div className={card}>
-          <h2 className="mb-4 text-lg font-bold text-profundo">Entrar ou criar conta</h2>
-          {linkError && (
-            <p role="alert" className="mb-4 rounded-lg bg-red-50 px-4 py-3 text-sm text-red-800">
-              O link expirou ou já foi usado. Peça um novo abaixo.
+        )}
+        <div className="mt-8 grid gap-6 md:grid-cols-2">
+          <section className={card}>
+            <h2 className="text-lg font-bold text-profundo">Clientes registrados</h2>
+            <p className="mb-5 mt-1 text-sm text-marinho/60">Se você tem uma conta, entre com seu e-mail.</p>
+            <SignInForm />
+          </section>
+          <section className={`${card} flex flex-col`}>
+            <h2 className="text-lg font-bold text-profundo">Novos clientes</h2>
+            <p className="mt-1 text-sm text-marinho/60">
+              A conta é opcional: a lista e o envio pelo WhatsApp funcionam sem login. Com ela você tem:
             </p>
-          )}
-          <LoginLinkForm />
+            <ul className="mt-5 space-y-4">
+              {perks.map((p) => (
+                <li key={p.icon} className="flex gap-3">
+                  <span className="icon mt-0.5 text-xl! text-royal">{p.icon}</span>
+                  <span className="text-marinho/80">{p.text}</span>
+                </li>
+              ))}
+            </ul>
+            <Link
+              href="/conta/criar"
+              className="mt-8 inline-flex items-center justify-center gap-2 self-start rounded-lg border border-profundo px-5 py-3 text-sm font-semibold text-profundo transition-colors hover:bg-profundo hover:text-white md:mt-auto"
+            >
+              <span className="icon text-lg!">person</span>
+              Criar conta
+            </Link>
+          </section>
         </div>
       </div>
     );
   }
 
-  const [{ data: profile }, { data: requests }] = await Promise.all([
-    supabase.from("customers").select("name, company, cnpj, phone").eq("user_id", user.id).maybeSingle(),
+  const cols = "person_type, name, last_name, company, cpf, cnpj, rg_ie, phone, cep, street, number, complement, district, city, state, newsletter";
+  const [{ data: found }, { data: requests }] = await Promise.all([
+    supabase.from("customers").select(cols).eq("user_id", user.id).maybeSingle(),
     supabase
       .from("quote_requests")
       .select("id, channel, items, created_at")
@@ -67,6 +80,39 @@ async function Account({ searchParams }: { searchParams: PageProps<"/conta">["se
       .order("created_at", { ascending: false })
       .limit(50),
   ]);
+
+  let profile = found;
+  // Conta confirmada por e-mail: o cadastro veio guardado no usuário; cria o perfil no primeiro acesso.
+  const pending = user.user_metadata?.profile;
+  if (!profile && pending && typeof pending === "object") {
+    const { data } = await supabase
+      .from("customers")
+      // Só as colunas conhecidas: os metadados do usuário são editáveis por ele.
+      .upsert({ ...Object.fromEntries(cols.split(", ").map((c) => [c, pending[c] ?? null])), user_id: user.id })
+      .select(cols)
+      .maybeSingle();
+    profile = data;
+  }
+
+  const initial: ProfileValues = profile
+    ? {
+        person_type: profile.person_type === "pj" ? "pj" : "pf",
+        name: profile.name ?? "",
+        last_name: profile.last_name ?? "",
+        company: profile.company ?? "",
+        doc: (profile.person_type === "pj" ? profile.cnpj : profile.cpf) ?? "",
+        rg_ie: profile.rg_ie ?? "",
+        phone: profile.phone ?? "",
+        cep: profile.cep ?? "",
+        street: profile.street ?? "",
+        number: profile.number ?? "",
+        complement: profile.complement ?? "",
+        district: profile.district ?? "",
+        city: profile.city ?? "",
+        state: profile.state ?? "",
+        newsletter: Boolean(profile.newsletter),
+      }
+    : emptyProfile;
 
   return (
     <div className="mx-auto max-w-5xl space-y-6 px-5 py-12 md:py-16">
@@ -85,12 +131,16 @@ async function Account({ searchParams }: { searchParams: PageProps<"/conta">["se
         </form>
       </div>
 
+      {passwordChanged && (
+        <p role="status" className="rounded-lg bg-emerald-50 px-4 py-3 text-sm text-emerald-900">
+          Senha alterada.
+        </p>
+      )}
+
       <section className={card}>
-        <h2 className="text-lg font-bold text-profundo">Dados da empresa</h2>
+        <h2 className="text-lg font-bold text-profundo">Meus dados</h2>
         <p className="mb-5 mt-1 text-sm text-marinho/60">Usados para preencher o pedido de orçamento por e-mail.</p>
-        <ProfileForm
-          profile={{ name: profile?.name ?? "", company: profile?.company ?? "", cnpj: profile?.cnpj ?? "", phone: profile?.phone ?? "" }}
-        />
+        <ProfileForm initial={initial} />
       </section>
 
       <section className={card}>
