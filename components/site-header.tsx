@@ -6,8 +6,8 @@ import { QuoteCartButton } from "./quote-cart";
 
 const nav = [
   { label: "Catálogo", href: "/catalogo" },
-  { label: "Cases", href: "/#cases" },
   { label: "Unidades", href: "/#unidades" },
+  { label: "Cases", href: "/#cases" },
   { label: "Quem somos", href: "/sobre" },
 ];
 
