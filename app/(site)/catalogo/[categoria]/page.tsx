@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import { CatalogSearch, CategoryNav } from "@/components/category-nav";
+import { LighteraNotice } from "@/components/lightera-notice";
 import { ProductGrid } from "@/components/product-card";
 import { brandsOf, getCategory, getProducts, sortForDisplay } from "@/lib/catalog";
 import { categories, whatsappLink } from "@/lib/site";
@@ -50,6 +51,12 @@ async function CategoryPageContent({ params }: { params: PageProps<"/catalogo/[c
           </div>
           <CatalogSearch categoria={categoria} />
         </div>
+
+        {brands.includes("Lightera") && (
+          <div className="mb-6">
+            <LighteraNotice />
+          </div>
+        )}
 
         {brands.length > 1 && (
           <ul className="mb-6 flex flex-wrap gap-2 text-sm" aria-label="Filtrar por marca">

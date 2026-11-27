@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
+import { LighteraNotice } from "@/components/lightera-notice";
 import { ProductGrid } from "@/components/product-card";
 import { AddToQuote } from "@/components/quote-cart";
 import { getCategory, getProduct, getProducts, sortForDisplay } from "@/lib/catalog";
@@ -106,6 +107,11 @@ async function ProductPageContent({ params }: { params: PageProps<"/produto/[slu
                 {product.inStock ? "Pronta entrega" : "Sob consulta"}
               </dd>
             </dl>
+            {product.brand === "Lightera" && (
+              <div className="mt-6">
+                <LighteraNotice />
+              </div>
+            )}
             {product.description && (
               <p className="mt-6 whitespace-pre-line leading-relaxed text-marinho/80">{product.description}</p>
             )}

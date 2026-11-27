@@ -18,7 +18,9 @@ Lista para levar na apresentação do site novo. Os itens marcados como "decisã
 - **Logo da Qualilan em SVG** (hoje temos só PNG).
 - **Fotos reais:** estoque, galpões das unidades, equipe, entregas, projetos instalados. Elas substituem o fundo gráfico do topo e deixam o site com a cara de vocês.
 - **Cases de sucesso:** 2 ou 3 projetos com cliente (ou setor), o que foi entregue e um resultado. A seção existe no site atual, mas está vazia.
-- **Projetos customizados:** o que oferecem em Solução Óptica (Laserway) e Data Center (ITMAX), para virar uma página de Soluções.
+- **Projetos customizados:** os textos dos cards Laserway ("Solução óptica inovadora") e ITMAX ("Soluções para data center") foram escritos por nós a partir dos títulos do site atual. Validar ou enviar a descrição correta.
+- **Depoimentos:** a Home usa os 4 depoimentos publicados na loja (Klebison Carmo, Natan Oliveira, Cristiano Franco, Fernando Camargo), com as fotos de lá. Confirmar se podem continuar sendo usados e se há depoimentos mais recentes.
+- **Fotos do site atual:** usamos as imagens de cidade e tecnologia do qualilan.com.br. São fotos de banco de imagens; confirmar a licença.
 - **Produtos de Canaletas:** a categoria está vazia na loja atual.
 - **Descrição dos produtos:** nenhum produto da loja tem descrição. A equipe pode preencher aos poucos pelo painel, começando pelos mais vendidos.
 - **Revisão de marcas no catálogo:** vários produtos Multilan/Furukawa estão cadastrados como "Lightera" na loja atual. Confirmar se é o desejado.
