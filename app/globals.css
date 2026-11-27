@@ -413,3 +413,50 @@ input[type="search"]::-webkit-search-cancel-button {
   from { stroke-dashoffset: 60; }
   to { stroke-dashoffset: -1000; }
 }
+
+/* Texto dos posts do blog (Markdown renderizado em components/markdown.tsx). */
+.post-body {
+  color: rgb(0 0 26 / 0.8);
+  font-size: 1.075rem;
+  line-height: 1.8;
+}
+.post-body > * + * {
+  margin-top: 1.25em;
+}
+.post-body > h2 {
+  margin-top: 2.2em;
+  font-size: 1.6rem;
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+  color: var(--color-profundo);
+}
+.post-body > h3 {
+  margin-top: 1.8em;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--color-profundo);
+}
+.post-body > h2 + *,
+.post-body > h3 + * {
+  margin-top: 0.6em;
+}
+.post-body > ul,
+.post-body > ol {
+  padding-left: 1.3em;
+}
+.post-body > ul { list-style: disc; }
+.post-body > ol { list-style: decimal; }
+.post-body > :is(ul, ol) > li + li { margin-top: 0.4em; }
+.post-body > :is(ul, ol) > li::marker { color: var(--color-laranja); }
+.post-body :is(p, li) strong { color: var(--color-profundo); font-weight: 650; }
+.post-body :is(p, li) > a {
+  color: var(--color-royal);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.post-body figcaption {
+  margin-top: 0.5em;
+  font-size: 0.85rem;
+  color: rgb(0 0 26 / 0.5);
+}

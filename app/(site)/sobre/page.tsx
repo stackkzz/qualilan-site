@@ -218,19 +218,17 @@ export default function AboutPage() {
                 </p>
               </div>
             </article>
-            <a
-              href={site.socials[0].href}
-              target="_blank"
-              rel="noopener"
+            <Link
+              href="/blog"
               className="lift group flex flex-col rounded-3xl bg-offwhite p-6 md:p-8"
             >
               <IconTile icon="school" size="lg" />
               <h3 className="mt-6 text-lg font-bold text-profundo">Conteúdo técnico</h3>
               <p className="mt-2 flex-1 text-[15px] leading-relaxed text-marinho/65">
-                Dicas de especificação no Instagram: fibra monomodo ou multimodo, a câmera certa para cada ambiente e mais.
+                Artigos no blog e dicas de especificação no Instagram: fibra óptica, 5G, cabeamento sustentável e mais.
               </p>
-              <span className="mt-5 text-sm font-semibold text-royal group-hover:underline">Ver as dicas no Instagram</span>
-            </a>
+              <span className="mt-5 text-sm font-semibold text-royal group-hover:underline">Ler os artigos do blog</span>
+            </Link>
           </div>
         </div>
       </section>

@@ -8,7 +8,7 @@ import { LighteraNotice } from "@/components/lightera-notice";
 import { ProductGrid } from "@/components/product-card";
 import { AddToQuote } from "@/components/quote-cart";
 import { getCategory, getProduct, getProducts, sortForDisplay } from "@/lib/catalog";
-import { site, whatsappLink } from "@/lib/site";
+import { brandLogo, site, whatsappLink } from "@/lib/site";
 
 export async function generateStaticParams() {
   return (await getProducts()).map((p) => ({ slug: p.slug }));
@@ -37,6 +37,7 @@ async function ProductPageContent({ params }: { params: PageProps<"/produto/[slu
   const product = await getProduct((await params).slug);
   if (!product) notFound();
   const cat = getCategory(product.category);
+  const logo = brandLogo(product.brand);
   const related = sortForDisplay(
     (await getProducts()).filter((p) => p.category === product.category && p.slug !== product.slug),
   ).slice(0, 4);
@@ -91,7 +92,11 @@ async function ProductPageContent({ params }: { params: PageProps<"/produto/[slu
             )}
           </div>
           <div className="flex flex-col">
-            {product.brand && <p className="font-semibold text-royal">{product.brand}</p>}
+            {logo ? (
+              <Image src={logo.logo} alt={product.brand ?? logo.name} width={logo.w} height={logo.h} className="h-8 w-auto self-start object-contain" />
+            ) : (
+              product.brand && <p className="font-semibold text-royal">{product.brand}</p>
+            )}
             <h1 className="mt-2 text-2xl font-bold leading-tight tracking-tight text-profundo md:text-3xl">
               {product.name}
             </h1>

@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { WhatsAppIcon, whatsappButtonDarkClass } from "@/components/whatsapp-icon";
 import Link from "next/link";
+import { BlogTeaser } from "@/components/blog-teaser";
 import { IconTile } from "@/components/icon-tile";
 import { NetworkMap } from "@/components/network-map";
 import { QuoteSteps } from "@/components/quote-steps";
@@ -287,6 +288,8 @@ export default function Home() {
       <QuoteSteps />
 
       <TestimonialsMarquee />
+
+      <BlogTeaser />
 
       {/* Chamada final */}
       <section className="bg-white pb-24 md:pb-32">

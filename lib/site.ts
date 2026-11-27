@@ -84,7 +84,23 @@ export const partners = [
   { name: "Multiway", logo: "/ref/logos/multiway.png", w: 199, h: 28 },
   { name: "Dutotec", logo: "/ref/logos/dutotec.png", w: 146, h: 28 },
   { name: "Tramontina", logo: "/ref/logos/tramontina.png", w: 161, h: 33 },
+  // Marcas do catálogo com logo baixada dos sites oficiais e da Wikimedia (nov/2026).
+  { name: "Mikrotik", logo: "/ref/logos/mikrotik.png", w: 534, h: 92 },
+  { name: "Seagate", logo: "/ref/logos/seagate.png", w: 378, h: 92 },
+  { name: "Lumavi", logo: "/ref/logos/lumavi.png", w: 289, h: 92 },
+  { name: "Starlumen", logo: "/ref/logos/starlumen.png", w: 577, h: 92 },
+  { name: "SIL", logo: "/ref/logos/sil.png", w: 224, h: 92 },
+  { name: "Corfio", logo: "/ref/logos/corfio.png", w: 219, h: 92 },
+  { name: "Megatron", logo: "/ref/logos/megatron.png", w: 613, h: 92 },
+  { name: "Telecam", logo: "/ref/logos/telecam.png", w: 345, h: 92 },
 ];
+
+// Logo de uma marca do catálogo (os nomes vêm em caixa alta da loja antiga: "CONTROL ID", "TP-LINK").
+export function brandLogo(brand: string | null) {
+  if (!brand) return undefined;
+  const key = brand.toLowerCase().replace(/[^a-z0-9]/g, "");
+  return partners.find((p) => p.name.toLowerCase().replace(/[^a-z0-9]/g, "") === key);
+}
 
 export const differentials = [
   { icon: "workspace_premium", title: "Mais de 25 anos de experiência", text: "Experiência em projetos de empresas de todos os portes." },

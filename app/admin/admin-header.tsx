@@ -8,8 +8,16 @@ export function AdminHeader({ email }: { email?: string }) {
       <div className="mx-auto flex max-w-6xl items-center gap-6 px-5 py-3">
         <Link href="/admin" className="flex items-center gap-3">
           <Image src="/brand/logo-branco.png" alt="Qualilan" width={120} height={41} />
-          <span className="border-l border-white/20 pl-3 text-sm text-white/70">Painel do catálogo</span>
+          <span className="hidden border-l border-white/20 pl-3 text-sm text-white/70 md:inline">Painel</span>
         </Link>
+        <nav className="flex gap-1 text-sm" aria-label="Seções do painel">
+          <Link href="/admin" className="rounded-full px-3 py-1.5 text-white/75 hover:bg-white/10 hover:text-white">
+            Produtos
+          </Link>
+          <Link href="/admin/blog" className="rounded-full px-3 py-1.5 text-white/75 hover:bg-white/10 hover:text-white">
+            Blog
+          </Link>
+        </nav>
         <div className="ml-auto flex items-center gap-5 text-sm">
           <Link href="/" target="_blank" className="hidden text-white/70 hover:text-white sm:inline">
             Ver site

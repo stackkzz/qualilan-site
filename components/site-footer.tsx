@@ -81,6 +81,7 @@ export function SiteFooter() {
               { label: "Quem somos", href: "/sobre" },
               { label: "Unidades", href: "/#unidades" },
               { label: "Cases de sucesso", href: "/#cases" },
+              { label: "Blog", href: "/blog" },
               { label: "Marcas parceiras", href: "/#marcas" },
             ].map((l) => (
               <li key={l.href}>
