@@ -339,6 +339,8 @@ input[type="search"]::-webkit-search-cancel-button {
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
+  /* "Entregas" do mapa usam SMIL, que não respeita CSS de animação: escondidas para quem pede menos movimento. */
+  .packet { display: none; }
 }
 
 /* Sem movimento, o marquee vira uma grade estática (a segunda cópia dos logos some). */

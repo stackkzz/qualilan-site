@@ -1,73 +1,111 @@
-// Mapa das unidades. O formato de SP e MG em pontos foi amostrado do mapa original da Qualilan
-// (mapa-spmg.png, grade de 46 px) e os pinos usam as mesmas posições daquele mapa.
-// Todos os pontos ficam num único <path> (cada "M x y h0" com ponta redonda vira um ponto), para pesar pouco.
-const DOTS = "M1231 21h0 M1277 21h0 M1139 67h0 M1185 67h0 M1231 67h0 M1277 67h0 M1415 67h0 M909 113h0 M955 113h0 M1001 113h0 M1093 113h0 M1139 113h0 M1185 113h0 M1231 113h0 M1277 113h0 M1323 113h0 M1369 113h0 M1415 113h0 M1461 113h0 M863 159h0 M909 159h0 M955 159h0 M1001 159h0 M1047 159h0 M1093 159h0 M1139 159h0 M1185 159h0 M1231 159h0 M1277 159h0 M1323 159h0 M1369 159h0 M1415 159h0 M1461 159h0 M1507 159h0 M1553 159h0 M1599 159h0 M863 205h0 M909 205h0 M955 205h0 M1001 205h0 M1047 205h0 M1093 205h0 M1139 205h0 M1185 205h0 M1231 205h0 M1277 205h0 M1323 205h0 M1369 205h0 M1415 205h0 M1461 205h0 M1507 205h0 M1553 205h0 M1599 205h0 M1645 205h0 M863 251h0 M909 251h0 M955 251h0 M1001 251h0 M1047 251h0 M1093 251h0 M1139 251h0 M1185 251h0 M1231 251h0 M1277 251h0 M1323 251h0 M1369 251h0 M1415 251h0 M1461 251h0 M1507 251h0 M1553 251h0 M1599 251h0 M1645 251h0 M1691 251h0 M1737 251h0 M1783 251h0 M1829 251h0 M817 297h0 M863 297h0 M909 297h0 M955 297h0 M1001 297h0 M1047 297h0 M1093 297h0 M1139 297h0 M1185 297h0 M1231 297h0 M1277 297h0 M1323 297h0 M1369 297h0 M1415 297h0 M1461 297h0 M1507 297h0 M1553 297h0 M1599 297h0 M1645 297h0 M1691 297h0 M1737 297h0 M1783 297h0 M1829 297h0 M1875 297h0 M817 343h0 M863 343h0 M909 343h0 M955 343h0 M1001 343h0 M1047 343h0 M1093 343h0 M1139 343h0 M1185 343h0 M1231 343h0 M1277 343h0 M1323 343h0 M1369 343h0 M1415 343h0 M1461 343h0 M1507 343h0 M1553 343h0 M1599 343h0 M1645 343h0 M1691 343h0 M1737 343h0 M1783 343h0 M817 389h0 M863 389h0 M909 389h0 M955 389h0 M1001 389h0 M1047 389h0 M1093 389h0 M1139 389h0 M1185 389h0 M1231 389h0 M1277 389h0 M1323 389h0 M1369 389h0 M1415 389h0 M1461 389h0 M1507 389h0 M1553 389h0 M1599 389h0 M1645 389h0 M1691 389h0 M1737 389h0 M1783 389h0 M817 435h0 M863 435h0 M909 435h0 M955 435h0 M1001 435h0 M1047 435h0 M1093 435h0 M1139 435h0 M1185 435h0 M1231 435h0 M1277 435h0 M1323 435h0 M1369 435h0 M1415 435h0 M1461 435h0 M1507 435h0 M1553 435h0 M1599 435h0 M1645 435h0 M1691 435h0 M1737 435h0 M771 481h0 M817 481h0 M863 481h0 M909 481h0 M955 481h0 M1001 481h0 M1047 481h0 M1093 481h0 M1139 481h0 M1185 481h0 M1231 481h0 M1277 481h0 M1323 481h0 M1369 481h0 M1415 481h0 M1461 481h0 M1507 481h0 M1553 481h0 M1599 481h0 M1645 481h0 M1691 481h0 M1737 481h0 M1783 481h0 M817 527h0 M863 527h0 M909 527h0 M955 527h0 M1001 527h0 M1047 527h0 M1093 527h0 M1139 527h0 M1185 527h0 M1231 527h0 M1277 527h0 M1323 527h0 M1369 527h0 M1415 527h0 M1461 527h0 M1507 527h0 M1553 527h0 M1599 527h0 M1645 527h0 M1691 527h0 M1737 527h0 M1783 527h0 M817 573h0 M863 573h0 M909 573h0 M955 573h0 M1001 573h0 M1047 573h0 M1093 573h0 M1139 573h0 M1185 573h0 M1231 573h0 M1277 573h0 M1323 573h0 M1369 573h0 M1415 573h0 M1461 573h0 M1507 573h0 M1553 573h0 M1599 573h0 M1645 573h0 M1691 573h0 M1737 573h0 M587 619h0 M633 619h0 M771 619h0 M817 619h0 M863 619h0 M909 619h0 M955 619h0 M1001 619h0 M1047 619h0 M1093 619h0 M1139 619h0 M1185 619h0 M1231 619h0 M1277 619h0 M1323 619h0 M1369 619h0 M1415 619h0 M1461 619h0 M1507 619h0 M1553 619h0 M1599 619h0 M1645 619h0 M1691 619h0 M403 665h0 M449 665h0 M495 665h0 M541 665h0 M587 665h0 M633 665h0 M679 665h0 M725 665h0 M771 665h0 M817 665h0 M863 665h0 M909 665h0 M955 665h0 M1001 665h0 M1047 665h0 M1093 665h0 M1139 665h0 M1185 665h0 M1231 665h0 M1277 665h0 M1323 665h0 M1369 665h0 M1415 665h0 M1461 665h0 M1507 665h0 M1553 665h0 M1599 665h0 M1645 665h0 M1691 665h0 M357 711h0 M403 711h0 M449 711h0 M495 711h0 M541 711h0 M587 711h0 M633 711h0 M679 711h0 M725 711h0 M771 711h0 M817 711h0 M863 711h0 M909 711h0 M955 711h0 M1001 711h0 M1047 711h0 M1093 711h0 M1139 711h0 M1185 711h0 M1231 711h0 M1277 711h0 M1323 711h0 M1369 711h0 M1415 711h0 M1461 711h0 M1507 711h0 M1553 711h0 M1599 711h0 M1645 711h0 M1691 711h0 M311 757h0 M357 757h0 M403 757h0 M449 757h0 M495 757h0 M541 757h0 M587 757h0 M633 757h0 M679 757h0 M725 757h0 M771 757h0 M817 757h0 M863 757h0 M909 757h0 M955 757h0 M1001 757h0 M1047 757h0 M1093 757h0 M1139 757h0 M1185 757h0 M1231 757h0 M1277 757h0 M1323 757h0 M1369 757h0 M1415 757h0 M1461 757h0 M1507 757h0 M1553 757h0 M1599 757h0 M1645 757h0 M1691 757h0 M311 803h0 M357 803h0 M403 803h0 M449 803h0 M495 803h0 M541 803h0 M587 803h0 M633 803h0 M679 803h0 M725 803h0 M771 803h0 M817 803h0 M863 803h0 M909 803h0 M955 803h0 M1001 803h0 M1047 803h0 M1139 803h0 M1185 803h0 M1231 803h0 M1323 803h0 M1369 803h0 M1461 803h0 M1507 803h0 M1553 803h0 M1599 803h0 M1645 803h0 M1691 803h0 M265 849h0 M311 849h0 M357 849h0 M403 849h0 M449 849h0 M495 849h0 M541 849h0 M587 849h0 M633 849h0 M679 849h0 M725 849h0 M771 849h0 M817 849h0 M863 849h0 M909 849h0 M955 849h0 M1001 849h0 M1047 849h0 M1093 849h0 M1139 849h0 M1185 849h0 M1231 849h0 M1277 849h0 M1323 849h0 M1369 849h0 M1415 849h0 M1461 849h0 M1507 849h0 M1553 849h0 M1599 849h0 M1645 849h0 M265 895h0 M311 895h0 M357 895h0 M403 895h0 M449 895h0 M495 895h0 M541 895h0 M587 895h0 M633 895h0 M679 895h0 M725 895h0 M771 895h0 M817 895h0 M863 895h0 M909 895h0 M955 895h0 M1001 895h0 M1047 895h0 M1093 895h0 M1139 895h0 M1185 895h0 M1231 895h0 M1277 895h0 M1323 895h0 M1369 895h0 M1415 895h0 M1461 895h0 M1507 895h0 M1553 895h0 M1599 895h0 M1645 895h0 M219 941h0 M265 941h0 M311 941h0 M357 941h0 M403 941h0 M449 941h0 M495 941h0 M541 941h0 M587 941h0 M633 941h0 M679 941h0 M725 941h0 M771 941h0 M817 941h0 M863 941h0 M909 941h0 M955 941h0 M1001 941h0 M1047 941h0 M1093 941h0 M1139 941h0 M1185 941h0 M1231 941h0 M1277 941h0 M1323 941h0 M1369 941h0 M1415 941h0 M1461 941h0 M1507 941h0 M1553 941h0 M219 987h0 M265 987h0 M311 987h0 M357 987h0 M403 987h0 M449 987h0 M495 987h0 M541 987h0 M587 987h0 M633 987h0 M679 987h0 M725 987h0 M771 987h0 M817 987h0 M863 987h0 M909 987h0 M955 987h0 M1001 987h0 M1047 987h0 M1093 987h0 M1139 987h0 M1185 987h0 M1231 987h0 M1277 987h0 M1323 987h0 M1369 987h0 M1415 987h0 M1461 987h0 M1507 987h0 M1553 987h0 M173 1033h0 M219 1033h0 M265 1033h0 M311 1033h0 M357 1033h0 M403 1033h0 M449 1033h0 M495 1033h0 M541 1033h0 M587 1033h0 M633 1033h0 M679 1033h0 M725 1033h0 M771 1033h0 M817 1033h0 M863 1033h0 M909 1033h0 M955 1033h0 M1001 1033h0 M1047 1033h0 M1093 1033h0 M1139 1033h0 M1185 1033h0 M1231 1033h0 M1277 1033h0 M1323 1033h0 M1369 1033h0 M1415 1033h0 M1461 1033h0 M1507 1033h0 M173 1079h0 M219 1079h0 M265 1079h0 M311 1079h0 M357 1079h0 M403 1079h0 M449 1079h0 M495 1079h0 M541 1079h0 M587 1079h0 M633 1079h0 M679 1079h0 M725 1079h0 M771 1079h0 M817 1079h0 M863 1079h0 M909 1079h0 M955 1079h0 M1001 1079h0 M1047 1079h0 M1093 1079h0 M1139 1079h0 M1185 1079h0 M1231 1079h0 M1277 1079h0 M1323 1079h0 M1369 1079h0 M1415 1079h0 M1461 1079h0 M1507 1079h0 M127 1125h0 M173 1125h0 M219 1125h0 M265 1125h0 M311 1125h0 M357 1125h0 M403 1125h0 M449 1125h0 M495 1125h0 M541 1125h0 M587 1125h0 M633 1125h0 M679 1125h0 M725 1125h0 M771 1125h0 M817 1125h0 M863 1125h0 M909 1125h0 M955 1125h0 M1001 1125h0 M1047 1125h0 M1093 1125h0 M1139 1125h0 M1185 1125h0 M1231 1125h0 M1277 1125h0 M1323 1125h0 M1369 1125h0 M1415 1125h0 M1461 1125h0 M1507 1125h0 M81 1171h0 M127 1171h0 M173 1171h0 M219 1171h0 M265 1171h0 M311 1171h0 M357 1171h0 M403 1171h0 M449 1171h0 M495 1171h0 M541 1171h0 M587 1171h0 M633 1171h0 M679 1171h0 M725 1171h0 M771 1171h0 M817 1171h0 M863 1171h0 M909 1171h0 M955 1171h0 M1001 1171h0 M1047 1171h0 M1093 1171h0 M1139 1171h0 M1185 1171h0 M1231 1171h0 M1277 1171h0 M1415 1171h0 M35 1217h0 M81 1217h0 M127 1217h0 M173 1217h0 M219 1217h0 M265 1217h0 M311 1217h0 M357 1217h0 M403 1217h0 M449 1217h0 M495 1217h0 M541 1217h0 M587 1217h0 M633 1217h0 M679 1217h0 M725 1217h0 M771 1217h0 M817 1217h0 M863 1217h0 M909 1217h0 M955 1217h0 M1001 1217h0 M1047 1217h0 M1093 1217h0 M1139 1217h0 M35 1263h0 M81 1263h0 M173 1263h0 M219 1263h0 M265 1263h0 M495 1263h0 M541 1263h0 M587 1263h0 M633 1263h0 M679 1263h0 M725 1263h0 M771 1263h0 M817 1263h0 M863 1263h0 M909 1263h0 M955 1263h0 M1001 1263h0 M1047 1263h0 M1093 1263h0 M1139 1263h0 M1185 1263h0 M1231 1263h0 M357 1309h0 M449 1309h0 M495 1309h0 M541 1309h0 M587 1309h0 M633 1309h0 M679 1309h0 M725 1309h0 M771 1309h0 M817 1309h0 M863 1309h0 M909 1309h0 M955 1309h0 M1001 1309h0 M1047 1309h0 M1093 1309h0 M1139 1309h0 M1185 1309h0 M495 1355h0 M541 1355h0 M587 1355h0 M633 1355h0 M679 1355h0 M725 1355h0 M771 1355h0 M817 1355h0 M863 1355h0 M909 1355h0 M955 1355h0 M1001 1355h0 M1047 1355h0 M1093 1355h0 M1139 1355h0 M1185 1355h0 M495 1401h0 M541 1401h0 M587 1401h0 M633 1401h0 M679 1401h0 M725 1401h0 M771 1401h0 M817 1401h0 M863 1401h0 M909 1401h0 M955 1401h0 M1001 1401h0 M1047 1401h0 M1093 1401h0 M495 1447h0 M541 1447h0 M587 1447h0 M633 1447h0 M679 1447h0 M725 1447h0 M771 1447h0 M817 1447h0 M863 1447h0 M909 1447h0 M955 1447h0 M1093 1447h0 M541 1493h0 M587 1493h0 M633 1493h0 M725 1493h0 M771 1493h0 M817 1493h0 M863 1493h0 M541 1539h0 M587 1539h0 M633 1539h0 M679 1539h0 M725 1539h0 M771 1539h0 M817 1539h0 M633 1585h0 M679 1585h0 M725 1585h0 M679 1631h0";
+import { DOTS_FAR, DOTS_MID, DOTS_NEAR } from "@/lib/map-dots";
 
+// Mapa das unidades sobre o formato de SP e MG (amostrado do mapa original da Qualilan).
+// Pontos mais claros = mais perto de uma unidade.
+// As posições das unidades são as mesmas do mapa original.
 const hub = { city: "Campinas", x: 737, y: 1077 };
 const nodes = [
-  { city: "Bauru", x: 407, y: 1103, anchor: "middle", lx: 0, ly: 105 },
-  { city: "São Paulo", x: 809, y: 1337, anchor: "middle", lx: 0, ly: 110 },
-  { city: "Jacareí", x: 1041, y: 1300, anchor: "start", lx: 60, ly: 20 },
-  { city: "Minas Gerais", x: 1262, y: 640, anchor: "middle", lx: 0, ly: -70 },
+  { city: "Bauru", x: 407, y: 1103, side: "below" },
+  { city: "São Paulo", x: 809, y: 1337, side: "below" },
+  { city: "Jacareí", x: 1041, y: 1300, side: "right" },
+  { city: "Minas Gerais", x: 1262, y: 640, side: "above" },
 ] as const;
-const outbound = [
-  { from: nodes[0], to: { x: -60, y: 760 } },
-  { from: nodes[3], to: { x: 1000, y: -60 } },
-  { from: nodes[3], to: { x: 1900, y: 500 } },
-  { from: nodes[2], to: { x: 1900, y: 1500 } },
-];
 
-function curve(a: { x: number; y: number }, b: { x: number; y: number }) {
+function route(a: { x: number; y: number }, b: { x: number; y: number }) {
   const mx = (a.x + b.x) / 2;
-  const my = (a.y + b.y) / 2 - Math.abs(a.x - b.x) * 0.2;
+  const my = (a.y + b.y) / 2 - Math.abs(a.x - b.x) * 0.22 - 40;
   return `M${a.x},${a.y} Q${mx},${my} ${b.x},${b.y}`;
 }
 
-export function NetworkMap() {
+// Etiqueta em pílula; largura estimada pelo número de letras.
+function Pill({ x, y, text, tone = "light" }: { x: number; y: number; text: string; tone?: "light" | "hub" }) {
+  const fs = tone === "hub" ? 50 : 42;
+  const w = text.length * fs * 0.56 + 56;
+  const h = fs + 34;
   return (
-    <svg
-      viewBox="0 0 1840 1620"
-      role="img"
-      aria-label="Mapa de São Paulo e Minas Gerais com as unidades Qualilan: matriz em Campinas ligada a Bauru, São Paulo, Jacareí e Minas Gerais, com entregas para todo o Brasil"
-      className="h-auto w-full"
-    >
-      <defs>
-        <radialGradient id="hubGlow">
-          <stop offset="0%" stopColor="#FF9900" stopOpacity="0.5" />
-          <stop offset="100%" stopColor="#FF9900" stopOpacity="0" />
-        </radialGradient>
-      </defs>
-
-      <path d={DOTS} stroke="#ffffff" strokeOpacity="0.16" strokeWidth="20" strokeLinecap="round" />
-
-      {outbound.map((o, i) => (
-        <path key={i} d={curve(o.from, o.to)} fill="none" stroke="#ffffff" strokeOpacity="0.22" strokeWidth="4" className="flow-lg flow-slow" />
-      ))}
-      {nodes.map((n) => (
-        <path key={n.city} d={curve(hub, n)} fill="none" stroke="#FF9900" strokeWidth="7" strokeLinecap="round" className="flow-lg" />
-      ))}
-
-      <circle cx={hub.x} cy={hub.y} r="230" fill="url(#hubGlow)" className="q-glow-svg" />
-
-      {nodes.map((n, i) => (
-        <g key={n.city}>
-          <circle cx={n.x} cy={n.y} r="50" fill="none" stroke="#ffffff" strokeOpacity="0.55" strokeWidth="4" className="node-ping" style={{ animationDelay: `${i * 0.6}s` }} />
-          <circle cx={n.x} cy={n.y} r="20" fill="#ffffff" />
-          <text x={n.x + n.lx} y={n.y + n.ly} textAnchor={n.anchor} className="fill-white text-[52px] font-semibold">
-            {n.city}
-          </text>
-        </g>
-      ))}
-
-      <circle cx={hub.x} cy={hub.y} r="70" fill="none" stroke="#FF9900" strokeOpacity="0.8" strokeWidth="5" className="node-ping" />
-      <circle cx={hub.x} cy={hub.y} r="34" fill="#FF9900" />
-      <circle cx={hub.x} cy={hub.y} r="13" fill="#121744" />
-      <text x={hub.x - 70} y={hub.y - 70} textAnchor="end" className="fill-white text-[64px] font-bold">
-        {hub.city}
+    <g transform={`translate(${x - w / 2} ${y - h / 2})`}>
+      <rect width={w} height={h} rx={h / 2} fill={tone === "hub" ? "#FF9900" : "#ffffff"} fillOpacity={tone === "hub" ? 1 : 0.12} />
+      <text
+        x={w / 2}
+        y={h / 2 + fs * 0.36}
+        textAnchor="middle"
+        className={tone === "hub" ? "fill-profundo font-bold" : "fill-white font-semibold"}
+        style={{ fontSize: fs }}
+      >
+        {text}
       </text>
-      <text x={hub.x - 70} y={hub.y - 10} textAnchor="end" className="fill-amarelo text-[42px] font-semibold">
-        Matriz
-      </text>
-    </svg>
+    </g>
+  );
+}
+
+export function NetworkMap() {
+  const labelPos = (n: (typeof nodes)[number]) =>
+    n.side === "below" ? { x: n.x, y: n.y + 95 } : n.side === "above" ? { x: n.x, y: n.y - 95 } : { x: n.x + 210, y: n.y };
+
+  return (
+    <div>
+      <svg
+        viewBox="-60 -40 1980 1720"
+        role="img"
+        aria-label="Mapa de São Paulo e Minas Gerais com as unidades Qualilan: matriz em Campinas ligada a Bauru, São Paulo, Jacareí e Minas Gerais"
+        className="h-auto w-full"
+      >
+        <defs>
+          <radialGradient id="hubGlow">
+            <stop offset="0%" stopColor="#FF9900" stopOpacity="0.45" />
+            <stop offset="100%" stopColor="#FF9900" stopOpacity="0" />
+          </radialGradient>
+        </defs>
+
+        {/* Formato dos estados em pontos, em três intensidades */}
+        <path d={DOTS_FAR} stroke="#ffffff" strokeOpacity="0.1" strokeWidth="17" strokeLinecap="round" />
+        <path d={DOTS_MID} stroke="#ffffff" strokeOpacity="0.22" strokeWidth="18" strokeLinecap="round" />
+        <path d={DOTS_NEAR} stroke="#8EA2FF" strokeOpacity="0.55" strokeWidth="19" strokeLinecap="round" />
+
+        <circle cx={hub.x} cy={hub.y} r="260" fill="url(#hubGlow)" className="q-glow-svg" />
+
+        {/* Rotas e "entregas" saindo da matriz */}
+        {nodes.map((n, i) => {
+          const d = route(hub, n);
+          return (
+            <g key={n.city}>
+              <path d={d} fill="none" stroke="#FF9900" strokeOpacity="0.35" strokeWidth="6" strokeLinecap="round" />
+              <path d={d} fill="none" stroke="#FF9900" strokeWidth="6" strokeLinecap="round" className="flow-lg" />
+              <circle r="13" fill="#FFCC4D" className="packet">
+                <animateMotion dur={`${2.6 + i * 0.5}s`} begin={`${i * 0.7}s`} repeatCount="indefinite" path={d} />
+              </circle>
+            </g>
+          );
+        })}
+
+        {nodes.map((n, i) => {
+          const l = labelPos(n);
+          return (
+            <g key={n.city}>
+              <circle cx={n.x} cy={n.y} r="46" fill="none" stroke="#ffffff" strokeOpacity="0.5" strokeWidth="4" className="node-ping" style={{ animationDelay: `${i * 0.6}s` }} />
+              <circle cx={n.x} cy={n.y} r="22" fill="#121744" stroke="#ffffff" strokeWidth="7" />
+              <Pill x={l.x} y={l.y} text={n.city} />
+            </g>
+          );
+        })}
+
+        <circle cx={hub.x} cy={hub.y} r="70" fill="none" stroke="#FF9900" strokeOpacity="0.8" strokeWidth="5" className="node-ping" />
+        <circle cx={hub.x} cy={hub.y} r="36" fill="#FF9900" />
+        <circle cx={hub.x} cy={hub.y} r="14" fill="#121744" />
+        <Pill x={hub.x - 60} y={hub.y - 150} text="Campinas, Matriz" tone="hub" />
+      </svg>
+
+      <ul className="mt-2 flex flex-wrap gap-x-6 gap-y-2 px-2 text-xs text-white/65">
+        <li className="flex items-center gap-2">
+          <span className="size-3 rounded-full bg-laranja" /> Matriz
+        </li>
+        <li className="flex items-center gap-2">
+          <span className="size-3 rounded-full border-2 border-white bg-profundo" /> Unidade com estoque
+        </li>
+        <li className="flex items-center gap-2">
+          <span className="size-2 rounded-full bg-[#8EA2FF]" /> Perto de uma unidade
+        </li>
+      </ul>
+    </div>
   );
 }
