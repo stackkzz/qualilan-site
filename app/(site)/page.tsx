@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Wave } from "@/components/wave";
-import { brands, categories, segments, units, whatsappLink } from "@/lib/site";
+import { brands, categories, mapsHref, segments, telHref, units, whatsappLink } from "@/lib/site";
 
 const quoteMessage = "Olá, Qualilan! Gostaria de um orçamento.";
 
@@ -197,31 +197,46 @@ export default function Home() {
 
         {/* Unidades + CTA final */}
         <section id="unidades" className="bg-profundo pb-20 pt-10 text-white md:pb-28">
-          <div className="mx-auto grid max-w-6xl gap-12 px-5 md:grid-cols-2 md:items-end">
-            <div>
+          <div className="mx-auto max-w-6xl px-5">
+            <div className="grid gap-12 md:grid-cols-2 md:items-end">
               <h2 className="text-3xl font-bold tracking-tight md:text-5xl">
                 Cinco unidades para entregar rápido onde você está.
               </h2>
-              <ul className="mt-10 grid grid-cols-2 gap-4 text-white/85">
-                {units.map((u) => (
-                  <li key={u} className="flex items-center gap-2">
+              <div className="rounded-3xl bg-royal p-8 md:p-10">
+                <p className="text-2xl font-bold leading-snug">Tem um projeto? Fale com quem entende de rede.</p>
+                <p className="mt-3 text-white/75">Atendimento consultivo para empresas de todos os portes.</p>
+                <a
+                  href={whatsappLink(quoteMessage)}
+                  className="mt-8 inline-flex items-center gap-2 rounded-full bg-laranja px-6 py-3 font-semibold text-profundo transition-colors hover:bg-amarelo"
+                >
+                  <span className="icon text-xl!">chat</span>
+                  Falar no WhatsApp
+                </a>
+              </div>
+            </div>
+            <ul className="mt-14 grid gap-px overflow-hidden rounded-2xl bg-white/10 sm:grid-cols-2 lg:grid-cols-5">
+              {units.map((u) => (
+                <li key={u.city} className="flex flex-col bg-profundo p-5 sm:last:col-span-2 lg:last:col-span-1">
+                  <p className="flex items-center gap-2 font-semibold">
                     <span className="icon text-xl! text-amarelo">location_on</span>
-                    {u}
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div className="rounded-3xl bg-royal p-8 md:p-10">
-              <p className="text-2xl font-bold leading-snug">Tem um projeto? Fale com quem entende de rede.</p>
-              <p className="mt-3 text-white/75">Atendimento consultivo para empresas de todos os portes.</p>
-              <a
-                href={whatsappLink(quoteMessage)}
-                className="mt-8 inline-flex items-center gap-2 rounded-full bg-laranja px-6 py-3 font-semibold text-profundo transition-colors hover:bg-amarelo"
-              >
-                <span className="icon text-xl!">chat</span>
-                Falar no WhatsApp
-              </a>
-            </div>
+                    {u.city}
+                    {u.note && <span className="text-xs font-normal text-white/50">{u.note}</span>}
+                  </p>
+                  <address className="mt-3 flex-1 text-sm not-italic leading-relaxed text-white/70">{u.address}</address>
+                  <a href={telHref(u.phone)} className="mt-4 font-medium hover:text-amarelo">
+                    {u.phone}
+                  </a>
+                  <a
+                    href={mapsHref(u.address)}
+                    target="_blank"
+                    rel="noopener"
+                    className="mt-1 text-sm text-white/60 underline underline-offset-4 hover:text-white"
+                  >
+                    Ver no mapa
+                  </a>
+                </li>
+              ))}
+            </ul>
           </div>
         </section>
       </main>

@@ -7,6 +7,7 @@ const nav = [
   { label: "Segmentos", href: "/#segmentos" },
   { label: "Marcas", href: "/#marcas" },
   { label: "Unidades", href: "/#unidades" },
+  { label: "Quem somos", href: "/sobre" },
 ];
 
 export function SiteHeader() {
@@ -17,7 +18,7 @@ export function SiteHeader() {
           <Image src="/brand/logo-branco.png" alt="Qualilan" width={160} height={55} preload className="w-32 sm:w-40" />
         </Link>
         <nav aria-label="Principal" className="flex-1">
-          <ul className="flex justify-end gap-8 text-[15px] text-white/80 md:justify-center">
+          <ul className="flex justify-end gap-6 whitespace-nowrap text-[15px] text-white/80 md:justify-center lg:gap-8">
             {nav.map((item, i) => (
               // No celular só o Catálogo aparece; o resto são âncoras da Home.
               <li key={item.href} className={i > 0 ? "hidden md:block" : undefined}>

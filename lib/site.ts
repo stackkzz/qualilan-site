@@ -5,7 +5,13 @@ export const site = {
   cnpj: "11.746.517/0001-40",
   whatsapp: "5514996192639",
   whatsappLabel: "(14) 99619-2639",
-  instagram: "https://www.instagram.com/grupo.qualilan/",
+  email: "e-commerce@qualilan.com.br",
+  socials: [
+    { label: "Instagram", href: "https://www.instagram.com/grupo.qualilan/" },
+    { label: "LinkedIn", href: "https://www.linkedin.com/company/grupo-qualilan/" },
+    { label: "Facebook", href: "https://www.facebook.com/qualilanbauru/" },
+    { label: "YouTube", href: "https://www.youtube.com/channel/UCD5njZm2XODvwRJBoJi2B1g" },
+  ],
 };
 
 export function whatsappLink(message: string) {
@@ -51,4 +57,15 @@ export const brands = [
   "Planet",
 ];
 
-export const units = ["Campinas", "São Paulo", "Bauru", "Vale do Paraíba", "Minas Gerais"];
+// Fonte: rodapé de loja.qualilan.com.br (nov/2026).
+export const units = [
+  { city: "Campinas", note: "Matriz", address: "R. Anita Moretzsohn, 336, Jardim Santana, Campinas, SP, 13088-603", phone: "(19) 3256-1042" },
+  { city: "São Paulo", address: "R. Benedito Campos Morais, 230, Vila Anastácio, São Paulo, SP, 05094-010", phone: "(11) 3714-0818" },
+  { city: "Bauru", address: "R. Jorge Pimentel, 5-54, Vila Engler, Bauru, SP, 17047-010", phone: "(14) 3021-0437" },
+  { city: "Vale do Paraíba", address: "Rod. Geraldo Scavone, 2080, Galpão U20, Jardim Califórnia, Jacareí, SP, 12305-490", phone: "(12) 3958-7735" },
+  { city: "Minas Gerais", address: "R. Capitão Vicente Ribeiro do Vale, 354, Santa Rita do Sapucaí, MG, 37540-000", phone: "(35) 3471-4172" },
+];
+
+export const telHref = (phone: string) => `tel:+55${phone.replace(/\D/g, "")}`;
+export const mapsHref = (address: string) =>
+  `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`Qualilan ${address}`)}`;
