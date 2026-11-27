@@ -100,6 +100,7 @@ export function SiteFooter() {
               { label: "Catálogo", href: "/catalogo" },
               { label: "Quem somos", href: "/sobre" },
               { label: "Unidades", href: "/#unidades" },
+              { label: "Cases de sucesso", href: "/#cases" },
               { label: "Marcas parceiras", href: "/#marcas" },
               { label: "Privacidade", href: "/privacidade" },
             ].map((l) => (

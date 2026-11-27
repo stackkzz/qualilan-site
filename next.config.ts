@@ -10,6 +10,7 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       new URL("https://loja.qualilan.com.br/pub/media/**"),
       new URL("https://*.supabase.co/storage/v1/object/public/produtos/**"),
+      new URL("https://i.ytimg.com/vi/**"),
     ],
   },
   turbopack: {

@@ -17,7 +17,7 @@ Lista para levar na apresentação do site novo. Os itens marcados como "decisã
 - **Logos das marcas parceiras** (Furukawa/Lightera, Ubiquiti, TP-Link, Motorola, Control iD, Brother, Multiway, Mikrotik, Planet), de preferência em SVG ou PNG com fundo transparente.
 - **Logo da Qualilan em SVG** (hoje temos só PNG).
 - **Fotos reais:** estoque, galpões das unidades, equipe, entregas, projetos instalados. Elas substituem o fundo gráfico do topo e deixam o site com a cara de vocês.
-- **Cases de sucesso:** 2 ou 3 projetos com cliente (ou setor), o que foi entregue e um resultado. A seção existe no site atual, mas está vazia.
+- **Cases de sucesso:** a Home mostra os 5 vídeos do site atual (Chaminade, Santuário de Aparecida, TV Aparecida, Cidade do Romeiro, Unimed Araraquara). Se quiserem, enviar um resumo de cada projeto (o que foi entregue, resultado) para acompanhar o vídeo.
 - **Projetos customizados:** os textos dos cards Laserway ("Solução óptica inovadora") e ITMAX ("Soluções para data center") foram escritos por nós a partir dos títulos do site atual. Validar ou enviar a descrição correta.
 - **Avaliações do Google:** a Home mostra 10 avaliações públicas do Google Maps (unidades Bauru e Campinas), algumas encurtadas, e a nota 5,0 com 262 avaliações de Bauru. Confirmar se querem exibir e se preferem atualizar via API oficial do Google.
 - **Depoimentos:** a Home usa os 4 depoimentos publicados na loja (Klebison Carmo, Natan Oliveira, Cristiano Franco, Fernando Camargo), com as fotos de lá. Confirmar se podem continuar sendo usados e se há depoimentos mais recentes.

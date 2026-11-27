@@ -131,3 +131,12 @@ export const testimonials: Testimonial[] = [
   { name: "Gabriel Barreto", source: "Google", unit: "Campinas", text: "Pessoal da loja 100% atencioso, tiraram todas as dúvidas e foram muito solícitos." },
   { name: "Fernando Camargo", source: "Site", photo: "/ref/depoimentos/fernando.jpg", text: "Excelente atendimento, variedade e qualidade de produtos por um preço justo." },
 ];
+
+// Cases em vídeo publicados no site institucional (qualilan.com.br, nov/2026).
+export const cases: { id: string; client: string; tag?: string }[] = [
+  { id: "zFgLWH_TgAQ", client: "Colégio Chaminade", tag: "Soluções Lightera" },
+  { id: "jPcqPEUNJro", client: "Santuário de Aparecida" },
+  { id: "Frz_uTJEcGU", client: "TV Aparecida" },
+  { id: "KDXv-jH1FlI", client: "Cidade do Romeiro" },
+  { id: "_NRCoBsBUB0", client: "Unimed Araraquara", tag: "Programa Green IT" },
+];

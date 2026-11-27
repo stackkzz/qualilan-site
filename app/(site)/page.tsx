@@ -3,6 +3,7 @@ import Link from "next/link";
 import { NetworkMap } from "@/components/network-map";
 import { QuoteSteps } from "@/components/quote-steps";
 import { TestimonialsMarquee } from "@/components/testimonials-marquee";
+import { VideoCases } from "@/components/video-cases";
 import { Wave } from "@/components/wave";
 import {
   categories,
@@ -282,6 +283,8 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      <VideoCases />
 
       <QuoteSteps />
 
