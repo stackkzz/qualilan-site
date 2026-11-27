@@ -18,6 +18,8 @@ export const metadata: Metadata = {
   title: "Qualilan | Distribuidora de redes, CFTV e conectividade",
   description:
     "Catálogo de cabeamento, fibra óptica, switches, wireless, CFTV e controle de acesso das principais marcas. Pronta entrega e orçamento pelo WhatsApp.",
+  // Demonstração de proposta: fora do Google até a Qualilan aprovar e o site ir para o domínio oficial.
+  robots: { index: false, follow: false },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
