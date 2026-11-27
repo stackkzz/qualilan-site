@@ -4,7 +4,7 @@ Demonstração de um novo site para a **Qualilan**, distribuidora de infraestrut
 
 > Projeto de proposta, feito por Henry Marques. Não é o site oficial da Qualilan. Marcas, fotos e textos da empresa aparecem apenas para a apresentação.
 
-**Ver o site:** _link da Vercel_
+**Ver o site:** https://qualilan-six.vercel.app
 
 ## O que o site faz
 
