@@ -1,31 +1,8 @@
-import Image from "next/image";
 import Link from "next/link";
-import { CurrentYear } from "./current-year";
-import { brands, categories, segments, site, units, whatsappLink } from "@/lib/site";
-
-const nav = [
-  { label: "Catálogo", href: "/catalogo" },
-  { label: "Segmentos", href: "#segmentos" },
-  { label: "Marcas", href: "#marcas" },
-  { label: "Unidades", href: "#unidades" },
-];
+import { Wave } from "@/components/wave";
+import { brands, categories, segments, units, whatsappLink } from "@/lib/site";
 
 const quoteMessage = "Olá, Qualilan! Gostaria de um orçamento.";
-
-// Curva tirada da perna do "Q": é o divisor de seções ("fluidez" do manual).
-function Wave({ top, bottom, flip = false }: { top: string; bottom: string; flip?: boolean }) {
-  return (
-    <div aria-hidden className={bottom}>
-      <svg
-        viewBox="0 0 1440 90"
-        preserveAspectRatio="none"
-        className={`block h-12 w-full md:h-20 ${top} ${flip ? "-scale-x-100" : ""}`}
-      >
-        <path d="M0 0H1440V22C1180 22 1060 88 820 88C560 88 430 40 0 52Z" fill="currentColor" />
-      </svg>
-    </div>
-  );
-}
 
 function SignalArcs() {
   const rings = [
@@ -73,31 +50,6 @@ function SignalArcs() {
 export default function Home() {
   return (
     <>
-      <header className="bg-profundo text-white">
-        <div className="mx-auto flex max-w-6xl items-center justify-between gap-6 px-5 py-4">
-          <Link href="/" aria-label="Qualilan, página inicial">
-            <Image src="/brand/logo-branco.png" alt="Qualilan" width={160} height={55} preload className="w-32 sm:w-40" />
-          </Link>
-          <nav aria-label="Principal" className="hidden md:block">
-            <ul className="flex gap-8 text-[15px] text-white/80">
-              {nav.map((item) => (
-                <li key={item.href}>
-                  <Link href={item.href} className="transition-colors hover:text-white">
-                    {item.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </nav>
-          <a
-            href={whatsappLink(quoteMessage)}
-            className="whitespace-nowrap rounded-full bg-laranja px-4 py-2.5 text-sm font-semibold text-profundo transition-colors hover:bg-amarelo sm:px-5"
-          >
-            <span className="sm:hidden">Orçamento</span>
-            <span className="hidden sm:inline">Pedir orçamento</span>
-          </a>
-        </div>
-      </header>
 
       <main>
         {/* Hero: a busca é o trabalho principal de quem chega aqui. */}
@@ -274,22 +226,6 @@ export default function Home() {
         </section>
       </main>
 
-      <footer className="bg-marinho text-sm text-white/60">
-        <div className="mx-auto flex max-w-6xl flex-col gap-6 px-5 py-10 md:flex-row md:items-center md:justify-between">
-          <Image src="/brand/logo-branco.png" alt="Qualilan" width={130} height={45} />
-          <p>
-            Qualilan, CNPJ {site.cnpj}. © <CurrentYear />
-          </p>
-          <div className="flex gap-6">
-            <a href={site.instagram} className="hover:text-white">
-              Instagram
-            </a>
-            <a href={whatsappLink(quoteMessage)} className="hover:text-white">
-              WhatsApp {site.whatsappLabel}
-            </a>
-          </div>
-        </div>
-      </footer>
     </>
   );
 }
