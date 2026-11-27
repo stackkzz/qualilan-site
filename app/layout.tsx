@@ -11,7 +11,7 @@ const icons = [
   "fingerprint", "format_bold", "format_list_bulleted", "graphic_eq", "grid_view", "groups", "hub", "inventory_2", "lightbulb", "link", "local_hospital", "local_shipping", "location_on", "logout",
   "mail", "map", "menu", "play_circle", "playlist_add", "print", "remove", "request_quote", "savings", "schedule", "school", "search",
   "settings_ethernet", "shopping_cart", "star", "support_agent", "swap_vert", "sync_alt", "title", "upload", "verified", "videocam", "view_stream",
-  "visibility", "visibility_off", "lock", "key", "receipt_long", "home_pin", "warehouse", "wifi", "workspace_premium",
+  "visibility", "visibility_off", "key", "receipt_long", "list_alt", "expand_more", "playlist_add_check", "warehouse", "wifi", "workspace_premium",
 ].sort().join(","); // a API exige nomes em ordem alfabética
 
 export const metadata: Metadata = {

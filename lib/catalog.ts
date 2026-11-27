@@ -93,46 +93,58 @@ export async function listedCategories() {
     .filter((c) => c.count > 0);
 }
 
-const SUBSTITUTE_CATEGORIES = new Set(["switches", "wireless", "iluminacao", "conversores", "rotulador-eletronico"]);
+// "Compre junto" por regra técnica: para cada tipo de produto, o que de fato entra no mesmo projeto.
+// Câmera IP pede switch PoE e cabo de rede (nunca DVR); câmera analógica pede DVR, coaxial e BNC.
+// Produto sem regra não mostra a seção: sugestão errada derruba a confiança de quem é técnico.
+// Os nomes são comparados sem acento e em minúsculas.
+const CAT6_CABLE = /^cabo (de dados )?.*cat\.?6/;
+const CAT5_CABLE = /^cabo (de dados )?.*cat\.?5/;
+const POE_SWITCH = /^switch .*poe/;
+const AP = /^access point/;
+const ANALOG_CAM = /^camera (bullet|dome) .*full hd/;
+const RULES: [RegExp, RegExp[]][] = [
+  [/^camera (ip|speed dome)/, [POE_SWITCH, /nvr/, CAT6_CABLE, /^injetor poe/]],
+  [/^kit cftv/, [/^hd .*sata/, /^cabo coaxial/, /^conector bnc/, /^fonte/]],
+  [ANALOG_CAM, [/dvr/, /^cabo coaxial/, /^conector bnc/, /^fonte/]],
+  [/dvr/, [ANALOG_CAM, /^hd .*sata/, /^cabo coaxial/, /^fonte/]],
+  [/^(cabo coaxial|conector bnc|fonte|plug p4)/, [/dvr/, ANALOG_CAM, /^cabo coaxial/, /^conector bnc/, /^fonte/]],
+  [/^hd .*sata/, [/dvr/, ANALOG_CAM]],
+  [/^injetor poe/, [AP, CAT6_CABLE, /^patch cord .*cat\.?6/]],
+  [/^(access point|radio)/, [/^injetor poe/, POE_SWITCH, CAT6_CABLE, /^patch cord .*cat\.?6/]],
+  [/^(roteador|gateway)/, [/^switch .*gerenciavel|^switch .*(gigabit|sfp)/, AP, /^patch cord .*cat\.?6/]],
+  [/^cloud key/, [AP, POE_SWITCH]],
+  [POE_SWITCH, [AP, /^camera ip/, /^patch cord .*cat\.?6/, CAT6_CABLE]],
+  [/^switch/, [/^patch cord .*cat\.?6/, /^patch panel .*cat\.?6/, CAT6_CABLE, /^guia de cabos/]],
+  [CAT6_CABLE, [/^patch panel .*cat\.?6/, /^patch cord .*cat\.?6/, /^ferramenta de crimp/, /^rotulador/]],
+  [CAT5_CABLE, [/^patch panel .*cat\.?5/, /^patch cord .*cat\.?5/, /^ferramenta de crimp/, /^rotulador/]],
+  [/^patch cord .*cat\.?6/, [/^patch panel .*cat\.?6/, CAT6_CABLE, /^switch .*gigabit/, /^guia de cabos/]],
+  [/^patch cord .*cat\.?5/, [/^patch panel .*cat\.?5/, CAT5_CABLE, /^switch/, /^guia de cabos/]],
+  [/^patch panel .*cat\.?6/, [/^patch cord .*cat\.?6/, CAT6_CABLE, /^guia de cabos/, /^ferramenta/]],
+  [/^patch panel/, [/^patch cord .*cat\.?5/, CAT5_CABLE, /^guia de cabos/, /^ferramenta/]],
+  [/^guia de cabos/, [/^patch panel/, /^patch cord .*cat\.?6/]],
+  [/^ferramenta (de crimp|de insercao|de impacto)/, [CAT6_CABLE, /^patch panel/, /^rotulador/]],
+  [/^(dio|kit 3 placas lgx|kit bandeja|kit de ancoragem)/, [/^kit bandeja de emenda/, /^kit 3 placas lgx/, /^kit de ancoragem/, /^ferramenta de limpeza optica/]],
+  [/^maquina de fusao/, [/^kit bandeja de emenda/, /^ferramenta de limpeza optica/, /^dio/]],
+  [/^ferramenta de limpeza optica/, [/^dio/, /^kit 3 placas lgx/, /^maquina de fusao/]],
+  [/^modulo sfp/, [/^switch .*sfp/, /^chassi .*conversor/, /^dio/]],
+  [/^chassi .*conversor/, [/^modulo sfp/, /^dio/]],
+  [/^(controlador de acesso|leitor)/, [/^chaveiro/, /^fonte/, CAT6_CABLE]],
+  [/^chaveiro/, [/^controlador de acesso/]],
+  [/^rotulador/, [/^fita .*rotulador/]],
+  [/^fita .*rotulador/, [/^rotulador/]],
+];
 
-// Categorias que costumam entrar no mesmo orçamento.
-const COMPLEMENTS: Record<string, string[]> = {
-  "cabos-lan": ["switches", "rede-optica", "rotulador-eletronico"],
-  "rede-optica": ["switches", "cabos-lan", "conversores"],
-  switches: ["cabos-lan", "wireless", "rede-optica"],
-  wireless: ["switches", "cabos-lan"],
-  cftv: ["switches", "cabos-lan", "cabos-eletricos"],
-  "controle-de-acesso": ["cftv", "cabos-lan", "cabos-eletricos"],
-  "cabos-eletricos": ["iluminacao", "rotulador-eletronico"],
-  "cabos-telefonicos": ["cabos-lan", "rotulador-eletronico"],
-  conversores: ["rede-optica", "switches"],
-  iluminacao: ["cabos-eletricos"],
-  "rotulador-eletronico": ["cabos-lan", "cabos-eletricos"],
-};
-
-// "Compre junto": até `limit` produtos que completam o orçamento, um por subcategoria (ou categoria).
-// Primeiro outras subcategorias da mesma categoria, depois categorias complementares;
-// em cada grupo, prefere a mesma marca e o que tem pronta entrega.
 export function complementsFor(product: Product, all: Product[], limit = 4) {
+  const name = normalize(product.name);
+  const rule = RULES.find(([match]) => match.test(name));
+  if (!rule) return [];
   const score = (p: Product) => (p.brand && p.brand === product.brand ? 2 : 0) + (p.inStock ? 1 : 0);
-  const groups: Product[][] = [];
-  // Mesmo "tipo" = mesma primeira palavra da subcategoria (Cabo Cat.5E e Cabo Cat.6; Câmeras IP e Câmeras Motorola):
-  // sugerir outro cabo para quem vê um cabo não completa o orçamento.
-  // "Patch cord" e "Patch panel" são tipos diferentes: aí conta a segunda palavra.
-  const kind = (s: string | null) => {
-    const w = normalize(s ?? "").split(" ");
-    return (w[0] === "patch" ? w.slice(0, 2).join(" ") : w[0]).replace(/s$/, "");
-  };
-  // Nessas categorias as subcategorias são variações do mesmo produto (switch gerenciável x PoE): não complementam.
-  const sameCat = SUBSTITUTE_CATEGORIES.has(product.category)
-    ? []
-    : all.filter((p) => p.category === product.category && p.subcategory && kind(p.subcategory) !== kind(product.subcategory));
-  for (const k of new Set(sameCat.map((p) => kind(p.subcategory)))) groups.push(sameCat.filter((p) => kind(p.subcategory) === k));
-  for (const cat of COMPLEMENTS[product.category] ?? []) groups.push(all.filter((p) => p.category === cat));
   const picked: Product[] = [];
-  for (const g of groups) {
-    const best = [...g].sort((a, b) => score(b) - score(a) || byName(a, b))[0];
-    if (best && best.slug !== product.slug && !picked.includes(best)) picked.push(best);
+  for (const want of rule[1]) {
+    const best = all
+      .filter((p) => p.slug !== product.slug && !picked.includes(p) && want.test(normalize(p.name)))
+      .sort((a, b) => score(b) - score(a) || byName(a, b))[0];
+    if (best) picked.push(best);
     if (picked.length === limit) break;
   }
   return picked;

@@ -3,7 +3,8 @@ import { WhatsAppIcon } from "@/components/whatsapp-icon";
 import Link from "next/link";
 import { HomeLink } from "./home-link";
 import { site, whatsappLink } from "@/lib/site";
-import { AccountLink } from "./account-link";
+import { Suspense } from "react";
+import { AccountMenu, MobileAccountLinks, MobileSearchButton, NavLink } from "./header-client";
 import { QuoteCartButton } from "./quote-cart";
 
 const nav = [
@@ -27,18 +28,15 @@ export function SiteHeader() {
             <ul className="flex gap-7 whitespace-nowrap text-[15px] font-medium text-marinho/70">
               {nav.map((item) => (
                 <li key={item.href}>
-                  <Link
-                    href={item.href}
-                    className="relative py-2 transition-colors after:absolute after:inset-x-0 after:-bottom-0.5 after:h-0.5 after:origin-center after:scale-x-0 after:rounded-full after:bg-laranja after:transition-transform after:duration-300 hover:text-profundo hover:after:scale-x-100"
-                  >
-                    {item.label}
-                  </Link>
+                  <Suspense fallback={<Link href={item.href} className="py-2">{item.label}</Link>}>
+                    <NavLink href={item.href} label={item.label} />
+                  </Suspense>
                 </li>
               ))}
             </ul>
           </nav>
 
-          <form action="/catalogo" role="search" className="header-search ml-auto hidden lg:block">
+          <form action="/catalogo" role="search" className="header-search ml-auto hidden xl:block">
             <label htmlFor="header-q" className="sr-only">
               Buscar no catálogo
             </label>
@@ -54,21 +52,19 @@ export function SiteHeader() {
             </div>
           </form>
 
-          <div className="ml-auto flex items-center gap-2 lg:ml-0">
+          <div className="ml-auto flex items-center gap-2 xl:ml-0">
             {/* Lupa no celular e tablet: leva à busca do catálogo */}
-            <Link
-              href="/catalogo#busca"
-              aria-label="Buscar no catálogo"
-              className="grid size-11 place-items-center rounded-lg border border-profundo/10 text-profundo lg:hidden"
-            >
-              <span className="icon">search</span>
-            </Link>
+            <Suspense>
+              <MobileSearchButton className="size-11 place-items-center rounded-md border border-profundo/10 text-profundo transition-colors hover:border-profundo/30 hover:bg-offwhite" />
+            </Suspense>
             <QuoteCartButton />
-            <span aria-hidden className="mx-1 hidden h-7 w-px bg-profundo/10 sm:block" />
-            <AccountLink />
+            <span aria-hidden className="mx-1 hidden h-7 w-px bg-profundo/10 md:block" />
+            <Suspense>
+              <AccountMenu />
+            </Suspense>
             {/* Menu do celular sem JavaScript: <details> abre e fecha nativamente. */}
             <details className="group relative md:hidden">
-              <summary className="grid size-11 cursor-pointer list-none place-items-center rounded-lg border border-profundo/10 text-profundo [&::-webkit-details-marker]:hidden">
+              <summary className="grid size-11 place-items-center rounded-md border border-profundo/10 text-profundo transition-colors hover:border-profundo/30 hover:bg-offwhite cursor-pointer list-none [&::-webkit-details-marker]:hidden">
                 <span className="icon group-open:hidden">menu</span>
                 <span className="icon hidden group-open:inline">close</span>
                 <span className="sr-only">Menu</span>
@@ -92,11 +88,16 @@ export function SiteHeader() {
                 <ul>
                   {nav.map((item) => (
                     <li key={item.href}>
-                      <Link href={item.href} className="block rounded-lg px-3 py-2.5 font-medium text-profundo hover:bg-offwhite">
-                        {item.label}
-                      </Link>
+                      <Suspense fallback={<Link href={item.href} className="block px-3 py-2.5 font-medium text-profundo">{item.label}</Link>}>
+                        <NavLink href={item.href} label={item.label} mobile />
+                      </Suspense>
                     </li>
                   ))}
+                  <li className="mt-2 border-t border-profundo/10 pt-2">
+                    <Suspense>
+                      <MobileAccountLinks />
+                    </Suspense>
+                  </li>
                   <li className="mt-2 border-t border-profundo/10 pt-2">
                     <a
                       href={whatsappLink("Olá, Qualilan! Gostaria de um orçamento.")}

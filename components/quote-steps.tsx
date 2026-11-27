@@ -106,10 +106,11 @@ export function QuoteSteps() {
       <div className="mx-auto grid max-w-6xl gap-14 px-5 lg:grid-cols-[0.8fr_1.2fr]">
         <div className="lg:sticky lg:top-32 lg:self-start">
           <h2 className="text-3xl font-bold tracking-[-0.02em] text-profundo md:text-[2.5rem] md:leading-[1.1]">
-            Orçamento sem cadastro, direto no WhatsApp
+            Peça orçamento sem criar conta
           </h2>
           <p className="mt-4 text-[17px] leading-relaxed text-marinho/65">
-            Sem carrinho e sem login. Você monta a lista no site e conversa com quem vai atender o seu pedido.
+            Você monta a lista no site e envia pelo WhatsApp, direto para quem vai atender o pedido, ou por e-mail, se a
+            sua empresa precisa do registro. Com uma conta (opcional), seus orçamentos ficam guardados para pedir de novo.
           </p>
           <Link
             href="/catalogo"

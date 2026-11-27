@@ -89,7 +89,8 @@ export function NetworkMap() {
         <circle cx={hub.x} cy={hub.y} r="100" fill="none" stroke="#FF9900" strokeOpacity="0.8" strokeWidth="7" className="node-ping" />
         <circle cx={hub.x} cy={hub.y} r="48" fill="#FF9900" />
         <circle cx={hub.x} cy={hub.y} r="18" fill="#121744" />
-        <Pill x={hub.x - 100} y={hub.y - 160} text="Campinas" tone="hub" />
+        {/* Etiqueta logo acima do ponto laranja (antes ficava afastada, perto de Bauru) */}
+        <Pill x={hub.x} y={hub.y - 130} text="Campinas" tone="hub" />
       </svg>
   );
 }

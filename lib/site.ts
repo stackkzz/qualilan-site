@@ -69,9 +69,11 @@ export const units = [
 ];
 
 // Endereço em duas linhas: rua e número / o resto (bairro, cidade, CEP).
+// Rua e número; bairro, cidade e UF; CEP (exibido sem quebrar no meio).
 export function addressLines(address: string) {
   const parts = address.split(", ");
-  return [parts.slice(0, 2).join(", "), parts.slice(2).join(", ")] as const;
+  const cep = /^\d{5}-\d{3}$/.test(parts.at(-1) ?? "") ? parts.pop()! : "";
+  return [parts.slice(0, 2).join(", "), parts.slice(2).join(", "), cep] as const;
 }
 
 export const telHref = (phone: string) => `tel:+55${phone.replace(/\D/g, "")}`;
@@ -109,7 +111,7 @@ export function brandLogo(brand: string | null) {
 }
 
 export const differentials = [
-  { icon: "workspace_premium", title: "Mais de 25 anos de experiência", text: "Experiência em projetos de empresas de todos os portes." },
+  { icon: "workspace_premium", title: "25 anos de experiência", text: "Experiência em projetos de empresas de todos os portes." },
   { icon: "warehouse", title: "Distribuidor de soluções tecnológicas", text: "Parceiro comercial de marcas nacionais e internacionais." },
   { icon: "support_agent", title: "Atendimento consultivo", text: "Projetos personalizados para a necessidade real de cada cliente." },
   { icon: "savings", title: "Custo-benefício e pronta entrega", text: "Preço competitivo e estoque para atender rápido." },

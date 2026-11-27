@@ -32,26 +32,7 @@ function Card({ t, full }: { t: Testimonial; full?: boolean }) {
   );
 }
 
-// Duas faixas em sentidos opostos; a segunda cópia de cada faixa só existe para o loop ficar contínuo.
-function Row({ items, reverse }: { items: Testimonial[]; reverse?: boolean }) {
-  return (
-    <div className="marquee overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_6%,black_94%,transparent)]">
-      <ul className={`marquee-track marquee-slow flex w-max items-stretch gap-5 py-2 ${reverse ? "marquee-reverse" : ""}`}>
-        {[...items, ...items].map((t, i) => {
-          const copy = i >= items.length;
-          return (
-            <li key={i} aria-hidden={copy || undefined} className={copy ? "marquee-copy shrink-0" : "shrink-0"}>
-              <Card t={t} />
-            </li>
-          );
-        })}
-      </ul>
-    </div>
-  );
-}
-
 export function TestimonialsMarquee() {
-  const half = Math.ceil(testimonials.length / 2);
   return (
     <section className="border-t border-profundo/10 bg-white py-24 md:py-32">
       <div className="mx-auto flex max-w-6xl flex-col justify-between gap-6 px-5 md:flex-row md:items-end">
@@ -70,23 +51,25 @@ export function TestimonialsMarquee() {
           </span>
         </div>
       </div>
-      {/* Meio-termo: no computador as faixas rolam (e param com o mouse em cima); no celular, 3 depoimentos fixos */}
-      <div className="mt-12 hidden space-y-5 md:block">
-        <Row items={testimonials.slice(0, half)} />
-        <Row items={testimonials.slice(half)} reverse />
-      </div>
-      <div className="mt-10 space-y-4 px-5 md:hidden">
-        {testimonials.slice(0, 3).map((t) => (
-          <Card key={t.name} t={t} full />
-        ))}
+      {/* Grade fixa (antes as faixas rolavam sozinhas e cortavam cards nas bordas): 6 no computador, 3 no celular */}
+      <div className="mx-auto mt-12 max-w-6xl px-5">
+        <ul className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+          {testimonials.slice(0, 6).map((t, i) => (
+            <li key={t.name} className={i >= 3 ? "hidden md:block" : undefined}>
+              <Card t={t} full />
+            </li>
+          ))}
+        </ul>
         <a
           href="https://www.google.com/maps/search/?api=1&query=Qualilan%20Bauru"
           target="_blank"
           rel="noopener"
-          className="flex items-center justify-center gap-1 rounded-full border-2 border-profundo/15 px-5 py-3 font-semibold text-profundo"
+          className="mx-auto mt-8 flex w-fit items-center justify-center gap-1 rounded-full border-2 border-profundo/15 px-5 py-3 font-semibold text-profundo hover:border-profundo"
         >
           Ver todas as avaliações no Google
-          <span className="icon text-xl!">chevron_right</span>
+          <span aria-hidden className="icon text-xl!">
+            chevron_right
+          </span>
         </a>
       </div>
     </section>

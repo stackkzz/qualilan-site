@@ -4,10 +4,11 @@ import Image from "next/image";
 import { useState } from "react";
 import { cases } from "@/lib/site";
 
-const thumb = (id: string) => `https://i.ytimg.com/vi/${id}/hqdefault.jpg`;
+// Miniatura 16:9 (320×180), sem as faixas pretas da versão 4:3.
+const thumb = (id: string) => `https://i.ytimg.com/vi/${id}/mqdefault.jpg`;
 // Capa grande em 1280×720; alguns vídeos antigos não têm essa versão no YouTube.
 const cover = (c: (typeof cases)[number]) =>
-  c.lowResOnly ? thumb(c.id) : `https://i.ytimg.com/vi/${c.id}/maxresdefault.jpg`;
+  c.lowResOnly ? `https://i.ytimg.com/vi/${c.id}/hqdefault.jpg` : `https://i.ytimg.com/vi/${c.id}/maxresdefault.jpg`;
 
 // Player principal + lista ao lado. Clicar na lista (ou nas setas) troca o vídeo em destaque.
 // O player do YouTube só carrega quando a pessoa clica em play.
@@ -76,10 +77,11 @@ export function VideoCases() {
                   <Image
                     key={current.id}
                     src={cover(current)}
-                    alt=""
+                    alt={`Capa do case ${current.client}`}
                     fill
                     sizes="(min-width: 1024px) 700px, 100vw"
-                    className="case-swap object-cover transition-transform duration-700 group-hover:scale-105"
+                    // Capa sem versão grande: inteira e no tamanho dela, sem esticar.
+                    className={`case-swap transition-transform duration-700 group-hover:scale-105 ${current.lowResOnly ? "object-contain" : "object-cover"}`}
                   />
                   <span aria-hidden className="absolute inset-0 bg-gradient-to-t from-marinho/85 via-marinho/10 to-transparent" />
                   <span
@@ -115,7 +117,7 @@ export function VideoCases() {
                     }`}
                   >
                     <span className="relative aspect-video w-full shrink-0 overflow-hidden rounded-lg bg-marinho lg:w-32">
-                      <Image src={thumb(c.id)} alt="" fill sizes="(min-width: 1024px) 128px, 224px" className="object-cover" />
+                      <Image src={thumb(c.id)} alt={`Capa do case ${c.client}`} fill sizes="(min-width: 1024px) 128px, 224px" className="object-cover" />
                       {isActive && (
                         <span className="absolute inset-0 grid place-items-center bg-profundo/50">
                           <span className="icon icon-fill text-2xl! text-laranja">{playing ? "graphic_eq" : "play_circle"}</span>

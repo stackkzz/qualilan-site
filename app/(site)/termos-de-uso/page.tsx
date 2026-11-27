@@ -15,7 +15,7 @@ export default function TermsPage() {
       <h2>Sobre este site</h2>
       <p>
         Este site é o catálogo da Qualilan Distribuidora. Ele apresenta os produtos com que trabalhamos e permite montar
-        uma lista para pedir orçamento pelo WhatsApp. Não há venda, pagamento nem cadastro pelo site.
+        uma lista para pedir orçamento pelo WhatsApp ou por e-mail. Não há venda nem pagamento pelo site.
       </p>
 
       <h2>Produtos, preços e disponibilidade</h2>
@@ -25,7 +25,15 @@ export default function TermsPage() {
         <li>As imagens são ilustrativas. Confira as especificações técnicas com a nossa equipe antes de fechar o pedido.</li>
       </ul>
 
-      <h2>Orçamento pelo WhatsApp</h2>
+      <h2>Conta de cliente</h2>
+      <ul>
+        <li>A conta é opcional e serve para guardar seus dados e o histórico de orçamentos.</li>
+        <li>Os dados informados precisam ser verdadeiros. O CPF ou CNPJ não pode ser trocado depois do cadastro; para corrigir, fale com a Central SAC.</li>
+        <li>Você é responsável por manter a senha em segredo. Se suspeitar de uso indevido, troque a senha e avise a nossa equipe.</li>
+        <li>Podemos suspender contas com dados falsos ou uso indevido. Você pode excluir a sua conta quando quiser em Meus dados.</li>
+      </ul>
+
+      <h2>Orçamento pelo WhatsApp ou por e-mail</h2>
       <p>
         Enviar a lista não gera compromisso de compra. O pedido só é fechado depois que você aprova o orçamento com a
         nossa equipe.

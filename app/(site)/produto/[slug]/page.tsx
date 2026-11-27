@@ -10,6 +10,30 @@ import { ProductGrid } from "@/components/product-card";
 import { AddAllToQuote, AddToQuote } from "@/components/quote-cart";
 import { complementsFor, getCategory, getProduct, getProducts, sortForDisplay } from "@/lib/catalog";
 import { brandLogo, site, whatsappLink } from "@/lib/site";
+import { parseSpecs, splitSpec } from "@/lib/specs";
+
+// Linhas da ficha: "Chave: valor" em duas colunas; o resto como texto corrido. Sem caixa com rolagem própria.
+function SpecList({ items }: { items: string[] }) {
+  return (
+    <dl className="mt-4 divide-y divide-profundo/10 border-y border-profundo/10 text-sm">
+      {items.map((line, i) => {
+        const pair = splitSpec(line);
+        return (
+          <div key={i} className="grid gap-1 py-3 sm:grid-cols-[220px_1fr] sm:gap-6">
+            {pair ? (
+              <>
+                <dt className="font-medium text-profundo">{pair[0]}</dt>
+                <dd className="text-marinho/80">{pair[1]}</dd>
+              </>
+            ) : (
+              <dd className="text-marinho/80 sm:col-span-2">{line}</dd>
+            )}
+          </div>
+        );
+      })}
+    </dl>
+  );
+}
 
 export async function generateStaticParams() {
   return (await getProducts()).map((p) => ({ slug: p.slug }));
@@ -41,6 +65,7 @@ async function ProductPageContent({ params }: { params: PageProps<"/produto/[slu
   const logo = brandLogo(product.brand);
   const all = await getProducts();
   const together = complementsFor(product, all);
+  const specs = parseSpecs(product.description ?? "");
   const related = sortForDisplay(
     all.filter((p) => p.category === product.category && p.slug !== product.slug && !together.includes(p)),
   ).slice(0, 4);
@@ -55,7 +80,7 @@ async function ProductPageContent({ params }: { params: PageProps<"/produto/[slu
   };
 
   return (
-    <div className="bg-offwhite">
+    <main className="bg-offwhite">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }}
@@ -125,29 +150,11 @@ async function ProductPageContent({ params }: { params: PageProps<"/produto/[slu
               <dt className="text-marinho/60">Disponibilidade</dt>
               <dd className={`flex items-center gap-1.5 font-medium ${product.inStock ? "text-emerald-700" : "text-marinho/70"}`}>
                 <span className="icon text-lg!">{product.inStock ? "check" : "inventory_2"}</span>
-                {product.inStock ? "Pronta entrega" : "Sob consulta"}
+                {product.inStock ? "Em estoque" : "Sob consulta"}
               </dd>
             </dl>
-            {product.brand === "Lightera" && (
-              <div className="mt-6">
-                <LighteraNotice />
-              </div>
-            )}
-            {product.description && (
-              <details open className="group mt-6 rounded-xl border border-profundo/10 bg-white">
-                <summary className="flex cursor-pointer list-none items-center justify-between px-4 py-3 font-semibold text-profundo [&::-webkit-details-marker]:hidden">
-                  Especificações
-                  <span className="icon transition-transform group-open:rotate-90">chevron_right</span>
-                </summary>
-                {/* Texto da ficha da loja antiga, linha a linha */}
-                <p className="max-h-96 overflow-y-auto whitespace-pre-line px-4 pb-4 text-sm leading-relaxed text-marinho/80">
-                  {product.description}
-                </p>
-              </details>
-            )}
-
-            <div className="mt-auto flex flex-col gap-3 pt-10 xl:flex-row">
-              <AddToQuote product={{ slug: product.slug, name: product.name, sku: product.sku, image: product.image }} />
+            <div className="mt-8 flex flex-col gap-3 xl:flex-row">
+              <AddToQuote product={{ slug: product.slug, name: product.name, sku: product.sku, image: product.image, unit: product.unit }} />
               <a
                 href={whatsappLink(
                   `Olá, Qualilan! Gostaria de um orçamento de: ${product.name}${product.sku ? ` (cód. ${product.sku})` : ""}`,
@@ -166,8 +173,33 @@ async function ProductPageContent({ params }: { params: PageProps<"/produto/[slu
               <span className="icon text-lg! text-royal">schedule</span>
               Atendimento: {site.hours.toLowerCase()}
             </p>
+            {product.brand === "Lightera" && (
+              <div className="mt-6">
+                <LighteraNotice />
+              </div>
+            )}
+
           </div>
         </div>
+
+        {specs.length > 0 && (
+          <section className="mt-10 rounded-3xl bg-white p-6 md:p-10">
+            <h2 className="text-2xl font-bold tracking-tight text-profundo">Ficha técnica</h2>
+            <SpecList items={specs.slice(0, 8)} />
+            {specs.length > 8 && (
+              <details className="group">
+                <summary className="mt-4 inline-flex cursor-pointer list-none items-center gap-1 text-sm font-semibold text-royal hover:underline [&::-webkit-details-marker]:hidden">
+                  <span className="group-open:hidden">Ver ficha completa ({specs.length - 8} itens a mais)</span>
+                  <span className="hidden group-open:inline">Mostrar menos</span>
+                  <span aria-hidden className="icon text-lg! transition-transform group-open:rotate-90">
+                    chevron_right
+                  </span>
+                </summary>
+                <SpecList items={specs.slice(8)} />
+              </details>
+            )}
+          </section>
+        )}
 
         {together.length > 0 && (
           <section className="mt-16 rounded-3xl bg-white p-6 md:p-8">
@@ -191,6 +223,6 @@ async function ProductPageContent({ params }: { params: PageProps<"/produto/[slu
           </section>
         )}
       </div>
-    </div>
+    </main>
   );
 }

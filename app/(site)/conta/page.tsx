@@ -9,7 +9,7 @@ import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { signOutCustomer } from "./actions";
 import { loadProfile } from "./data";
 import { CurrentList, ReorderButton, SignInForm } from "./forms";
-import { AccountShell, panel } from "./shell";
+import { AccountShell, AuthScreen, panel, Perks, safeNext } from "./shell";
 
 export const metadata: Metadata = {
   title: "Minha conta | Qualilan",
@@ -18,57 +18,31 @@ export const metadata: Metadata = {
 
 type Item = { slug: string; name: string; sku: string | null; qty: number };
 
-const perks = [
-  { icon: "history", title: "Histórico de orçamentos", text: "Tudo o que você pediu, pelo WhatsApp ou por e-mail, num lugar só." },
-  { icon: "replay", title: "Pedir de novo", text: "Os itens de um orçamento antigo voltam para a lista em um clique." },
-  { icon: "badge", title: "Cadastro salvo", text: "O pedido por e-mail já vem preenchido com os dados da empresa." },
-];
-
 const plural = (n: number, one: string, many: string) => `${n} ${n === 1 ? one : many}`;
 
-function SignedOut({ linkError }: { linkError: boolean }) {
+function SignedOut({ linkError, deleted, next }: { linkError: boolean; deleted: boolean; next?: string }) {
   return (
-    <AccountShell
-      title="Minha conta"
-      intro="Entre para ver seus orçamentos e pedir de novo. A conta é opcional: a lista e o WhatsApp funcionam sem login."
-      width="max-w-5xl"
-    >
-      <div className="grid items-start gap-10 md:grid-cols-[minmax(0,420px)_1fr] md:gap-14">
-        <section className={panel}>
-          <h2 className="text-xl font-bold text-profundo">Já sou cliente</h2>
-          <p className="mb-6 mt-1 text-sm text-marinho/60">Entre com o e-mail e a senha da sua conta.</p>
-          {linkError && (
-            <p role="alert" className="mb-5 rounded-xl bg-red-50 px-4 py-3 text-sm text-red-800">
-              O link expirou ou já foi usado. Entre com sua senha ou peça outro em “Esqueceu a sua senha?”.
-            </p>
-          )}
-          <SignInForm />
-        </section>
-
-        <section className="md:pt-24">
-          <h2 className="text-xl font-bold text-profundo">Primeira vez aqui?</h2>
-          <p className="mt-1 text-marinho/65">Crie a conta em um minuto, com CPF ou CNPJ.</p>
-          <ul className="mt-7 space-y-6">
-            {perks.map((p) => (
-              <li key={p.icon} className="flex gap-4">
-                <span className="grid size-11 shrink-0 place-items-center rounded-xl bg-royal/10 text-royal">
-                  <span className="icon">{p.icon}</span>
-                </span>
-                <span>
-                  <span className="block font-semibold text-profundo">{p.title}</span>
-                  <span className="mt-0.5 block text-sm leading-relaxed text-marinho/65">{p.text}</span>
-                </span>
-              </li>
-            ))}
-          </ul>
-          <Link
-            href="/conta/criar"
-            className="mt-8 inline-flex h-12 items-center gap-2 rounded-xl border-2 border-profundo px-6 text-[15px] font-semibold text-profundo transition-colors hover:bg-profundo hover:text-white"
-          >
-            Criar conta
-          </Link>
-        </section>
-      </div>
+    <AccountShell title="Entrar" intro="Veja seus orçamentos e peça de novo. A lista e o WhatsApp continuam funcionando sem conta." width="max-w-5xl">
+      <AuthScreen
+        card={
+          <>
+            <h2 className="text-xl font-bold text-profundo">Já tenho conta</h2>
+            <p className="mb-6 mt-1 text-sm text-marinho/60">Entre com o e-mail e a senha da sua conta.</p>
+            {linkError && (
+              <p role="alert" className="mb-5 rounded-md bg-red-50 px-4 py-3 text-sm text-red-800">
+                O link expirou ou já foi usado. Entre com sua senha ou peça outro em “Esqueceu a sua senha?”.
+              </p>
+            )}
+            {deleted && (
+              <p role="status" className="mb-5 rounded-md bg-emerald-50 px-4 py-3 text-sm text-emerald-900">
+                Sua conta foi excluída.
+              </p>
+            )}
+            <SignInForm next={next} />
+          </>
+        }
+        side={<Perks title="Para que serve a conta" intro="É opcional e leva um minuto para criar, com CNPJ ou CPF." />}
+      />
     </AccountShell>
   );
 }
@@ -78,7 +52,7 @@ async function Account({ searchParams }: { searchParams: PageProps<"/conta">["se
   const { data } = await supabase.auth.getUser();
   const user = data.user;
   const params = await searchParams;
-  if (!user) return <SignedOut linkError={params.erro === "link"} />;
+  if (!user) return <SignedOut linkError={params.erro === "link"} deleted={params.excluida === "1"} next={safeNext(params.next)} />;
 
   const [profile, { data: requests }] = await Promise.all([
     loadProfile(supabase, user),
@@ -98,25 +72,12 @@ async function Account({ searchParams }: { searchParams: PageProps<"/conta">["se
 
   return (
     <AccountShell
-      title={firstName ? `Olá, ${firstName}` : "Minha conta"}
-      intro={pj && profile?.company ? profile.company : user.email}
-      aside={
-        <div className="flex flex-wrap items-center gap-3">
-          <CurrentList />
-          <form action={signOutCustomer}>
-            <button
-              type="submit"
-              className="inline-flex items-center gap-1.5 rounded-xl px-3 py-2.5 text-sm font-semibold text-white/70 transition-colors hover:bg-white/10 hover:text-white"
-            >
-              <span className="icon text-lg!">logout</span>
-              Sair
-            </button>
-          </form>
-        </div>
-      }
+      title={pj && profile?.company ? profile.company : firstName ? `Olá, ${firstName}` : "Minha conta"}
+      intro={pj && firstName ? `${[profile?.name, profile?.last_name].filter(Boolean).join(" ")}, ${user.email}` : user.email}
+      aside={<CurrentList />}
     >
       {params.senha === "ok" && (
-        <p role="status" className="mb-6 flex items-center gap-2 rounded-xl bg-emerald-50 px-4 py-3 text-sm font-medium text-emerald-900 shadow-sm">
+        <p role="status" className="mb-6 flex items-center gap-2 rounded-md bg-emerald-50 px-4 py-3 text-sm font-medium text-emerald-900 shadow-sm">
           <span className="icon icon-fill text-lg!">check_circle</span>
           Senha alterada.
         </p>
@@ -273,7 +234,7 @@ async function Account({ searchParams }: { searchParams: PageProps<"/conta">["se
             </Link>
           </section>
 
-          <section className="rounded-2xl border border-profundo/10 p-6">
+          <section className="rounded-xl border border-profundo/10 p-6">
             <h2 className="font-bold text-profundo">Falar com a Qualilan</h2>
             <p className="mt-1 text-sm text-marinho/60">{site.hours}.</p>
             <a
@@ -293,6 +254,15 @@ async function Account({ searchParams }: { searchParams: PageProps<"/conta">["se
               SAC {site.sac}
             </a>
           </section>
+
+          <form action={signOutCustomer}>
+            <button type="submit" className="inline-flex items-center gap-1.5 text-sm font-semibold text-marinho/60 hover:text-profundo">
+              <span aria-hidden className="icon text-lg!">
+                logout
+              </span>
+              Sair da conta
+            </button>
+          </form>
         </aside>
       </div>
     </AccountShell>
@@ -301,7 +271,7 @@ async function Account({ searchParams }: { searchParams: PageProps<"/conta">["se
 
 export default function AccountPage({ searchParams }: PageProps<"/conta">) {
   return (
-    <Suspense fallback={<PageLoader />}>
+    <Suspense fallback={<PageLoader label="Carregando sua conta…" />}>
       <Account searchParams={searchParams} />
     </Suspense>
   );

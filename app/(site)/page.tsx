@@ -72,7 +72,7 @@ export default function Home() {
             os portes.
           </p>
 
-          <form action="/catalogo" role="search" style={{ "--i": 2 } as React.CSSProperties} className="hero-in mt-10 max-w-xl">
+          <form id="hero-search" action="/catalogo" role="search" style={{ "--i": 2 } as React.CSSProperties} className="hero-in mt-10 max-w-xl">
             <label htmlFor="q" className="sr-only">
               Buscar no catálogo
             </label>
@@ -109,27 +109,6 @@ export default function Home() {
                 {c.name}
               </Link>
             ))}
-          </div>
-        </div>
-        <div aria-hidden className="pointer-events-none absolute inset-y-0 right-0 hidden w-[38%] lg:block">
-          <div className="float-a absolute right-[18%] top-[26%] flex items-center gap-3 rounded-xl border border-white/15 bg-[#2A2F66]/90 px-4 py-3 text-sm text-white">
-            <span className="grid size-9 place-items-center rounded-lg bg-laranja text-profundo">
-              <span className="icon text-xl!">verified</span>
-            </span>
-            <span>
-              <span className="block font-semibold">Distribuidor autorizado</span>
-              <span className="text-white/70">das marcas líderes</span>
-            </span>
-          </div>
-          <div className="float-b absolute bottom-[22%] right-[30%] flex items-center gap-3 rounded-xl border border-white/15 bg-[#2A2F66]/90 px-4 py-3 text-sm text-white">
-            <span className="relative flex size-2.5">
-              <span className="absolute inline-flex size-full rounded-full bg-[#25d366] opacity-75 motion-safe:animate-ping" />
-              <span className="relative inline-flex size-2.5 rounded-full bg-[#25d366]" />
-            </span>
-            <span>
-              <span className="block font-semibold">Orçamento pelo WhatsApp</span>
-              <span className="text-white/70">monte a lista no site</span>
-            </span>
           </div>
         </div>
       </section>
@@ -220,6 +199,9 @@ export default function Home() {
                     {addressLines(u.address)[0]}
                     <br />
                     {addressLines(u.address)[1]}
+                    {addressLines(u.address)[2] && (
+                      <span className="block whitespace-nowrap">CEP {addressLines(u.address)[2]}</span>
+                    )}
                   </address>
                   <div className="mt-5 space-y-2 border-t border-profundo/10 pt-4">
                     <a href={telHref(u.phone)} className="flex items-center gap-2 font-semibold hover:underline">
@@ -352,7 +334,7 @@ async function CategoriesSection() {
           <div className="flex flex-col justify-between gap-6 md:flex-row md:items-end">
             <SectionHeading
               title={`Mais de ${total} produtos para o seu projeto`}
-              text="Do cabo ao rack, do switch à câmera. Monte sua lista e receba o orçamento pelo WhatsApp."
+              text="Do cabo ao switch, da fibra à câmera. Monte sua lista e receba o orçamento pelo WhatsApp ou por e-mail."
             />
             <Link href="/catalogo" className="shrink-0 font-semibold text-royal hover:text-profundo">
               Ver todo o catálogo
@@ -372,6 +354,20 @@ async function CategoriesSection() {
                 </Link>
               </li>
             ))}
+            {/* Fecha a grade (11 categorias + este = 12, sem buraco em 2, 3 ou 4 colunas) */}
+            <li className="border-b border-r border-profundo/10">
+              <Link
+                href="/catalogo"
+                className="group flex h-full flex-col items-start gap-3 bg-profundo px-4 py-5 text-white transition-colors hover:bg-royal sm:flex-row sm:items-center sm:gap-4 sm:px-5 sm:py-6"
+              >
+                <span className="grid size-11 shrink-0 place-items-center rounded-lg bg-white/10 text-amarelo">
+                  <span aria-hidden className="icon">
+                    grid_view
+                  </span>
+                </span>
+                <span className="font-semibold leading-snug">Ver todo o catálogo</span>
+              </Link>
+            </li>
           </ul>
         </div>
       </section>

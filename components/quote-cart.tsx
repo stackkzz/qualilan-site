@@ -5,10 +5,22 @@ import Link from "next/link";
 import { createContext, useContext, useEffect, useRef, useState, type ReactNode } from "react";
 import { categories, site } from "@/lib/site";
 import { logWhatsappQuote } from "@/app/(site)/conta/actions";
+import { currentProducts } from "@/app/(site)/lista-actions";
 import { EmailQuoteForm } from "./email-quote-form";
 import { WhatsAppIcon, whatsappButtonClass } from "./whatsapp-icon";
 
-export type QuoteItem = { slug: string; name: string; sku: string | null; image?: string | null; qty: number };
+export type QuoteItem = {
+  slug: string;
+  name: string;
+  sku: string | null;
+  image?: string | null;
+  unit?: string | null;
+  gone?: boolean; // saiu do catálogo
+  qty: number;
+};
+
+// Unidade da quantidade: produtos vendidos por caixa ou rolo; o resto por unidade.
+export const unitLabel = (unit?: string | null) => (unit?.startsWith("caixa") ? "cx" : unit?.startsWith("rolo") ? "rolo" : "un.");
 
 type QuoteState = {
   items: QuoteItem[];
@@ -31,7 +43,7 @@ export function useQuote() {
 }
 
 export function buildQuoteMessage(items: QuoteItem[]) {
-  const lines = items.map((i) => `• ${i.qty}x ${i.name}${i.sku ? ` (cód. ${i.sku})` : ""}`);
+  const lines = items.map((i) => `• ${i.qty} ${unitLabel(i.unit)} ${i.name}${i.unit ? ` (${i.unit})` : ""}${i.sku ? ` (cód. ${i.sku})` : ""}`);
   return ["Olá, Qualilan! Gostaria de um orçamento destes itens:", "", ...lines, "", "Enviado pelo site."].join("\n");
 }
 
@@ -54,9 +66,23 @@ export function QuoteProvider({ children }: { children: ReactNode }) {
   const dialogRef = useRef<HTMLDialogElement>(null);
 
   useEffect(() => {
+    const stored = readStorage();
     // eslint-disable-next-line react-hooks/set-state-in-effect -- localStorage só existe no cliente
-    setItems(readStorage());
+    setItems(stored);
     setLoaded(true);
+    if (!stored.length) return;
+    // Nome, foto e unidade atuais do catálogo; o que saiu do catálogo fica marcado na lista.
+    currentProducts(stored.map((i) => i.slug))
+      .then((fresh) => {
+        const bySlug = new Map(fresh.map((f) => [f.slug, f]));
+        setItems((prev) =>
+          prev.map((i) => {
+            const f = bySlug.get(i.slug);
+            return f ? { ...i, ...f, gone: false } : { ...i, gone: true };
+          }),
+        );
+      })
+      .catch(() => {});
   }, []);
 
   useEffect(() => {
@@ -116,6 +142,9 @@ function QtyStepper({ item }: { item: QuoteItem }) {
         onChange={(e) => setQty(item.slug, e.target.valueAsNumber)}
         className="w-12 bg-transparent text-center text-sm font-semibold tabular-nums text-profundo outline-none [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none"
       />
+      <span aria-hidden className="-ml-1 pr-1 text-xs text-marinho/55">
+        {unitLabel(item.unit)}
+      </span>
       <button type="button" className={btn} aria-label={`Aumentar quantidade de ${item.name}`} onClick={() => setQty(item.slug, item.qty + 1)}>
         <span className="icon text-lg!">add</span>
       </button>
@@ -194,7 +223,7 @@ function QuoteDialog({ ref }: { ref: React.RefObject<HTMLDialogElement | null> }
           <div className="flex flex-1 flex-col items-center justify-center px-8 text-center">
             <span className="relative grid size-24 place-items-center rounded-full bg-royal/8 text-royal">
               <span className="absolute inset-0 rounded-full border-2 border-dashed border-royal/20" />
-              <span className="icon text-5xl!">shopping_cart</span>
+              <span aria-hidden className="icon text-5xl!">list_alt</span>
             </span>
             <p className="mt-6 text-lg font-semibold text-profundo">Sua lista está vazia</p>
             <p className="mt-2 text-sm leading-relaxed text-marinho/60">
@@ -237,7 +266,8 @@ function QuoteDialog({ ref }: { ref: React.RefObject<HTMLDialogElement | null> }
                   </div>
                   <div className="min-w-0 flex-1">
                     <p className="line-clamp-2 text-[13px] font-medium leading-snug text-profundo">{i.name}</p>
-                    {i.sku && <p className="mt-0.5 text-xs text-marinho/50">Cód. {i.sku}</p>}
+                    {i.sku && <p className="mt-0.5 text-xs text-marinho/50">Cód. {i.sku}{i.unit ? `, ${i.unit}` : ""}</p>}
+                    {i.gone && <p className="mt-1 text-xs font-medium text-red-700">Saiu do catálogo. Confirme com o vendedor ou remova.</p>}
                     <div className="mt-2 flex items-center justify-between gap-2">
                       <QtyStepper item={i} />
                       <RemoveItem item={i} />
@@ -311,9 +341,12 @@ export function QuoteCartButton() {
       type="button"
       onClick={open}
       aria-label={count ? `Abrir lista de orçamento, ${plural(count, "item", "itens")}` : "Abrir lista de orçamento"}
-      className="relative grid size-11 place-items-center rounded-xl border border-profundo/10 text-profundo transition-colors hover:border-profundo/30 hover:bg-offwhite"
+      className="relative flex h-11 min-w-11 items-center justify-center gap-2 rounded-md border border-profundo/10 px-2.5 text-sm font-semibold text-profundo transition-colors hover:border-profundo/30 hover:bg-offwhite"
     >
-      <span className={`icon text-[1.6rem]! ${count ? "icon-fill" : ""}`}>shopping_cart</span>
+      <span aria-hidden className="icon text-[1.5rem]!">
+        list_alt
+      </span>
+      <span className="hidden xl:inline">Orçamento</span>
       {count > 0 && (
         <span
           key={count}
@@ -363,7 +396,7 @@ export function AddToQuote({
   product,
   size = "md",
 }: {
-  product: { slug: string; name: string; sku: string | null; image?: string | null };
+  product: { slug: string; name: string; sku: string | null; image?: string | null; unit?: string | null };
   size?: "sm" | "md";
 }) {
   const { add, items } = useQuote();
@@ -385,7 +418,7 @@ export function AddToQuote({
           : "bg-royal px-6 py-3.5 text-white hover:bg-profundo"
       }`}
     >
-      <span className="icon text-xl!">{justAdded ? "check" : inList ? "shopping_cart" : "add_shopping_cart"}</span>
+      <span className="icon text-xl!">{justAdded ? "check" : inList ? "playlist_add_check" : "playlist_add"}</span>
       <span aria-live="polite">
         {justAdded ? "Adicionado" : inList ? `Na lista (${inList.qty})` : size === "sm" ? "Adicionar" : "Adicionar à lista"}
       </span>

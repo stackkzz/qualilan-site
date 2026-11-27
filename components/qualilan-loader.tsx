@@ -11,7 +11,8 @@ const dots = [
   { size: "size-1.5", color: "bg-laranja/70", duration: "5s" },
 ];
 
-export function QualilanLoader({ className = "" }: { className?: string }) {
+// label: frase fixa no lugar das frases de estoque (ex.: telas de conta).
+export function QualilanLoader({ className = "", label }: { className?: string; label?: string }) {
   return (
     <div role="status" aria-live="polite" className={`flex flex-col items-center gap-6 ${className}`}>
       <div aria-hidden className="relative grid size-32 place-items-center">
@@ -42,21 +43,25 @@ export function QualilanLoader({ className = "" }: { className?: string }) {
 
       <span className="sr-only">Carregando</span>
       <p aria-hidden className="relative h-6 w-60 text-center text-[15px] font-medium text-profundo">
-        {messages.map((m, i) => (
-          <span key={m} className="ql-msg absolute inset-0" style={{ animationDelay: `${i * 2.2}s` }}>
-            {m}
-          </span>
-        ))}
+        {label ? (
+          <span className="absolute inset-0">{label}</span>
+        ) : (
+          messages.map((m, i) => (
+            <span key={m} className="ql-msg absolute inset-0" style={{ animationDelay: `${i * 2.2}s` }}>
+              {m}
+            </span>
+          ))
+        )}
       </p>
     </div>
   );
 }
 
 // Versão de página inteira: centraliza o carregamento na área de conteúdo.
-export function PageLoader({ className = "" }: { className?: string }) {
+export function PageLoader({ className = "", label }: { className?: string; label?: string }) {
   return (
     <div className={`flex min-h-[60dvh] items-center justify-center ${className}`}>
-      <QualilanLoader />
+      <QualilanLoader label={label} />
     </div>
   );
 }
