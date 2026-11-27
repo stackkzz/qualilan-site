@@ -1,4 +1,5 @@
 import { Suspense } from "react";
+import { PageLoader } from "@/components/qualilan-loader";
 import { requireAdmin } from "@/lib/admin";
 import { AdminHeader } from "../admin-header";
 import { setRequestStatus } from "./actions";
@@ -102,7 +103,12 @@ async function RequestList() {
 
 export default function AdminRequestsPage() {
   return (
-    <Suspense fallback={<div className="h-14 bg-profundo" />}>
+    <Suspense fallback={
+        <>
+          <div className="h-14 bg-profundo" />
+          <PageLoader />
+        </>
+      }>
       <RequestList />
     </Suspense>
   );

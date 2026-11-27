@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Suspense } from "react";
+import { PageLoader } from "@/components/qualilan-loader";
 import { requireAdmin } from "@/lib/admin";
 import { formatDate } from "@/lib/blog";
 import { AdminHeader } from "../admin-header";
@@ -72,7 +73,12 @@ async function PostList({ searchParams }: { searchParams: PageProps<"/admin/blog
 
 export default function AdminBlogPage({ searchParams }: PageProps<"/admin/blog">) {
   return (
-    <Suspense fallback={<div className="h-14 bg-profundo" />}>
+    <Suspense fallback={
+        <>
+          <div className="h-14 bg-profundo" />
+          <PageLoader />
+        </>
+      }>
       <PostList searchParams={searchParams} />
     </Suspense>
   );

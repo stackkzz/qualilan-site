@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
+import { PageLoader } from "@/components/qualilan-loader";
 import { LighteraNotice } from "@/components/lightera-notice";
 import { ProductGrid } from "@/components/product-card";
 import { AddToQuote } from "@/components/quote-cart";
@@ -27,7 +28,7 @@ export async function generateMetadata({ params }: PageProps<"/produto/[slug]">)
 // Leitura de params dentro de Suspense: exigência da navegação instantânea (Cache Components).
 export default function ProductPage({ params }: PageProps<"/produto/[slug]">) {
   return (
-    <Suspense fallback={<div className="h-screen bg-offwhite" />}>
+    <Suspense fallback={<PageLoader />}>
       <ProductPageContent params={params} />
     </Suspense>
   );

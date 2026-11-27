@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
+import { PageLoader } from "@/components/qualilan-loader";
 import { requireAdmin } from "@/lib/admin";
 import { AdminHeader } from "../../admin-header";
 import { loadPostCategories } from "../load";
@@ -29,7 +30,12 @@ async function EditPost({ params }: { params: PageProps<"/admin/blog/[id]">["par
 
 export default function EditPostPage({ params }: PageProps<"/admin/blog/[id]">) {
   return (
-    <Suspense fallback={<div className="h-14 bg-profundo" />}>
+    <Suspense fallback={
+        <>
+          <div className="h-14 bg-profundo" />
+          <PageLoader />
+        </>
+      }>
       <EditPost params={params} />
     </Suspense>
   );

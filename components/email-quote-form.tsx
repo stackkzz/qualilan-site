@@ -3,6 +3,7 @@
 import { useActionState } from "react";
 import { sendQuoteRequest } from "@/app/(site)/pedido-actions";
 import { useQuote } from "./quote-cart";
+import { SpinnerRing } from "./qualilan-loader";
 
 const input =
   "w-full rounded-lg border border-profundo/20 bg-white px-3 py-2.5 text-sm outline-none focus:border-royal focus:ring-2 focus:ring-royal/20";
@@ -60,8 +61,9 @@ export function EmailQuoteForm() {
         <button
           type="submit"
           disabled={pending}
-          className="w-full rounded-full bg-profundo px-5 py-3 text-sm font-semibold text-white hover:bg-royal disabled:opacity-60"
+          className="flex w-full items-center justify-center gap-2 rounded-full bg-profundo px-5 py-3 text-sm font-semibold text-white hover:bg-royal disabled:opacity-60"
         >
+          {pending && <SpinnerRing />}
           {pending ? "Enviando…" : "Enviar pedido por e-mail"}
         </button>
       </form>

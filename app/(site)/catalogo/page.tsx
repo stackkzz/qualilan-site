@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Suspense } from "react";
+import { PageLoader } from "@/components/qualilan-loader";
 import { BrandPills } from "@/components/brand-pills";
 import { BrandFilter, CatalogHeader, CatalogSearch, CategoryNav } from "@/components/category-nav";
 import { ProductListing } from "@/components/product-listing";
@@ -77,7 +78,7 @@ async function Catalog({ searchParams }: { searchParams: PageProps<"/catalogo">[
 
 export default function CatalogPage({ searchParams }: PageProps<"/catalogo">) {
   return (
-    <Suspense fallback={<div className="h-screen" />}>
+    <Suspense fallback={<PageLoader />}>
       <Catalog searchParams={searchParams} />
     </Suspense>
   );

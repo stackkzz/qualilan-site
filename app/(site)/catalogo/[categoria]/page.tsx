@@ -3,6 +3,7 @@ import { WhatsAppIcon, whatsappButtonClass } from "@/components/whatsapp-icon";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
+import { PageLoader } from "@/components/qualilan-loader";
 import { BrandPills } from "@/components/brand-pills";
 import { BrandFilter, CatalogHeader, CatalogSearch, CategoryNav } from "@/components/category-nav";
 import { LighteraNotice } from "@/components/lightera-notice";
@@ -26,7 +27,7 @@ const one = (v: string | string[] | undefined) => (Array.isArray(v) ? v[0] : v) 
 
 export default function CategoryPage({ params, searchParams }: PageProps<"/catalogo/[categoria]">) {
   return (
-    <Suspense fallback={<div className="mx-auto h-screen max-w-6xl" />}>
+    <Suspense fallback={<PageLoader />}>
       <CategoryPageContent params={params} searchParams={searchParams} />
     </Suspense>
   );

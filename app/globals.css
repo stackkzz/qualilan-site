@@ -493,3 +493,36 @@ body:has(#catalog-q) .header-search {
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }
+
+/* Carregamento da Qualilan (components/qualilan-loader.tsx). */
+.ql-msg {
+  opacity: 0;
+}
+.ql-msg:first-child {
+  opacity: 1;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .ql-spin {
+    animation: spin 1.6s linear infinite;
+  }
+  .ql-orbit {
+    animation: spin linear infinite reverse;
+  }
+  .ql-breathe {
+    animation: ql-breathe 2.4s ease-in-out infinite;
+  }
+  /* 4 frases, 2,2 s cada: cada uma aparece na sua vez dentro de um ciclo de 8,8 s */
+  .ql-msg,
+  .ql-msg:first-child {
+    opacity: 0;
+    animation: ql-msg 8.8s infinite both;
+  }
+}
+@keyframes ql-breathe {
+  50% { transform: scale(1.08); }
+}
+@keyframes ql-msg {
+  0% { opacity: 0; transform: translateY(6px); }
+  4%, 21% { opacity: 1; transform: none; }
+  25%, 100% { opacity: 0; transform: translateY(-6px); }
+}

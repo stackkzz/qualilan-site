@@ -1,4 +1,5 @@
 import { Suspense } from "react";
+import { PageLoader } from "@/components/qualilan-loader";
 import { requireAdmin } from "@/lib/admin";
 import { AdminHeader } from "../../admin-header";
 import { loadPostCategories } from "../load";
@@ -19,7 +20,12 @@ async function NewPost() {
 
 export default function NewPostPage() {
   return (
-    <Suspense fallback={<div className="h-14 bg-profundo" />}>
+    <Suspense fallback={
+        <>
+          <div className="h-14 bg-profundo" />
+          <PageLoader />
+        </>
+      }>
       <NewPost />
     </Suspense>
   );

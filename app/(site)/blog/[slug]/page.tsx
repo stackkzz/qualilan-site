@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
+import { PageLoader } from "@/components/qualilan-loader";
 import { Markdown } from "@/components/markdown";
 import { PostCard } from "@/components/post-card";
 import { WhatsAppIcon, whatsappButtonDarkClass } from "@/components/whatsapp-icon";
@@ -27,7 +28,7 @@ export async function generateMetadata({ params }: PageProps<"/blog/[slug]">): P
 // Leitura de params dentro de Suspense: exigência da navegação instantânea (Cache Components).
 export default function PostPage({ params }: PageProps<"/blog/[slug]">) {
   return (
-    <Suspense fallback={<div className="h-screen bg-white" />}>
+    <Suspense fallback={<PageLoader />}>
       <PostContent params={params} />
     </Suspense>
   );

@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Suspense } from "react";
+import { PageLoader } from "@/components/qualilan-loader";
 import { requireAdmin } from "@/lib/admin";
 import { getCategory, searchProducts, toProduct } from "@/lib/catalog";
 import { categories } from "@/lib/site";
@@ -115,7 +116,12 @@ async function ProductList({ searchParams }: { searchParams: PageProps<"/admin">
 
 export default function AdminPage({ searchParams }: PageProps<"/admin">) {
   return (
-    <Suspense fallback={<div className="h-14 bg-profundo" />}>
+    <Suspense fallback={
+        <>
+          <div className="h-14 bg-profundo" />
+          <PageLoader />
+        </>
+      }>
       <ProductList searchParams={searchParams} />
     </Suspense>
   );
