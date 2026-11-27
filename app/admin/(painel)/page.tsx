@@ -46,7 +46,7 @@ async function Dashboard() {
     <PageBody>
       <PageHeader title="Início" description="O que precisa da sua atenção hoje no site da Qualilan." />
 
-      <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <ul className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
         {cards.map((c) => (
           <li key={c.label}>
             <Link href={c.href} className={`${panelCard} group flex h-full flex-col p-5 transition-colors hover:border-profundo/30`}>

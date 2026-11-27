@@ -4,7 +4,7 @@ import { Suspense } from "react";
 import { PageLoader } from "@/components/qualilan-loader";
 import { requireAdmin } from "@/lib/admin";
 import { getCategory } from "@/lib/catalog";
-import { inputClass, PageBody, PageHeader, panelCard } from "@/app/admin/ui";
+import { inputClass, PageBody, PageHeader, panelCard, primaryButton } from "@/app/admin/ui";
 import { reviewName } from "./actions";
 
 const one = (v: string | string[] | undefined) => (Array.isArray(v) ? v[0] : v) || undefined;
@@ -66,7 +66,7 @@ async function Review({ searchParams }: { searchParams: PageProps<"/admin/revisa
                   <Link href={`/produto/${p.slug}`} target="_blank" className="px-2 text-sm text-royal hover:underline">
                     Ver
                   </Link>
-                  <button type="submit" className="rounded-full bg-royal px-4 py-2 text-sm font-semibold text-white hover:bg-profundo">
+                  <button type="submit" className={primaryButton}>
                     {p.name_reviewed ? "Salvar" : "Confirmar"}
                   </button>
                 </div>

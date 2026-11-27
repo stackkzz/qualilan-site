@@ -50,7 +50,7 @@ async function PostList({ searchParams }: { searchParams: PageProps<"/admin/blog
                   </p>
                 </div>
                 {!p.published && <span className="rounded-full bg-amarelo/30 px-2.5 py-1 text-xs">Rascunho</span>}
-                <span className="icon text-royal">edit</span>
+                <span className="icon text-xl! text-marinho/30">chevron_right</span>
               </Link>
             </li>
           ))}

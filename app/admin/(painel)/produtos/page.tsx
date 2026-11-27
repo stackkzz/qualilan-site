@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Suspense } from "react";
 import { Flash } from "@/app/admin/flash";
-import { inputClass, PageBody, PageHeader, panelCard, primaryButton } from "@/app/admin/ui";
+import { PageBody, PageHeader, panelCard, primaryButton } from "@/app/admin/ui";
 import { PageLoader } from "@/components/qualilan-loader";
 import { requireAdmin } from "@/lib/admin";
 import { getCategory, searchProducts, toProduct } from "@/lib/catalog";
@@ -59,7 +59,7 @@ async function ProductList({ searchParams }: { searchParams: PageProps<"/admin/p
         <label htmlFor="admin-cat" className="sr-only">
           Categoria
         </label>
-        <select id="admin-cat" name="categoria" defaultValue={categoria ?? ""} className={`${inputClass} w-auto py-2 text-sm`}>
+        <select id="admin-cat" name="categoria" defaultValue={categoria ?? ""} className="rounded-lg border border-profundo/15 bg-white px-3 py-2 text-sm text-marinho outline-none focus:border-royal">
           <option value="">Todas as categorias</option>
           {categories.map((c) => (
             <option key={c.slug} value={c.slug}>

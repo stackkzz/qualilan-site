@@ -74,7 +74,7 @@ async function Metrics() {
         <PageHeader title="Métricas do site" description="Últimos 7 e 30 dias. Contamos cliques e buscas, sem dados pessoais dos visitantes." />
         <div className="space-y-6">
 
-        <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <ul className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
           {cards.map((c) => (
             <li key={c.label} className={`${panelCard} p-5`}>
               <p className="text-sm text-marinho/60">{c.label}</p>
@@ -89,6 +89,11 @@ async function Metrics() {
         <section className={`${panelCard} p-6`}>
           <h2 className="font-semibold text-profundo">Orçamentos por semana</h2>
           <p className="text-sm text-marinho/55">WhatsApp (lista e item) e e-mail.</p>
+          {weeks.every((w) => w.n === 0) && (
+            <p className="mt-4 rounded-lg bg-offwhite px-4 py-3 text-sm text-marinho/60">
+              Ainda sem orçamentos registrados. Os números aparecem conforme os visitantes usam a lista de orçamento.
+            </p>
+          )}
           <div
             className="mt-6 flex h-40 items-end gap-3"
             role="img"
