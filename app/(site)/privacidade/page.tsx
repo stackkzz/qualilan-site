@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { LegalPage } from "@/components/legal-page";
 import { site } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -9,9 +10,7 @@ export const metadata: Metadata = {
 // shortcut: rascunho escrito a partir do que o site faz hoje; precisa de revisão jurídica da Qualilan antes de publicar.
 export default function PrivacyPage() {
   return (
-    <article className="mx-auto max-w-2xl px-5 py-16 leading-relaxed text-marinho/80 md:py-24 [&_h2]:mt-10 [&_h2]:mb-3 [&_h2]:text-xl [&_h2]:font-bold [&_h2]:text-profundo">
-      <h1 className="text-3xl font-bold tracking-tight text-profundo md:text-4xl">Privacidade</h1>
-      <p className="mt-4 text-sm text-marinho/50">Qualilan, CNPJ {site.cnpj}</p>
+    <LegalPage title="Privacidade">
 
       <h2>O que guardamos</h2>
       <p>
@@ -30,7 +29,7 @@ export default function PrivacyPage() {
       <p>
         Pela Lei Geral de Proteção de Dados (Lei 13.709/2018), você pode pedir a qualquer momento para saber quais
         dados seus temos, corrigi-los ou apagá-los. Escreva para{" "}
-        <a href={`mailto:${site.email}`} className="text-royal underline underline-offset-4">
+        <a href={`mailto:${site.email}`}>
           {site.email}
         </a>
         .
@@ -38,6 +37,6 @@ export default function PrivacyPage() {
 
       <h2>Limpar a lista de orçamento</h2>
       <p>Abra a lista pelo botão “Orçamento” no topo e use “Limpar lista”, ou apague os dados do site no seu navegador.</p>
-    </article>
+    </LegalPage>
   );
 }

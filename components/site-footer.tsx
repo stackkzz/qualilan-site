@@ -4,6 +4,7 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 import { categories, site, telHref, units, whatsappLink } from "@/lib/site";
 import { CurrentYear } from "./current-year";
+import { legalPages } from "./legal-page";
 import { socialIcons } from "./social-icons";
 
 function Column({ title, children, wide }: { title: string; children: ReactNode; wide?: boolean }) {
@@ -81,7 +82,6 @@ export function SiteFooter() {
               { label: "Unidades", href: "/#unidades" },
               { label: "Cases de sucesso", href: "/#cases" },
               { label: "Marcas parceiras", href: "/#marcas" },
-              { label: "Privacidade", href: "/privacidade" },
             ].map((l) => (
               <li key={l.href}>
                 <Link href={l.href} className={linkClass}>
@@ -123,9 +123,15 @@ export function SiteFooter() {
           <p>
             © <CurrentYear /> Qualilan. CNPJ {site.cnpj}.
           </p>
-          <Link href="/privacidade" className="hover:text-white">
-            Política de privacidade
-          </Link>
+          <ul className="flex flex-wrap gap-x-5 gap-y-1">
+            {legalPages.map((p) => (
+              <li key={p.href}>
+                <Link href={p.href} className="hover:text-white">
+                  {p.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
     </footer>

@@ -31,6 +31,10 @@ Lista para levar na apresentação do site novo. Os itens marcados como "decisã
 - **Descrição dos produtos:** nenhum produto da loja tem descrição. A equipe pode preencher aos poucos pelo painel, começando pelos mais vendidos.
 - **Revisão de marcas no catálogo:** vários produtos Multilan/Furukawa estão cadastrados como "Lightera" na loja atual. Confirmar se é o desejado.
 - **Política de privacidade:** o site tem um rascunho em `/privacidade`. Precisa da revisão do jurídico de vocês.
+- **Termos, envio e trocas:** rascunhos em `/termos-de-uso`, `/politica-de-envio` e `/trocas-e-devolucoes`, adaptados das políticas da loja atual para um site sem venda online. Precisam da revisão do jurídico. Confirmar também:
+  - se oferecem retirada do pedido na unidade;
+  - a razão social completa (os sites mostram só o CNPJ);
+  - se há prazo de garantia próprio além do do fabricante.
 
 ## Acesso ao painel
 
