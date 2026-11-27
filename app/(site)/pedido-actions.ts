@@ -1,7 +1,7 @@
 "use server";
 
 import { notifyNewRequest } from "@/lib/notify";
-import { createSupabasePublicClient } from "@/lib/supabase/server";
+import { createSupabaseServerClient } from "@/lib/supabase/server";
 
 export type RequestState = { ok?: boolean; error?: string } | undefined;
 
@@ -34,10 +34,13 @@ export async function sendQuoteRequest(_: RequestState, fd: FormData): Promise<R
   }
   if (items.length === 0) return { error: "Adicione ao menos um produto à lista." };
 
-  const supabase = createSupabasePublicClient();
+  // Cliente da sessão (com cookie): quando logado, o pedido fica no histórico da conta.
+  const supabase = await createSupabaseServerClient();
+  const { data: auth } = await supabase.auth.getUser();
   const { error } = await supabase
     .from("quote_requests")
     .insert({
+      user_id: auth.user?.id ?? null,
       name,
       email,
       company: field(fd, "company", 160) || null,

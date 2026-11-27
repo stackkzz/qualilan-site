@@ -62,6 +62,13 @@ export function SiteHeader() {
             >
               <span className="icon">search</span>
             </Link>
+            <Link
+              href="/conta"
+              aria-label="Minha conta"
+              className="grid size-11 place-items-center rounded-lg border border-profundo/10 text-profundo transition-colors hover:border-profundo/30"
+            >
+              <span className="icon">person</span>
+            </Link>
             <QuoteCartButton />
             {/* Menu do celular sem JavaScript: <details> abre e fecha nativamente. */}
             <details className="group relative md:hidden">

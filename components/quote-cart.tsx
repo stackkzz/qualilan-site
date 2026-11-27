@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { createContext, useContext, useEffect, useRef, useState, type ReactNode } from "react";
 import { categories, site } from "@/lib/site";
+import { logWhatsappQuote } from "@/app/(site)/conta/actions";
 import { EmailQuoteForm } from "./email-quote-form";
 import { WhatsAppIcon, whatsappButtonClass } from "./whatsapp-icon";
 
@@ -207,6 +208,7 @@ function QuoteDialog({ ref }: { ref: React.RefObject<HTMLDialogElement | null> }
               <a
                 href={href}
                 data-track="lista"
+                onClick={() => void logWhatsappQuote(items.map(({ slug, name, sku, qty }) => ({ slug, name, sku, qty })))}
                 target="_blank"
                 rel="noopener"
                 className={`w-full ${whatsappButtonClass}`}

@@ -7,7 +7,7 @@ function withCookies(from: NextResponse, to: NextResponse) {
   return to;
 }
 
-// Só o /admin passa por aqui: renova a sessão e manda quem não está logado para o login.
+// Renova a sessão do /admin e da área do cliente. No /admin, quem não está logado vai para o login.
 export async function proxy(request: NextRequest) {
   const { url, key } = supabaseEnv();
   let response = NextResponse.next({ request });
@@ -26,17 +26,20 @@ export async function proxy(request: NextRequest) {
   });
 
   const { data } = await supabase.auth.getUser();
+  if (!request.nextUrl.pathname.startsWith("/admin")) return response; // /conta: só renova a sessão
   const isLogin = request.nextUrl.pathname === "/admin/login";
 
   if (!data.user && !isLogin) {
     return withCookies(response, NextResponse.redirect(new URL("/admin/login", request.url)));
   }
+  // Só administrador logado pula o login; cliente logado fica na tela (que avisa que não tem acesso), sem vai-e-volta.
   if (data.user && isLogin) {
-    return withCookies(response, NextResponse.redirect(new URL("/admin", request.url)));
+    const { data: isAdmin } = await supabase.rpc("is_admin");
+    if (isAdmin) return withCookies(response, NextResponse.redirect(new URL("/admin", request.url)));
   }
   return response;
 }
 
 export const config = {
-  matcher: ["/admin/:path*"],
+  matcher: ["/admin/:path*", "/conta"],
 };

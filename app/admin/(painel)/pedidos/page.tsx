@@ -12,7 +12,7 @@ async function RequestList() {
   const { supabase } = await requireAdmin();
   const { data, error } = await supabase
     .from("quote_requests")
-    .select("id, name, company, email, phone, message, items, status, created_at")
+    .select("id, name, company, email, phone, message, items, status, created_at, channel, user_id")
     .neq("status", "arquivado")
     .order("created_at", { ascending: false })
     .limit(200);
@@ -45,11 +45,17 @@ async function RequestList() {
                       {r.phone && <> · {r.phone}</>} · {new Date(r.created_at).toLocaleString("pt-BR", { timeZone: "America/Sao_Paulo" })}
                     </p>
                   </div>
+                  <div className="flex flex-wrap gap-2">
                   <span
                     className={`rounded-full px-2.5 py-1 text-xs font-semibold ${r.status === "novo" ? "bg-amarelo/40 text-profundo" : "bg-offwhite text-marinho/60"}`}
                   >
                     {statusLabel[r.status as keyof typeof statusLabel]}
                   </span>
+                  <span className="rounded-full bg-offwhite px-2.5 py-1 text-xs text-marinho/70">
+                    {r.channel === "whatsapp" ? "Enviado pelo WhatsApp" : "Por e-mail"}
+                    {r.user_id ? " · cliente com conta" : ""}
+                  </span>
+                  </div>
                 </div>
                 <ul className="mt-4 divide-y divide-profundo/10 rounded-lg border border-profundo/10 text-sm">
                   {items.map((i, n) => (
