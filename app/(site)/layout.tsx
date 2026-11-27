@@ -1,4 +1,5 @@
 import { AnimationGate } from "@/components/animation-gate";
+import { EventTracker } from "@/components/event-tracker";
 import { QuoteProvider } from "@/components/quote-cart";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
@@ -14,6 +15,7 @@ export default function SiteLayout({ children }: LayoutProps<"/">) {
       <div className="flex-1">{children}</div>
       <SiteFooter />
       <AnimationGate />
+      <EventTracker />
     </QuoteProvider>
   );
 }

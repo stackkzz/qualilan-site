@@ -205,6 +205,7 @@ function QuoteDialog({ ref }: { ref: React.RefObject<HTMLDialogElement | null> }
             <div className="space-y-3 border-t border-profundo/10 px-6 py-5">
               <a
                 href={href}
+                data-track="lista"
                 target="_blank"
                 rel="noopener"
                 className={`w-full ${whatsappButtonClass}`}
@@ -311,6 +312,26 @@ export function AddToQuote({
       <span aria-live="polite">
         {justAdded ? "Adicionado" : inList ? `Na lista (${inList.qty})` : size === "sm" ? "Adicionar" : "Adicionar à lista"}
       </span>
+    </button>
+  );
+}
+
+// "Compre junto": põe o produto atual e os sugeridos na lista de uma vez (quem já está na lista não duplica).
+export function AddAllToQuote({ products }: { products: { slug: string; name: string; sku: string | null; image?: string | null }[] }) {
+  const { add, items, open } = useQuote();
+  const missing = products.filter((p) => !items.some((i) => i.slug === p.slug));
+  return (
+    <button
+      type="button"
+      onClick={() => {
+        missing.forEach(add);
+        open();
+      }}
+      disabled={missing.length === 0}
+      className="inline-flex items-center gap-2 rounded-lg bg-royal px-5 py-3 font-semibold text-white transition-colors hover:bg-profundo disabled:cursor-default disabled:bg-emerald-700"
+    >
+      <span className="icon text-xl!">{missing.length ? "playlist_add" : "check"}</span>
+      {missing.length ? `Adicionar ${missing.length === products.length ? "todos" : `os ${missing.length} que faltam`} à lista` : "Todos na lista"}
     </button>
   );
 }

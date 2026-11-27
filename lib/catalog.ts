@@ -93,6 +93,51 @@ export async function listedCategories() {
     .filter((c) => c.count > 0);
 }
 
+const SUBSTITUTE_CATEGORIES = new Set(["switches", "wireless", "iluminacao", "conversores", "rotulador-eletronico"]);
+
+// Categorias que costumam entrar no mesmo orçamento.
+const COMPLEMENTS: Record<string, string[]> = {
+  "cabos-lan": ["switches", "rede-optica", "rotulador-eletronico"],
+  "rede-optica": ["switches", "cabos-lan", "conversores"],
+  switches: ["cabos-lan", "wireless", "rede-optica"],
+  wireless: ["switches", "cabos-lan"],
+  cftv: ["switches", "cabos-lan", "cabos-eletricos"],
+  "controle-de-acesso": ["cftv", "cabos-lan", "cabos-eletricos"],
+  "cabos-eletricos": ["iluminacao", "rotulador-eletronico"],
+  "cabos-telefonicos": ["cabos-lan", "rotulador-eletronico"],
+  conversores: ["rede-optica", "switches"],
+  iluminacao: ["cabos-eletricos"],
+  "rotulador-eletronico": ["cabos-lan", "cabos-eletricos"],
+};
+
+// "Compre junto": até `limit` produtos que completam o orçamento, um por subcategoria (ou categoria).
+// Primeiro outras subcategorias da mesma categoria, depois categorias complementares;
+// em cada grupo, prefere a mesma marca e o que tem pronta entrega.
+export function complementsFor(product: Product, all: Product[], limit = 4) {
+  const score = (p: Product) => (p.brand && p.brand === product.brand ? 2 : 0) + (p.inStock ? 1 : 0);
+  const groups: Product[][] = [];
+  // Mesmo "tipo" = mesma primeira palavra da subcategoria (Cabo Cat.5E e Cabo Cat.6; Câmeras IP e Câmeras Motorola):
+  // sugerir outro cabo para quem vê um cabo não completa o orçamento.
+  // "Patch cord" e "Patch panel" são tipos diferentes: aí conta a segunda palavra.
+  const kind = (s: string | null) => {
+    const w = normalize(s ?? "").split(" ");
+    return (w[0] === "patch" ? w.slice(0, 2).join(" ") : w[0]).replace(/s$/, "");
+  };
+  // Nessas categorias as subcategorias são variações do mesmo produto (switch gerenciável x PoE): não complementam.
+  const sameCat = SUBSTITUTE_CATEGORIES.has(product.category)
+    ? []
+    : all.filter((p) => p.category === product.category && p.subcategory && kind(p.subcategory) !== kind(product.subcategory));
+  for (const k of new Set(sameCat.map((p) => kind(p.subcategory)))) groups.push(sameCat.filter((p) => kind(p.subcategory) === k));
+  for (const cat of COMPLEMENTS[product.category] ?? []) groups.push(all.filter((p) => p.category === cat));
+  const picked: Product[] = [];
+  for (const g of groups) {
+    const best = [...g].sort((a, b) => score(b) - score(a) || byName(a, b))[0];
+    if (best && best.slug !== product.slug && !picked.includes(best)) picked.push(best);
+    if (picked.length === limit) break;
+  }
+  return picked;
+}
+
 export function brandCounts(list: Product[]) {
   return brandsOf(list).map((name) => ({ name, count: list.filter((p) => p.brand === name).length }));
 }

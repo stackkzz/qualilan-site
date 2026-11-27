@@ -10,7 +10,7 @@ export function AdminHeader({ email }: { email?: string }) {
           <Image src="/brand/logo-branco.png" alt="Qualilan" width={120} height={41} />
           <span className="hidden border-l border-white/20 pl-3 text-sm text-white/70 md:inline">Painel</span>
         </Link>
-        <nav className="flex gap-1 text-sm" aria-label="Seções do painel">
+        <nav className="no-scrollbar flex min-w-0 gap-1 overflow-x-auto text-sm" aria-label="Seções do painel">
           <Link href="/admin" className="rounded-full px-3 py-1.5 text-white/75 hover:bg-white/10 hover:text-white">
             Produtos
           </Link>
@@ -19,6 +19,12 @@ export function AdminHeader({ email }: { email?: string }) {
           </Link>
           <Link href="/admin/pedidos" className="rounded-full px-3 py-1.5 text-white/75 hover:bg-white/10 hover:text-white">
             Pedidos
+          </Link>
+          <Link href="/admin/metricas" className="rounded-full px-3 py-1.5 text-white/75 hover:bg-white/10 hover:text-white">
+            Métricas
+          </Link>
+          <Link href="/admin/revisao" className="rounded-full px-3 py-1.5 text-white/75 hover:bg-white/10 hover:text-white">
+            Revisar nomes
           </Link>
         </nav>
         <div className="ml-auto flex items-center gap-5 text-sm">

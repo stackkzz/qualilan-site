@@ -6,7 +6,7 @@ import "./globals.css";
 const inter = Inter({ variable: "--font-inter", subsets: ["latin"] });
 
 const icons = [
-  "account_balance", "add", "add_shopping_cart", "agriculture", "arrow_back", "arrow_forward", "bolt", "cable", "call", "chat", "check", "chevron_left", "chevron_right", "close",
+  "account_balance", "add", "add_shopping_cart", "agriculture", "arrow_back", "arrow_forward", "bolt", "cable", "call", "chat", "check", "check_circle", "chevron_left", "chevron_right", "close",
   "delete", "deskphone", "dns", "domain", "done_all", "edit", "eco", "electric_bolt", "electrical_services", "event", "factory",
   "fingerprint", "format_bold", "format_list_bulleted", "graphic_eq", "grid_view", "groups", "hub", "inventory_2", "lightbulb", "link", "local_hospital", "local_shipping", "location_on", "logout",
   "mail", "map", "menu", "play_circle", "playlist_add", "print", "remove", "request_quote", "savings", "schedule", "school", "search",

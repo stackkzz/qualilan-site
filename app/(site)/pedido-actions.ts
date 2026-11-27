@@ -1,5 +1,6 @@
 "use server";
 
+import { notifyNewRequest } from "@/lib/notify";
 import { createSupabasePublicClient } from "@/lib/supabase/server";
 
 export type RequestState = { ok?: boolean; error?: string } | undefined;
@@ -33,7 +34,8 @@ export async function sendQuoteRequest(_: RequestState, fd: FormData): Promise<R
   }
   if (items.length === 0) return { error: "Adicione ao menos um produto à lista." };
 
-  const { error } = await createSupabasePublicClient()
+  const supabase = createSupabasePublicClient();
+  const { error } = await supabase
     .from("quote_requests")
     .insert({
       name,
@@ -44,5 +46,9 @@ export async function sendQuoteRequest(_: RequestState, fd: FormData): Promise<R
       items,
     });
   if (error) return { error: "Não foi possível enviar agora. Tente de novo ou use o WhatsApp." };
+
+  // Métricas (sem dados pessoais) e aviso para a equipe; nenhum dos dois impede o pedido.
+  await supabase.from("site_events").insert({ type: "pedido_email", items: items.map(({ slug, qty }) => ({ slug, qty })) });
+  await notifyNewRequest({ name, company: field(fd, "company", 160), email, phone: field(fd, "phone", 40), items }).catch(() => {});
   return { ok: true };
 }

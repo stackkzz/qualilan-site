@@ -7,8 +7,8 @@ import { Suspense } from "react";
 import { PageLoader } from "@/components/qualilan-loader";
 import { LighteraNotice } from "@/components/lightera-notice";
 import { ProductGrid } from "@/components/product-card";
-import { AddToQuote } from "@/components/quote-cart";
-import { getCategory, getProduct, getProducts, sortForDisplay } from "@/lib/catalog";
+import { AddAllToQuote, AddToQuote } from "@/components/quote-cart";
+import { complementsFor, getCategory, getProduct, getProducts, sortForDisplay } from "@/lib/catalog";
 import { brandLogo, site, whatsappLink } from "@/lib/site";
 
 export async function generateStaticParams() {
@@ -39,8 +39,10 @@ async function ProductPageContent({ params }: { params: PageProps<"/produto/[slu
   if (!product) notFound();
   const cat = getCategory(product.category);
   const logo = brandLogo(product.brand);
+  const all = await getProducts();
+  const together = complementsFor(product, all);
   const related = sortForDisplay(
-    (await getProducts()).filter((p) => p.category === product.category && p.slug !== product.slug),
+    all.filter((p) => p.category === product.category && p.slug !== product.slug && !together.includes(p)),
   ).slice(0, 4);
 
   const jsonLd = {
@@ -152,6 +154,8 @@ async function ProductPageContent({ params }: { params: PageProps<"/produto/[slu
                 )}
                 target="_blank"
                 rel="noopener"
+                data-track="item"
+                data-slug={product.slug}
                 className={whatsappButtonClass}
               >
                 <WhatsAppIcon />
@@ -164,6 +168,21 @@ async function ProductPageContent({ params }: { params: PageProps<"/produto/[slu
             </p>
           </div>
         </div>
+
+        {together.length > 0 && (
+          <section className="mt-16 rounded-3xl bg-white p-6 md:p-8">
+            <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
+              <div>
+                <h2 className="text-2xl font-bold tracking-tight text-profundo">Compre junto</h2>
+                <p className="mt-1 text-marinho/60">Itens que costumam entrar no mesmo projeto.</p>
+              </div>
+              <AddAllToQuote
+                products={[product, ...together].map((p) => ({ slug: p.slug, name: p.name, sku: p.sku, image: p.image }))}
+              />
+            </div>
+            <ProductGrid products={together} />
+          </section>
+        )}
 
         {related.length > 0 && (
           <section className="mt-16">
