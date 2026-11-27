@@ -233,6 +233,20 @@ body {
     animation: glow 4s ease-in-out infinite alternate;
   }
 
+  /* Mapa de rede: dados fluindo nas linhas e nós emitindo sinal. */
+  .flow {
+    animation: dash 1.4s linear infinite;
+  }
+  .flow-slow {
+    animation-duration: 3s;
+  }
+  .node-ping {
+    animation: ripple 2.8s cubic-bezier(0.2, 0.7, 0.2, 1) infinite both;
+  }
+  .q-glow-svg {
+    animation: glow 3s ease-in-out infinite alternate;
+  }
+
   /* Etiquetas que flutuam sobre a foto do hero. */
   .float-a {
     animation: float 4s ease-in-out infinite alternate;
@@ -268,6 +282,9 @@ body {
 @keyframes header-solid {
   to { background-color: rgb(255 255 255 / 0.97); box-shadow: 0 10px 30px -18px rgb(18 23 68 / 0.35); }
 }
+@keyframes dash {
+  to { stroke-dashoffset: -30; }
+}
 @keyframes ripple {
   from { transform: scale(0.55); opacity: 0.9; }
   to { transform: scale(1.35); opacity: 0; }
@@ -297,4 +314,17 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .marquee-track { flex-wrap: wrap; justify-content: center; width: 100% !important; }
   .marquee-copy { display: none; }
+}
+
+/* Base do mapa de rede (vale também sem animação). */
+.flow {
+  stroke-dasharray: 6 9;
+}
+.flow-slow {
+  stroke-dasharray: 3 9;
+}
+.node-ping,
+.q-glow-svg {
+  transform-box: fill-box;
+  transform-origin: center;
 }

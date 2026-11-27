@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { NetworkMap } from "@/components/network-map";
 import { QuoteSteps } from "@/components/quote-steps";
 import { TestimonialsMarquee } from "@/components/testimonials-marquee";
 import { Wave } from "@/components/wave";
@@ -195,31 +196,28 @@ export default function Home() {
       {/* Logística + unidades */}
       <section id="unidades" className="bg-white py-24 md:py-32">
         <div className="mx-auto max-w-6xl px-5">
-          <SectionHeading
-            title="Logística eficiente e ágil"
-            text="Logística própria e parcerias estratégicas: entregamos onde e quando você precisa."
-          />
-          <div className="reveal mt-12 grid gap-6 md:grid-cols-2">
-            <figure className="rounded-2xl bg-offwhite p-6">
-              <Image
-                src="/ref/mapa-brasil.png"
-                alt="Mapa do Brasil: presença nacional, entregas em todo o Brasil"
-                width={2001}
-                height={2001}
-                sizes="(min-width: 768px) 520px, 100vw"
-                className="mx-auto w-full max-w-md"
+          <div className="grid items-center gap-12 lg:grid-cols-[0.8fr_1.2fr]">
+            <div>
+              <SectionHeading
+                title="Logística eficiente e ágil"
+                text="Logística própria e parcerias estratégicas: entregamos onde e quando você precisa."
               />
-            </figure>
-            <figure className="rounded-2xl bg-offwhite p-6">
-              <Image
-                src="/ref/mapa-spmg.png"
-                alt="Mapa de SP e MG com as unidades de Bauru, Campinas, São Paulo, Jacareí e Minas Gerais: pronta entrega nas 5 unidades"
-                width={2001}
-                height={2001}
-                sizes="(min-width: 768px) 520px, 100vw"
-                className="mx-auto w-full max-w-md"
-              />
-            </figure>
+              <dl className="reveal mt-10 space-y-6">
+                {[
+                  { k: "5 unidades", v: "em Campinas, São Paulo, Bauru, Jacareí e Minas Gerais" },
+                  { k: "Pronta entrega", v: "nas 5 unidades, com o estoque mais próximo de você" },
+                  { k: "Todo o Brasil", v: "entregas nacionais com logística própria e parceiros" },
+                ].map((s) => (
+                  <div key={s.k} className="border-l-2 border-laranja pl-5">
+                    <dt className="text-xl font-bold tracking-tight text-profundo">{s.k}</dt>
+                    <dd className="mt-1 text-[15px] text-marinho/65">{s.v}</dd>
+                  </div>
+                ))}
+              </dl>
+            </div>
+            <div className="reveal-title overflow-hidden rounded-3xl bg-profundo p-4 shadow-[0_40px_80px_-40px_rgba(18,23,68,0.6)] md:p-6">
+              <NetworkMap />
+            </div>
           </div>
           <ul className="reveal mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
             {units.map((u) => {
