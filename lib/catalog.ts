@@ -68,6 +68,10 @@ export function brandsOf(list: Product[]) {
   return [...new Set(list.map((p) => p.brand).filter((b): b is string => !!b))].sort();
 }
 
+export function brandCounts(list: Product[]) {
+  return brandsOf(list).map((name) => ({ name, count: list.filter((p) => p.brand === name).length }));
+}
+
 const normalize = (s: string) =>
   s
     .normalize("NFD")

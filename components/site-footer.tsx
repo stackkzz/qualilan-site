@@ -75,6 +75,10 @@ export function SiteFooter() {
                   {site.email}
                 </a>
               </li>
+              <li className="flex items-center gap-2 text-white/60">
+                <span className="icon text-lg! text-laranja">schedule</span>
+                {site.hours}
+              </li>
             </ul>
             <ul className="mt-6 flex gap-2" aria-label="Redes sociais">
               {site.socials.map((s) => (
@@ -123,6 +127,7 @@ export function SiteFooter() {
           </Column>
 
           <Column title="Unidades" wide>
+            <li className="text-xs text-white/45">Central SAC {site.sac}</li>
             {units.map((u) => (
               <li key={u.city} className="flex items-baseline justify-between gap-4">
                 <span className="text-white/60">

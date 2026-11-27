@@ -12,6 +12,9 @@ Lista para levar na apresentação do site novo. Os itens marcados como "decisã
 - **Formulário de orçamento:** o site atual tem um formulário (nome, e-mail, telefone, empresa, cargo). Para onde vão esses pedidos hoje, e querem manter um formulário além do WhatsApp?
 - **E-mail de contato:** o único e-mail público é `e-commerce@qualilan.com.br`. Ele continua valendo sem a loja, ou há outro (comercial, contato)?
 
+- **Sede x Matriz:** os Termos de Uso da loja dizem que a sede do CNPJ é em Bauru (R. Jorge Pimentel, 5-54), mas o site e o Google chamam Campinas de Matriz. Qual informação usar?
+- **Blog:** a loja tem 3 posts de 2022/2023 (5G, sustentabilidade, Laserway). Querem manter um blog no site novo ou deixar de fora?
+
 ## Conteúdo
 
 - **Logos das marcas parceiras** (Furukawa/Lightera, Ubiquiti, TP-Link, Motorola, Control iD, Brother, Multiway, Mikrotik, Planet), de preferência em SVG ou PNG com fundo transparente.

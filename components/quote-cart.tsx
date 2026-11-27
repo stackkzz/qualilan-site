@@ -152,6 +152,10 @@ function QuoteDialog({ ref }: { ref: React.RefObject<HTMLDialogElement | null> }
                 <span className="icon text-xl!">chat</span>
                 Enviar pelo WhatsApp
               </a>
+              <p className="flex items-center justify-center gap-1.5 text-xs text-marinho/55">
+                <span className="icon text-base!">schedule</span>
+                Atendimento: {site.hours.toLowerCase()}
+              </p>
               <button
                 type="button"
                 onClick={clear}

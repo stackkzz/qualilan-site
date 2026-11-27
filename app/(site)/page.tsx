@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { IconTile } from "@/components/icon-tile";
 import { NetworkMap } from "@/components/network-map";
 import { QuoteSteps } from "@/components/quote-steps";
 import { TestimonialsMarquee } from "@/components/testimonials-marquee";
@@ -165,7 +166,7 @@ export default function Home() {
                   className="group relative isolate flex h-full items-center gap-4 overflow-hidden px-5 py-6 before:absolute before:inset-0 before:-z-10 before:origin-bottom before:scale-y-0 before:bg-profundo before:transition-transform before:duration-300 hover:before:scale-y-100 focus-visible:before:scale-y-100"
                 >
                   <span className="grid size-11 shrink-0 place-items-center rounded-lg bg-royal/8 text-royal transition-colors duration-300 group-hover:bg-white/10 group-hover:text-amarelo">
-                    <span className="icon">{c.icon}</span>
+                    <span className="icon icon-hover-fill">{c.icon}</span>
                   </span>
                   <span className="font-medium text-profundo transition-colors duration-300 group-hover:text-white">{c.name}</span>
                 </Link>
@@ -181,8 +182,8 @@ export default function Home() {
           <SectionHeading title="Por que grandes empresas confiam na Qualilan" />
           <ul className="reveal mt-14 grid gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-5">
             {differentials.map((d) => (
-              <li key={d.title}>
-                <Image src={d.icon} alt="" width={56} height={56} className="size-14 object-contain" />
+              <li key={d.title} className="group">
+                <IconTile icon={d.icon} size="lg" />
                 <h3 className="mt-5 font-semibold leading-snug text-profundo">{d.title}</h3>
                 <p className="mt-2 text-[15px] leading-relaxed text-marinho/65">{d.text}</p>
               </li>
@@ -221,14 +222,10 @@ export default function Home() {
               return (
                 <li
                   key={u.city}
-                  className="lift flex flex-col rounded-2xl border border-profundo/10 bg-white p-5 text-profundo"
+                  className="lift group flex flex-col rounded-2xl border border-profundo/10 bg-white p-5 text-profundo"
                 >
                   <div className="flex items-center justify-between">
-                    <span
-                      className="grid size-10 place-items-center rounded-lg bg-royal/8 text-royal"
-                    >
-                      <span className="icon text-xl!">location_on</span>
-                    </span>
+                    <IconTile icon="location_on" size="sm" />
                     {u.note && (
                       <span className="rounded-full bg-laranja px-2.5 py-0.5 text-xs font-semibold text-profundo">{u.note}</span>
                     )}

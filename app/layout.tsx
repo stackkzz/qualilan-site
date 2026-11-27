@@ -6,10 +6,12 @@ import "./globals.css";
 const inter = Inter({ variable: "--font-inter", subsets: ["latin"] });
 
 const icons = [
-  "account_balance", "agriculture", "arrow_back", "badge", "bolt", "cable", "add", "delete", "edit", "logout", "upload", "visibility_off", "call", "chat", "check",
-  "close", "dns", "done_all", "electric_bolt", "factory", "inventory_2", "label", "lan", "lightbulb", "mail", "menu",
-  "local_hospital", "local_shipping", "location_on", "map", "playlist_add", "request_quote", "school",
-  "search", "settings_ethernet", "swap_horiz", "verified", "videocam", "view_stream", "wifi",
+  "account_balance", "add", "agriculture", "arrow_back", "bolt", "cable", "call", "chat", "check", "close",
+  "delete", "deskphone", "dns", "domain", "done_all", "edit", "electric_bolt", "electrical_services", "factory",
+  "fingerprint", "hub", "inventory_2", "lightbulb", "local_hospital", "local_shipping", "location_on", "logout",
+  "mail", "map", "menu", "playlist_add", "print", "request_quote", "savings", "schedule", "school", "search",
+  "settings_ethernet", "support_agent", "sync_alt", "upload", "verified", "videocam", "view_stream",
+  "visibility_off", "warehouse", "wifi", "workspace_premium",
 ].sort().join(","); // a API exige nomes em ordem alfabética
 
 export const metadata: Metadata = {
@@ -24,7 +26,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <head>
         <link
           rel="stylesheet"
-          href={`https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,300,0,0&icon_names=${icons}&display=block`}
+          href={`https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0..1,0&icon_names=${icons}&display=block`}
         />
       </head>
       <body className="flex min-h-screen flex-col font-sans">{children}</body>

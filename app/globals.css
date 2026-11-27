@@ -21,8 +21,9 @@ body {
 }
 
 .icon {
-  font-family: "Material Symbols Outlined";
-  font-weight: 300;
+  font-family: "Material Symbols Rounded";
+  font-weight: 400;
+  font-variation-settings: "FILL" 0;
   font-style: normal;
   line-height: 1;
   font-size: 1.5rem;
@@ -32,6 +33,12 @@ body {
   -webkit-font-smoothing: antialiased;
   font-feature-settings: "liga";
   user-select: none;
+}
+
+/* Ícone preenchido: usado em estados ativos e no hover dos blocos de ícone. */
+.icon-fill,
+.group:hover .icon-hover-fill {
+  font-variation-settings: "FILL" 1;
 }
 
 :focus-visible {

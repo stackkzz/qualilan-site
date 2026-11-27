@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
+import { IconTile } from "@/components/icon-tile";
 import { differentials, partners, segments, units, whatsappLink } from "@/lib/site";
 import bgTech from "@/public/ref/bg-tech.jpeg";
 
@@ -78,8 +79,8 @@ export default function AboutPage() {
           <h2 className="text-3xl font-bold tracking-[-0.02em] text-profundo md:text-[2.5rem]">O que nos diferencia</h2>
           <ul className="reveal mt-12 grid gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-5">
             {differentials.map((d) => (
-              <li key={d.title}>
-                <Image src={d.icon} alt="" width={56} height={56} className="size-14 object-contain" />
+              <li key={d.title} className="group">
+                <IconTile icon={d.icon} size="lg" />
                 <h3 className="mt-5 font-semibold leading-snug text-profundo">{d.title}</h3>
                 <p className="mt-2 text-[15px] leading-relaxed text-marinho/65">{d.text}</p>
               </li>

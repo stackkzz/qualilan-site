@@ -5,6 +5,8 @@ export const site = {
   cnpj: "11.746.517/0001-40",
   whatsapp: "5514996192639",
   whatsappLabel: "(14) 99619-2639",
+  hours: "Segunda a sexta, das 8h às 18h",
+  sac: "(14) 3021-0437",
   email: "e-commerce@qualilan.com.br",
   socials: [
     { label: "Instagram", href: "https://www.instagram.com/grupo.qualilan/" },
@@ -21,16 +23,16 @@ export function whatsappLink(message: string) {
 export const categories = [
   { name: "Cabos de rede", icon: "settings_ethernet", slug: "cabos-lan" },
   { name: "Rede óptica", icon: "cable", slug: "rede-optica" },
-  { name: "Switches", icon: "lan", slug: "switches" },
+  { name: "Switches", icon: "hub", slug: "switches" },
   { name: "Wireless", icon: "wifi", slug: "wireless" },
   { name: "CFTV", icon: "videocam", slug: "cftv" },
-  { name: "Controle de acesso", icon: "badge", slug: "controle-de-acesso" },
-  { name: "Cabos elétricos", icon: "bolt", slug: "cabos-eletricos" },
-  { name: "Cabos telefônicos", icon: "call", slug: "cabos-telefonicos" },
+  { name: "Controle de acesso", icon: "fingerprint", slug: "controle-de-acesso" },
+  { name: "Cabos elétricos", icon: "electrical_services", slug: "cabos-eletricos" },
+  { name: "Cabos telefônicos", icon: "deskphone", slug: "cabos-telefonicos" },
   { name: "Canaletas", icon: "view_stream", slug: "canaletas" },
-  { name: "Conversores", icon: "swap_horiz", slug: "conversores" },
+  { name: "Conversores", icon: "sync_alt", slug: "conversores" },
   { name: "Iluminação", icon: "lightbulb", slug: "iluminacao" },
-  { name: "Rotuladores", icon: "label", slug: "rotulador-eletronico" },
+  { name: "Rotuladores", icon: "print", slug: "rotulador-eletronico" },
 ];
 
 export const segments = [
@@ -85,11 +87,11 @@ export const partners = [
 ];
 
 export const differentials = [
-  { icon: "/ref/icons/exp.png", title: "Mais de 25 anos de experiência", text: "Experiência em projetos de empresas de todos os portes." },
-  { icon: "/ref/icons/distribuidor.png", title: "Distribuidor de soluções tecnológicas", text: "Parceiro comercial de marcas nacionais e internacionais." },
-  { icon: "/ref/icons/atendimento.png", title: "Atendimento consultivo", text: "Projetos personalizados para a necessidade real de cada cliente." },
-  { icon: "/ref/icons/custo.png", title: "Custo-benefício e pronta entrega", text: "Preço competitivo e estoque para atender rápido." },
-  { icon: "/ref/icons/verticais.png", title: "Atuação em diversos setores", text: "Universidades, hospitais, indústria, centros logísticos e data centers." },
+  { icon: "workspace_premium", title: "Mais de 25 anos de experiência", text: "Experiência em projetos de empresas de todos os portes." },
+  { icon: "warehouse", title: "Distribuidor de soluções tecnológicas", text: "Parceiro comercial de marcas nacionais e internacionais." },
+  { icon: "support_agent", title: "Atendimento consultivo", text: "Projetos personalizados para a necessidade real de cada cliente." },
+  { icon: "savings", title: "Custo-benefício e pronta entrega", text: "Preço competitivo e estoque para atender rápido." },
+  { icon: "domain", title: "Atuação em diversos setores", text: "Universidades, hospitais, indústria, centros logísticos e data centers." },
 ];
 
 export const customProjects = [
@@ -97,14 +99,14 @@ export const customProjects = [
     partner: "Laserway",
     logo: "/ref/logos/laserway.png",
     title: "Solução óptica inovadora",
-    text: "Projetos de fibra óptica dimensionados para o seu ambiente, do backbone à última milha.",
+    text: "Redes 100% ópticas para ambientes corporativos, à prova de futuro, com menos plástico e menor consumo de energia.",
     image: "/ref/city-cta.jpg",
   },
   {
     partner: "ITMAX",
     logo: "/ref/logos/itmax.png",
     title: "Soluções para data center",
-    text: "Infraestrutura completa para salas técnicas e data centers, com marcas homologadas.",
+    text: "Infraestrutura para salas técnicas e data centers, em parceria com a ITMAX.",
     image: "/ref/bg-tech.jpeg",
   },
 ];

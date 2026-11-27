@@ -7,7 +7,7 @@ import { LighteraNotice } from "@/components/lightera-notice";
 import { ProductGrid } from "@/components/product-card";
 import { AddToQuote } from "@/components/quote-cart";
 import { getCategory, getProduct, getProducts, sortForDisplay } from "@/lib/catalog";
-import { whatsappLink } from "@/lib/site";
+import { site, whatsappLink } from "@/lib/site";
 
 export async function generateStaticParams() {
   return (await getProducts()).map((p) => ({ slug: p.slug }));
@@ -130,6 +130,10 @@ async function ProductPageContent({ params }: { params: PageProps<"/produto/[slu
                 Orçar só este item
               </a>
             </div>
+            <p className="mt-4 flex items-center gap-2 text-sm text-marinho/60">
+              <span className="icon text-lg! text-royal">schedule</span>
+              Atendimento: {site.hours.toLowerCase()}
+            </p>
           </div>
         </div>
 
