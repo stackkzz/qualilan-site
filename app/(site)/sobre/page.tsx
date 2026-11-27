@@ -109,14 +109,14 @@ export default function AboutPage() {
           {facts.map((f, i) => (
             <div
               key={f.label}
-              className={`flex flex-col p-6 md:p-8 ${i % 2 === 1 ? "border-l border-profundo/10" : ""} ${i >= 2 ? "border-t border-profundo/10 lg:border-t-0" : ""} ${i === 2 ? "lg:border-l" : ""}`}
+              className={`flex flex-col items-center p-6 text-center md:p-8 ${i % 2 === 1 ? "border-l border-profundo/10" : ""} ${i >= 2 ? "border-t border-profundo/10 lg:border-t-0" : ""} ${i === 2 ? "lg:border-l" : ""}`}
             >
               <dt className="sr-only">{f.label}</dt>
-              <dd aria-hidden className="flex h-7 items-center">
+              <dd aria-hidden className="flex h-7 w-full items-center justify-center">
                 <FactVisual kind={f.visual} />
               </dd>
               <dd className="mt-5 text-4xl font-bold leading-none tracking-[-0.03em] text-profundo tabular-nums md:text-5xl">{f.value}</dd>
-              <dd className="mt-3 text-sm leading-snug text-marinho/60">{f.label}</dd>
+              <dd className="mt-3 max-w-[15rem] text-sm leading-snug text-marinho/60">{f.label}</dd>
             </div>
           ))}
         </dl>
