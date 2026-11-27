@@ -70,6 +70,9 @@ grant insert, update, delete on public.products to authenticated;
 insert into storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
 values ('produtos', 'produtos', true, 5242880, array['image/jpeg', 'image/png', 'image/webp']);
 
+-- remove() do Storage precisa de SELECT para achar o arquivo.
+create policy "admin lê fotos" on storage.objects
+  for select to authenticated using (bucket_id = 'produtos' and (select public.is_admin()));
 create policy "admin envia fotos" on storage.objects
   for insert to authenticated with check (bucket_id = 'produtos' and (select public.is_admin()));
 create policy "admin troca fotos" on storage.objects
