@@ -16,6 +16,9 @@ export function WhatsAppIcon({ className = "size-5" }: { className?: string }) {
   );
 }
 
-// Visual padrão de todo botão que abre o WhatsApp.
-export const whatsappButtonClass =
-  "inline-flex items-center justify-center gap-2.5 whitespace-nowrap rounded-lg bg-[#128C7E] px-6 py-3.5 font-semibold text-white transition-colors hover:bg-[#075E54]";
+// Visual padrão dos botões que abrem o WhatsApp: pílula com contorno verde, sem preenchimento.
+const pill =
+  "inline-flex items-center justify-center gap-2.5 whitespace-nowrap rounded-full border-2 px-6 py-3 font-semibold transition-colors";
+export const whatsappButtonClass = `${pill} border-[#25D366] text-[#0F7A6E] hover:bg-[#25D366]/10 [&_svg]:text-[#25D366]`;
+// Para fundos escuros (azul da marca).
+export const whatsappButtonDarkClass = `${pill} border-[#25D366] text-white hover:bg-[#25D366]/15 [&_svg]:text-[#25D366]`;

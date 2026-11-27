@@ -208,7 +208,7 @@ function QuoteDialog({ ref }: { ref: React.RefObject<HTMLDialogElement | null> }
                 href={href}
                 target="_blank"
                 rel="noopener"
-                className={`w-full rounded-xl ${whatsappButtonClass}`}
+                className={`w-full ${whatsappButtonClass}`}
               >
                 <WhatsAppIcon className="size-[22px]" />
                 Fazer orçamento no WhatsApp
@@ -249,20 +249,34 @@ export function QuoteCartButton() {
   );
 }
 
-// Aparece no canto da tela quando há itens na lista: atalho direto para fechar o orçamento.
+// Botão flutuante do WhatsApp. Com itens na lista, abre a lista (onde fica o envio); vazio, abre a conversa direto.
 function FloatingQuoteButton() {
   const { count, open } = useQuote();
-  if (!count) return null;
+  const cls =
+    "float-in fixed bottom-5 right-5 z-30 grid size-14 place-items-center rounded-full bg-[#25D366] text-white shadow-[0_16px_32px_-10px_rgba(18,140,126,0.7)] transition-transform hover:scale-105";
+  if (!count) {
+    return (
+      <a
+        href={`https://wa.me/${site.whatsapp}?text=${encodeURIComponent("Olá, Qualilan! Gostaria de um orçamento.")}`}
+        target="_blank"
+        rel="noopener"
+        aria-label="Conversar no WhatsApp"
+        className={cls}
+      >
+        <WhatsAppIcon className="size-8" />
+      </a>
+    );
+  }
   return (
-    <button
-      type="button"
-      onClick={open}
-      className="float-in fixed bottom-5 right-5 z-30 flex items-center gap-3 rounded-full bg-profundo py-2 pl-2 pr-5 text-sm font-semibold text-white shadow-[0_20px_40px_-12px_rgba(18,23,68,0.6)] transition-colors hover:bg-royal"
-    >
-      <span key={count} className="bump grid size-9 place-items-center rounded-full bg-laranja text-profundo tabular-nums">
+    <button type="button" onClick={open} aria-label={`Ver lista de orçamento, ${plural(count, "item", "itens")}`} className={cls}>
+      <WhatsAppIcon className="size-8" />
+      <span
+        key={count}
+        aria-hidden
+        className="bump absolute -right-1 -top-1 grid h-6 min-w-6 place-items-center rounded-full bg-laranja px-1.5 text-xs font-bold tabular-nums text-profundo ring-2 ring-white"
+      >
         {count > 99 ? "99+" : count}
       </span>
-      Fazer meu orçamento
     </button>
   );
 }

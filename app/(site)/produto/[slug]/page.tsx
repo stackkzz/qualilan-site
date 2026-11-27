@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { WhatsAppIcon } from "@/components/whatsapp-icon";
+import { WhatsAppIcon, whatsappButtonClass } from "@/components/whatsapp-icon";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -125,7 +125,7 @@ async function ProductPageContent({ params }: { params: PageProps<"/produto/[slu
                 )}
                 target="_blank"
                 rel="noopener"
-                className="inline-flex items-center justify-center gap-2.5 rounded-lg border border-[#128C7E]/40 px-6 py-3.5 font-semibold text-[#128C7E] transition-colors hover:border-[#128C7E] hover:bg-[#128C7E] hover:text-white"
+                className={whatsappButtonClass}
               >
                 <WhatsAppIcon />
                 Orçar só este item
