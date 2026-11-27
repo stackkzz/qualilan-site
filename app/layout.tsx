@@ -6,11 +6,11 @@ import "./globals.css";
 const inter = Inter({ variable: "--font-inter", subsets: ["latin"] });
 
 const icons = [
-  "account_balance", "add", "agriculture", "arrow_back", "bolt", "cable", "call", "chat", "check", "close",
+  "account_balance", "add", "add_shopping_cart", "agriculture", "arrow_back", "bolt", "cable", "call", "chat", "check", "close",
   "delete", "deskphone", "dns", "domain", "done_all", "edit", "electric_bolt", "electrical_services", "factory",
-  "fingerprint", "hub", "inventory_2", "lightbulb", "local_hospital", "local_shipping", "location_on", "logout",
-  "mail", "map", "menu", "playlist_add", "print", "request_quote", "savings", "schedule", "school", "search",
-  "settings_ethernet", "support_agent", "sync_alt", "upload", "verified", "videocam", "view_stream",
+  "fingerprint", "grid_view", "hub", "inventory_2", "lightbulb", "local_hospital", "local_shipping", "location_on", "logout",
+  "mail", "map", "menu", "playlist_add", "print", "remove", "request_quote", "savings", "schedule", "school", "search",
+  "settings_ethernet", "shopping_cart", "support_agent", "sync_alt", "upload", "verified", "videocam", "view_stream",
   "visibility_off", "warehouse", "wifi", "workspace_premium",
 ].sort().join(","); // a API exige nomes em ordem alfabética
 

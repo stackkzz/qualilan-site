@@ -117,7 +117,7 @@ async function ProductPageContent({ params }: { params: PageProps<"/produto/[slu
             )}
 
             <div className="mt-auto flex flex-col gap-3 pt-10 xl:flex-row">
-              <AddToQuote product={{ slug: product.slug, name: product.name, sku: product.sku }} />
+              <AddToQuote product={{ slug: product.slug, name: product.name, sku: product.sku, image: product.image }} />
               <a
                 href={whatsappLink(
                   `Olá, Qualilan! Gostaria de um orçamento de: ${product.name}${product.sku ? ` (cód. ${product.sku})` : ""}`,

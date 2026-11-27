@@ -29,7 +29,7 @@ export function ProductCard({ product }: { product: Product }) {
         </h3>
       </Link>
       <div className="px-4 pb-4">
-        <AddToQuote product={{ slug: product.slug, name: product.name, sku: product.sku }} size="sm" />
+        <AddToQuote product={{ slug: product.slug, name: product.name, sku: product.sku, image: product.image }} size="sm" />
       </div>
     </li>
   );

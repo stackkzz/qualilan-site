@@ -1,12 +1,15 @@
 "use client";
 
+import Image from "next/image";
+import Link from "next/link";
 import { createContext, useContext, useEffect, useRef, useState, type ReactNode } from "react";
-import { site } from "@/lib/site";
+import { categories, site } from "@/lib/site";
 
-export type QuoteItem = { slug: string; name: string; sku: string | null; qty: number };
+export type QuoteItem = { slug: string; name: string; sku: string | null; image?: string | null; qty: number };
 
 type QuoteState = {
   items: QuoteItem[];
+  count: number;
   add: (item: Omit<QuoteItem, "qty">) => void;
   setQty: (slug: string, qty: number) => void;
   remove: (slug: string) => void;
@@ -39,6 +42,8 @@ function readStorage(): QuoteItem[] {
   }
 }
 
+const plural = (n: number, one: string, many: string) => `${n} ${n === 1 ? one : many}`;
+
 export function QuoteProvider({ children }: { children: ReactNode }) {
   const [items, setItems] = useState<QuoteItem[]>([]);
   const [loaded, setLoaded] = useState(false);
@@ -56,6 +61,7 @@ export function QuoteProvider({ children }: { children: ReactNode }) {
 
   const state: QuoteState = {
     items,
+    count: items.reduce((n, i) => n + i.qty, 0),
     add: (item) =>
       setItems((prev) =>
         prev.some((i) => i.slug === item.slug)
@@ -72,95 +78,144 @@ export function QuoteProvider({ children }: { children: ReactNode }) {
   return (
     <QuoteContext.Provider value={state}>
       {children}
+      <FloatingQuoteButton />
       <QuoteDialog ref={dialogRef} />
     </QuoteContext.Provider>
   );
 }
 
+function QtyStepper({ item }: { item: QuoteItem }) {
+  const { setQty, remove } = useQuote();
+  const btn = "grid size-8 place-items-center rounded-md text-profundo hover:bg-white disabled:opacity-30";
+  return (
+    <div className="flex items-center rounded-lg bg-offwhite p-0.5">
+      <button
+        type="button"
+        className={btn}
+        aria-label={item.qty === 1 ? `Remover ${item.name}` : `Diminuir quantidade de ${item.name}`}
+        onClick={() => (item.qty === 1 ? remove(item.slug) : setQty(item.slug, item.qty - 1))}
+      >
+        <span className="icon text-lg!">{item.qty === 1 ? "delete" : "remove"}</span>
+      </button>
+      <label className="sr-only" htmlFor={`qty-${item.slug}`}>
+        Quantidade de {item.name}
+      </label>
+      <input
+        id={`qty-${item.slug}`}
+        type="number"
+        inputMode="numeric"
+        min={1}
+        max={9999}
+        value={item.qty}
+        onChange={(e) => setQty(item.slug, e.target.valueAsNumber)}
+        className="w-12 bg-transparent text-center text-sm font-semibold tabular-nums text-profundo outline-none [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none"
+      />
+      <button type="button" className={btn} aria-label={`Aumentar quantidade de ${item.name}`} onClick={() => setQty(item.slug, item.qty + 1)}>
+        <span className="icon text-lg!">add</span>
+      </button>
+    </div>
+  );
+}
+
 function QuoteDialog({ ref }: { ref: React.RefObject<HTMLDialogElement | null> }) {
-  const { items, setQty, remove, clear } = useQuote();
+  const { items, count, remove, clear } = useQuote();
   const href = `https://wa.me/${site.whatsapp}?text=${encodeURIComponent(buildQuoteMessage(items))}`;
+  const close = () => ref.current?.close();
 
   return (
     <dialog
       ref={ref}
       aria-labelledby="quote-title"
-      onClick={(e) => e.target === e.currentTarget && ref.current?.close()}
+      onClick={(e) => e.target === e.currentTarget && close()}
       className="drawer m-0 ml-auto h-dvh max-h-none w-full max-w-md bg-white p-0 text-marinho backdrop:bg-marinho/60"
     >
       <div className="flex h-full flex-col">
         <div className="flex items-center justify-between border-b border-profundo/10 px-6 py-5">
-          <h2 id="quote-title" className="text-xl font-bold text-profundo">
-            Sua lista de orçamento
-          </h2>
-          <button
-            type="button"
-            onClick={() => ref.current?.close()}
-            className="grid size-10 place-items-center rounded-full hover:bg-offwhite"
-            aria-label="Fechar"
-          >
+          <div>
+            <h2 id="quote-title" className="text-xl font-bold text-profundo">
+              Sua lista
+            </h2>
+            <p className="text-sm text-marinho/55">
+              {items.length ? `${plural(items.length, "produto", "produtos")}, ${plural(count, "item", "itens")}` : "Nenhum produto ainda"}
+            </p>
+          </div>
+          <button type="button" onClick={close} className="grid size-10 place-items-center rounded-full hover:bg-offwhite" aria-label="Fechar">
             <span className="icon">close</span>
           </button>
         </div>
 
         {items.length === 0 ? (
-          <div className="flex flex-1 flex-col items-center justify-center gap-3 px-6 text-center">
-            <span className="icon text-5xl! text-royal/40">playlist_add</span>
-            <p className="font-medium text-profundo">Sua lista está vazia.</p>
-            <p className="text-sm text-marinho/60">
-              Use “Adicionar ao orçamento” nos produtos do catálogo para montar sua lista.
+          <div className="flex flex-1 flex-col items-center justify-center px-8 text-center">
+            <span className="relative grid size-24 place-items-center rounded-full bg-royal/8 text-royal">
+              <span className="absolute inset-0 rounded-full border-2 border-dashed border-royal/20" />
+              <span className="icon text-5xl!">shopping_cart</span>
+            </span>
+            <p className="mt-6 text-lg font-semibold text-profundo">Sua lista está vazia</p>
+            <p className="mt-2 text-sm leading-relaxed text-marinho/60">
+              Adicione produtos do catálogo e envie tudo de uma vez para o nosso time de vendas.
             </p>
+            <Link
+              href="/catalogo"
+              onClick={close}
+              className="mt-6 inline-flex items-center gap-2 rounded-lg bg-profundo px-5 py-3 text-sm font-semibold text-white hover:bg-royal"
+            >
+              <span className="icon text-xl!">grid_view</span>
+              Explorar o catálogo
+            </Link>
+            <ul className="mt-6 flex flex-wrap justify-center gap-2 text-xs">
+              {categories.slice(0, 4).map((c) => (
+                <li key={c.slug}>
+                  <Link
+                    href={`/catalogo/${c.slug}`}
+                    onClick={close}
+                    className="inline-flex items-center gap-1.5 rounded-full border border-profundo/10 px-3 py-1.5 text-marinho/75 hover:border-royal hover:text-royal"
+                  >
+                    <span className="icon text-base!">{c.icon}</span>
+                    {c.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
           </div>
         ) : (
           <>
             <ul className="flex-1 divide-y divide-profundo/10 overflow-y-auto px-6">
               {items.map((i) => (
                 <li key={i.slug} className="flex gap-4 py-4">
-                  <div className="min-w-0 flex-1">
-                    <p className="text-sm font-medium leading-snug">{i.name}</p>
-                    {i.sku && <p className="mt-1 text-xs text-marinho/50">Cód. {i.sku}</p>}
-                    <button
-                      type="button"
-                      onClick={() => remove(i.slug)}
-                      className="mt-2 text-xs font-medium text-royal underline underline-offset-2 hover:text-profundo"
-                    >
-                      Remover
-                    </button>
+                  <div className="relative size-16 shrink-0 overflow-hidden rounded-lg bg-offwhite">
+                    {i.image ? (
+                      <Image src={i.image} alt="" fill sizes="64px" className="object-contain p-1.5 mix-blend-multiply" />
+                    ) : (
+                      <span className="icon absolute inset-0 grid place-items-center text-royal/40">inventory_2</span>
+                    )}
                   </div>
-                  <label className="sr-only" htmlFor={`qty-${i.slug}`}>
-                    Quantidade de {i.name}
-                  </label>
-                  <input
-                    id={`qty-${i.slug}`}
-                    type="number"
-                    min={1}
-                    max={9999}
-                    value={i.qty}
-                    onChange={(e) => setQty(i.slug, e.target.valueAsNumber)}
-                    className="h-10 w-20 shrink-0 rounded-lg border border-profundo/20 px-2 text-center"
-                  />
+                  <div className="min-w-0 flex-1">
+                    <p className="line-clamp-2 text-[13px] font-medium leading-snug text-profundo">{i.name}</p>
+                    {i.sku && <p className="mt-0.5 text-xs text-marinho/50">Cód. {i.sku}</p>}
+                    <div className="mt-2 flex items-center justify-between gap-2">
+                      <QtyStepper item={i} />
+                      <button type="button" onClick={() => remove(i.slug)} className="text-xs text-marinho/50 hover:text-red-700">
+                        Remover
+                      </button>
+                    </div>
+                  </div>
                 </li>
               ))}
             </ul>
-            <div className="space-y-3 border-t border-profundo/10 px-6 py-5">
+            <div className="space-y-3 border-t border-profundo/10 bg-offwhite/60 px-6 py-5">
               <a
                 href={href}
                 target="_blank"
                 rel="noopener"
-                className="flex w-full items-center justify-center gap-2 rounded-lg bg-laranja px-6 py-3.5 font-semibold text-profundo transition-colors hover:bg-amarelo"
+                className="flex w-full items-center justify-center gap-2 rounded-xl bg-laranja px-6 py-4 text-base font-bold text-profundo shadow-[0_12px_30px_-12px_rgba(255,153,0,0.8)] transition-colors hover:bg-amarelo"
               >
-                <span className="icon text-xl!">chat</span>
-                Enviar pelo WhatsApp
+                <span className="icon icon-fill text-2xl!">chat</span>
+                Fazer meu orçamento
               </a>
-              <p className="flex items-center justify-center gap-1.5 text-xs text-marinho/55">
-                <span className="icon text-base!">schedule</span>
-                Atendimento: {site.hours.toLowerCase()}
+              <p className="text-center text-xs text-marinho/55">
+                A lista vai pronta pelo WhatsApp. Atendimento: {site.hours.toLowerCase()}.
               </p>
-              <button
-                type="button"
-                onClick={clear}
-                className="w-full text-sm text-marinho/60 hover:text-marinho"
-              >
+              <button type="button" onClick={clear} className="w-full text-xs text-marinho/50 hover:text-marinho">
                 Limpar lista
               </button>
             </div>
@@ -171,23 +226,44 @@ function QuoteDialog({ ref }: { ref: React.RefObject<HTMLDialogElement | null> }
   );
 }
 
+// Botão do cabeçalho: só o carrinho, com o número de itens num selo.
 export function QuoteCartButton() {
-  const { items, open } = useQuote();
-  const count = items.reduce((n, i) => n + i.qty, 0);
+  const { count, open } = useQuote();
   return (
     <button
       type="button"
       onClick={open}
-      className="relative inline-flex items-center gap-2 whitespace-nowrap rounded-lg bg-laranja px-4 py-2.5 text-sm font-semibold text-profundo transition-colors hover:bg-amarelo sm:px-5"
+      aria-label={count ? `Abrir lista de orçamento, ${plural(count, "item", "itens")}` : "Abrir lista de orçamento"}
+      className="relative grid size-11 place-items-center rounded-xl border border-profundo/10 text-profundo transition-colors hover:border-profundo/30 hover:bg-offwhite"
     >
-      <span className="icon text-xl!">request_quote</span>
-      <span className="hidden sm:inline">Orçamento</span>
+      <span className={`icon text-[1.6rem]! ${count ? "icon-fill" : ""}`}>shopping_cart</span>
       {count > 0 && (
-        <span key={count} className="bump grid min-w-6 place-items-center rounded-full bg-profundo px-1.5 text-xs text-white">
-          <span className="sr-only">itens na lista: </span>
-          {count}
+        <span
+          key={count}
+          aria-hidden
+          className="bump absolute -right-1.5 -top-1.5 grid h-5 min-w-5 place-items-center rounded-full bg-laranja px-1 text-[11px] font-bold tabular-nums text-profundo ring-2 ring-white"
+        >
+          {count > 99 ? "99+" : count}
         </span>
       )}
+    </button>
+  );
+}
+
+// Aparece no canto da tela quando há itens na lista: atalho direto para fechar o orçamento.
+function FloatingQuoteButton() {
+  const { count, open } = useQuote();
+  if (!count) return null;
+  return (
+    <button
+      type="button"
+      onClick={open}
+      className="float-in fixed bottom-5 right-5 z-30 flex items-center gap-3 rounded-full bg-profundo py-2 pl-2 pr-5 text-sm font-semibold text-white shadow-[0_20px_40px_-12px_rgba(18,23,68,0.6)] transition-colors hover:bg-royal"
+    >
+      <span key={count} className="bump grid size-9 place-items-center rounded-full bg-laranja text-profundo tabular-nums">
+        {count > 99 ? "99+" : count}
+      </span>
+      Fazer meu orçamento
     </button>
   );
 }
@@ -196,7 +272,7 @@ export function AddToQuote({
   product,
   size = "md",
 }: {
-  product: { slug: string; name: string; sku: string | null };
+  product: { slug: string; name: string; sku: string | null; image?: string | null };
   size?: "sm" | "md";
 }) {
   const { add, items } = useQuote();
@@ -218,15 +294,9 @@ export function AddToQuote({
           : "bg-royal px-6 py-3.5 text-white hover:bg-profundo"
       }`}
     >
-      <span className="icon text-xl!">{justAdded ? "check" : "playlist_add"}</span>
+      <span className="icon text-xl!">{justAdded ? "check" : inList ? "shopping_cart" : "add_shopping_cart"}</span>
       <span aria-live="polite">
-        {justAdded
-          ? "Adicionado"
-          : inList
-            ? `Na lista (${inList.qty})`
-            : size === "sm"
-              ? "Adicionar"
-              : "Adicionar ao orçamento"}
+        {justAdded ? "Adicionado" : inList ? `Na lista (${inList.qty})` : size === "sm" ? "Adicionar" : "Adicionar à lista"}
       </span>
     </button>
   );
