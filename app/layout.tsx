@@ -9,7 +9,7 @@ const icons = [
   "account_balance", "agriculture", "arrow_back", "badge", "bolt", "cable", "add", "delete", "edit", "logout", "upload", "visibility_off", "call", "chat", "check",
   "close", "dns", "done_all", "electric_bolt", "factory", "inventory_2", "label", "lan", "lightbulb", "mail", "menu",
   "local_hospital", "local_shipping", "location_on", "map", "playlist_add", "request_quote", "school",
-  "search", "settings_ethernet", "swap_horiz", "videocam", "view_stream", "wifi",
+  "search", "settings_ethernet", "swap_horiz", "verified", "videocam", "view_stream", "wifi",
 ].sort().join(","); // a API exige nomes em ordem alfabética
 
 export const metadata: Metadata = {

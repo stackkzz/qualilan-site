@@ -85,10 +85,10 @@ export const partners = [
 ];
 
 export const differentials = [
-  { icon: "/ref/icons/exp.png", title: "Mais de 25 anos de experiência", text: "Uma história construída com confiança, parceria e inovação." },
+  { icon: "/ref/icons/exp.png", title: "Mais de 25 anos de experiência", text: "Experiência em projetos de empresas de todos os portes." },
   { icon: "/ref/icons/distribuidor.png", title: "Distribuidor de soluções tecnológicas", text: "Parceiro comercial de marcas nacionais e internacionais." },
   { icon: "/ref/icons/atendimento.png", title: "Atendimento consultivo", text: "Projetos personalizados para a necessidade real de cada cliente." },
-  { icon: "/ref/icons/custo.png", title: "Custo-benefício e pronta entrega", text: "Estoque em cinco unidades e preço competitivo." },
+  { icon: "/ref/icons/custo.png", title: "Custo-benefício e pronta entrega", text: "Preço competitivo e estoque para atender rápido." },
   { icon: "/ref/icons/verticais.png", title: "Atuação em diversos setores", text: "Universidades, hospitais, indústria, centros logísticos e data centers." },
 ];
 

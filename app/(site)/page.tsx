@@ -60,8 +60,8 @@ export default function Home() {
             Infraestrutura inteligente para a sua empresa.
           </h1>
           <p style={{ "--i": 1 } as React.CSSProperties} className="hero-in mt-6 max-w-xl text-lg leading-relaxed text-white/75">
-            Infraestrutura de rede, segurança eletrônica e conectividade das marcas líderes, com pronta entrega em
-            cinco unidades.
+            Infraestrutura de rede, segurança eletrônica e conectividade das marcas líderes, para empresas de todos
+            os portes.
           </p>
 
           <form action="/catalogo" role="search" style={{ "--i": 2 } as React.CSSProperties} className="hero-in mt-10 max-w-xl">
@@ -101,11 +101,11 @@ export default function Home() {
         <div aria-hidden className="pointer-events-none absolute inset-y-0 right-0 hidden w-[38%] lg:block">
           <div className="float-a absolute right-[18%] top-[26%] flex items-center gap-3 rounded-xl border border-white/15 bg-white/10 px-4 py-3 text-sm text-white backdrop-blur-md">
             <span className="grid size-9 place-items-center rounded-lg bg-laranja text-profundo">
-              <span className="icon text-xl!">inventory_2</span>
+              <span className="icon text-xl!">verified</span>
             </span>
             <span>
-              <span className="block font-semibold">Pronta entrega</span>
-              <span className="text-white/70">em 5 unidades</span>
+              <span className="block font-semibold">Distribuidor autorizado</span>
+              <span className="text-white/70">das marcas líderes</span>
             </span>
           </div>
           <div className="float-b absolute bottom-[22%] right-[30%] flex items-center gap-3 rounded-xl border border-white/15 bg-white/10 px-4 py-3 text-sm text-white backdrop-blur-md">
@@ -115,7 +115,7 @@ export default function Home() {
             </span>
             <span>
               <span className="block font-semibold">Orçamento pelo WhatsApp</span>
-              <span className="text-white/70">sem cadastro</span>
+              <span className="text-white/70">monte a lista no site</span>
             </span>
           </div>
         </div>
@@ -187,9 +187,6 @@ export default function Home() {
               </li>
             ))}
           </ul>
-          <div className="mt-14">
-            <WhatsAppButton message={specialistMessage}>Fale com um especialista</WhatsAppButton>
-          </div>
         </div>
       </section>
 
@@ -200,13 +197,12 @@ export default function Home() {
             <div>
               <SectionHeading
                 title="Logística eficiente e ágil"
-                text="Logística própria e parcerias estratégicas: entregamos onde e quando você precisa."
+                text="Entregamos onde e quando você precisa."
               />
               <dl className="reveal mt-10 space-y-6">
                 {[
-                  { k: "5 unidades", v: "em Campinas, São Paulo, Bauru, Jacareí e Minas Gerais" },
-                  { k: "Pronta entrega", v: "nas 5 unidades, com o estoque mais próximo de você" },
-                  { k: "Todo o Brasil", v: "entregas nacionais com logística própria e parceiros" },
+                  { k: "Logística própria", v: "com parcerias estratégicas, para mais agilidade e segurança no seu projeto" },
+                  { k: "Todo o Brasil", v: "entregas nacionais a partir das unidades de SP e MG" },
                 ].map((s) => (
                   <div key={s.k} className="border-l-2 border-laranja pl-5">
                     <dt className="text-xl font-bold tracking-tight text-profundo">{s.k}</dt>

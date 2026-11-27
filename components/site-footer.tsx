@@ -56,37 +56,26 @@ export function SiteFooter() {
       />
 
       <div className="mx-auto max-w-6xl px-5">
-        {/* Faixa de contato */}
-        <div className="flex flex-col items-start justify-between gap-6 border-b border-white/10 py-12 md:flex-row md:items-center">
-          <div>
-            <p className="text-2xl font-bold tracking-tight md:text-3xl">Precisa de um orçamento?</p>
-            <p className="mt-2 text-white/60">Fale com o time de vendas pelo WhatsApp ou por e-mail.</p>
-          </div>
-          <div className="flex flex-wrap gap-3">
-            <a
-              href={whatsappLink("Olá, Qualilan! Gostaria de um orçamento.")}
-              className="inline-flex items-center gap-2 rounded-lg bg-laranja px-5 py-3 font-semibold text-profundo transition-colors hover:bg-amarelo"
-            >
-              <span className="icon text-xl!">chat</span>
-              {site.whatsappLabel}
-            </a>
-            <a
-              href={`mailto:${site.email}`}
-              className="inline-flex items-center gap-2 rounded-lg border border-white/20 px-5 py-3 font-semibold transition-colors hover:border-white/50"
-            >
-              <span className="icon text-xl!">mail</span>
-              Enviar e-mail
-            </a>
-          </div>
-        </div>
-
         <div className="grid grid-cols-2 gap-x-8 gap-y-12 py-14 lg:grid-cols-[1.4fr_1fr_1fr_1.3fr]">
           <div className="col-span-2 lg:col-span-1">
             <Image src="/brand/logo-branco.png" alt="Qualilan" width={150} height={52} />
             <p className="mt-5 max-w-xs text-sm leading-relaxed text-white/60">
-              Há mais de 25 anos distribuindo infraestrutura de rede, segurança eletrônica e conectividade das marcas
-              líderes.
+              Distribuidora de infraestrutura de rede, segurança eletrônica e conectividade.
             </p>
+            <ul className="mt-6 space-y-2 text-sm">
+              <li>
+                <a href={whatsappLink("Olá, Qualilan! Gostaria de um orçamento.")} className="flex items-center gap-2 text-white/85 hover:text-laranja">
+                  <span className="icon text-lg! text-laranja">chat</span>
+                  WhatsApp {site.whatsappLabel}
+                </a>
+              </li>
+              <li>
+                <a href={`mailto:${site.email}`} className="flex items-center gap-2 text-white/85 hover:text-laranja">
+                  <span className="icon text-lg! text-laranja">mail</span>
+                  {site.email}
+                </a>
+              </li>
+            </ul>
             <ul className="mt-6 flex gap-2" aria-label="Redes sociais">
               {site.socials.map((s) => (
                 <li key={s.label}>
