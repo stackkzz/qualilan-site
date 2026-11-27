@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { WhatsAppIcon } from "@/components/whatsapp-icon";
+import { MailIcon, WhatsAppIcon } from "@/components/whatsapp-icon";
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { categories, site, telHref, units, whatsappLink } from "@/lib/site";
@@ -72,7 +72,7 @@ export function SiteFooter() {
               </li>
               <li>
                 <a href={`mailto:${site.email}`} className="flex items-center gap-2 text-white/85 hover:text-laranja">
-                  <span className="icon text-lg! text-laranja">mail</span>
+                  <MailIcon className="size-[18px] text-laranja" />
                   {site.email}
                 </a>
               </li>
