@@ -70,7 +70,7 @@ export default function Home() {
             <label htmlFor="q" className="sr-only">
               Buscar no catálogo
             </label>
-            <div className="flex items-center rounded-xl bg-white p-1.5 pl-4 text-marinho shadow-[0_24px_60px_-24px_rgba(0,0,26,0.7)]">
+            <div className="flex items-center rounded-xl bg-white p-1.5 pl-4 text-marinho shadow-[0_24px_60px_-24px_rgba(0,0,26,0.7)] transition-shadow focus-within:ring-4 focus-within:ring-laranja/40">
               <span className="icon text-marinho/40">search</span>
               <input
                 id="q"

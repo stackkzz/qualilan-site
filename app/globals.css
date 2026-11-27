@@ -46,6 +46,14 @@ body {
   outline-offset: 3px;
 }
 
+/* Campos de busca: o foco aparece na caixa inteira (focus-within), não como um contorno dentro dela. */
+input[type="search"]:focus-visible {
+  outline: none;
+}
+input[type="search"]::-webkit-search-cancel-button {
+  cursor: pointer;
+}
+
 /*
  * Animações: só CSS (transform/opacity, que a GPU faz sozinha), sem JS e sem biblioteca.
  * Tudo fica dentro de prefers-reduced-motion: no-preference; quem pede menos movimento vê o site parado.

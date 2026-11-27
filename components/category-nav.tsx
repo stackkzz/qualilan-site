@@ -133,7 +133,7 @@ export function CatalogSearch({ defaultValue, categoria }: { defaultValue?: stri
         Buscar no catálogo
       </label>
       {categoria && <input type="hidden" name="categoria" value={categoria} />}
-      <div className="flex items-center rounded-xl border border-profundo/15 bg-offwhite p-1 pl-4 transition-colors focus-within:border-royal focus-within:bg-white">
+      <div className="flex items-center rounded-xl border border-profundo/15 bg-offwhite p-1 pl-4 transition-[border-color,background-color,box-shadow] focus-within:border-royal focus-within:bg-white focus-within:ring-4 focus-within:ring-royal/15">
         <span className="icon text-marinho/40">search</span>
         <input
           id="catalog-q"

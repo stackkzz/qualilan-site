@@ -38,7 +38,7 @@ export function SiteHeader() {
             <label htmlFor="header-q" className="sr-only">
               Buscar no catálogo
             </label>
-            <div className="flex items-center rounded-lg border border-profundo/10 bg-offwhite px-3 transition-colors focus-within:border-royal focus-within:bg-white">
+            <div className="flex items-center rounded-lg border border-profundo/10 bg-offwhite px-3 transition-[border-color,background-color,box-shadow] focus-within:border-royal focus-within:bg-white focus-within:ring-4 focus-within:ring-royal/15">
               <span className="icon text-lg! text-marinho/40">search</span>
               <input
                 id="header-q"
@@ -72,7 +72,7 @@ export function SiteHeader() {
                     name="q"
                     type="search"
                     placeholder="Buscar produto ou código"
-                    className="w-full rounded-lg border border-profundo/10 bg-offwhite px-3 py-2.5 text-sm outline-none focus:border-royal"
+                    className="w-full rounded-lg border border-profundo/10 bg-offwhite px-3 py-2.5 text-sm outline-none transition-shadow focus:border-royal focus:bg-white focus:ring-4 focus:ring-royal/15"
                   />
                 </form>
                 <ul>
