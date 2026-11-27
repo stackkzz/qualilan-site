@@ -1,15 +1,16 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Suspense } from "react";
+import { Flash } from "@/app/admin/flash";
+import { PageBody, PageHeader, panelCard, primaryButton } from "@/app/admin/ui";
 import { PageLoader } from "@/components/qualilan-loader";
 import { requireAdmin } from "@/lib/admin";
 import { formatDate } from "@/lib/blog";
-import { AdminHeader } from "../admin-header";
 
 const one = (v: string | string[] | undefined) => (Array.isArray(v) ? v[0] : v) || undefined;
 
 async function PostList({ searchParams }: { searchParams: PageProps<"/admin/blog">["searchParams"] }) {
-  const { supabase, user } = await requireAdmin();
+  const { supabase } = await requireAdmin();
   const sp = await searchParams;
   const saved = one(sp.salvo);
   const removed = one(sp.removido);
@@ -22,31 +23,20 @@ async function PostList({ searchParams }: { searchParams: PageProps<"/admin/blog
 
   return (
     <>
-      <AdminHeader email={user.email} />
-      <main className="mx-auto max-w-6xl px-5 py-10">
-        {(saved || removed) && (
-          <p role="status" className="mb-6 rounded-lg bg-emerald-50 px-4 py-3 text-sm text-emerald-900">
-            {saved ? `“${saved}” foi salvo.` : `“${removed}” foi apagado.`}
-          </p>
-        )}
+      <PageBody>
+        <Flash message={saved ? `“${saved}” foi salvo.` : removed ? `“${removed}” foi apagado.` : undefined} />
+        <PageHeader
+          title="Blog"
+          description={`${data.filter((p) => p.published).length} publicados, ${data.filter((p) => !p.published).length} rascunhos`}
+          action={
+            <Link href="/admin/blog/novo" className={primaryButton}>
+              <span className="icon text-xl!">add</span>
+              Novo artigo
+            </Link>
+          }
+        />
 
-        <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
-          <div>
-            <h1 className="text-3xl font-bold tracking-tight text-profundo">Blog</h1>
-            <p className="mt-1 text-marinho/60">
-              {data.filter((p) => p.published).length} publicados, {data.filter((p) => !p.published).length} rascunhos
-            </p>
-          </div>
-          <Link
-            href="/admin/blog/novo"
-            className="inline-flex items-center gap-2 rounded-full bg-laranja px-5 py-2.5 font-semibold text-profundo hover:bg-amarelo"
-          >
-            <span className="icon text-xl!">add</span>
-            Novo artigo
-          </Link>
-        </div>
-
-        <ul className="divide-y divide-profundo/10 overflow-hidden rounded-2xl bg-white">
+        <ul className={`${panelCard} divide-y divide-profundo/10 overflow-hidden`}>
           {data.map((p) => (
             <li key={p.id}>
               <Link href={`/admin/blog/${p.id}`} className="flex items-center gap-4 px-4 py-3 hover:bg-offwhite">
@@ -66,19 +56,14 @@ async function PostList({ searchParams }: { searchParams: PageProps<"/admin/blog
           ))}
           {data.length === 0 && <li className="px-4 py-10 text-center text-marinho/60">Nenhum artigo ainda.</li>}
         </ul>
-      </main>
+      </PageBody>
     </>
   );
 }
 
 export default function AdminBlogPage({ searchParams }: PageProps<"/admin/blog">) {
   return (
-    <Suspense fallback={
-        <>
-          <div className="h-14 bg-profundo" />
-          <PageLoader />
-        </>
-      }>
+    <Suspense fallback={<PageLoader />}>
       <PostList searchParams={searchParams} />
     </Suspense>
   );

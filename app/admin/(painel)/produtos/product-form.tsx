@@ -3,8 +3,8 @@
 import Link from "next/link";
 import { useActionState, useState } from "react";
 import { categories } from "@/lib/site";
-import { deleteProduct, saveProduct } from "../actions";
-import { Field, inputClass } from "../ui";
+import { deleteProduct, saveProduct } from "@/app/admin/actions";
+import { Field, inputClass, panelCard } from "@/app/admin/ui";
 
 export type EditableProduct = {
   id: string;
@@ -28,9 +28,11 @@ export function ProductForm({ product, brands }: { product?: EditableProduct; br
 
   return (
     <div className="grid gap-8 lg:grid-cols-[1fr_320px]">
-      <form action={action} className="space-y-5 rounded-2xl bg-white p-6 md:p-8" id="product-form">
+      <form action={action} className="space-y-5" id="product-form">
         {product && <input type="hidden" name="id" value={product.id} />}
 
+        <section className={`${panelCard} space-y-5 p-5 md:p-6`}>
+          <h2 className="text-sm font-semibold text-profundo">Informações</h2>
         <Field label="Nome do produto" htmlFor="name">
           <input id="name" name="name" required minLength={2} maxLength={300} defaultValue={product?.name} className={inputClass} />
         </Field>
@@ -76,6 +78,10 @@ export function ProductForm({ product, brands }: { product?: EditableProduct; br
           </Field>
         </div>
 
+        </section>
+
+        <section className={`${panelCard} space-y-5 p-5 md:p-6`}>
+          <h2 className="text-sm font-semibold text-profundo">Descrição e ficha técnica</h2>
         <Field label="Descrição" htmlFor="description" hint="Opcional. Especificações, aplicações, o que vem na caixa.">
           <textarea
             id="description"
@@ -87,6 +93,10 @@ export function ProductForm({ product, brands }: { product?: EditableProduct; br
           />
         </Field>
 
+        </section>
+
+        <section className={`${panelCard} space-y-5 p-5 md:p-6`}>
+          <h2 className="text-sm font-semibold text-profundo">Situação no site</h2>
         <fieldset className="space-y-3">
           <legend className="sr-only">Situação</legend>
           <label className="flex items-center gap-3">
@@ -104,6 +114,7 @@ export function ProductForm({ product, brands }: { product?: EditableProduct; br
             </span>
           </label>
         </fieldset>
+        </section>
 
         {state?.error && (
           <p role="alert" className="rounded-lg bg-red-50 px-4 py-3 text-sm text-red-800">
@@ -111,15 +122,16 @@ export function ProductForm({ product, brands }: { product?: EditableProduct; br
           </p>
         )}
 
-        <div className="flex flex-wrap items-center gap-3 pt-2">
+        {/* Barra de salvar sempre visível ao rolar o formulário */}
+        <div className="sticky bottom-0 z-10 -mx-5 flex flex-wrap items-center gap-3 border-t border-profundo/10 bg-white/95 px-5 py-3 md:mx-0 md:rounded-xl md:border">
           <button
             type="submit"
             disabled={pending}
-            className="rounded-full bg-royal px-6 py-3 font-semibold text-white hover:bg-profundo disabled:opacity-60"
+            className="rounded-lg bg-profundo px-5 py-2.5 text-sm font-semibold text-white hover:bg-royal disabled:opacity-60"
           >
             {pending ? "Salvando…" : product ? "Salvar alterações" : "Criar produto"}
           </button>
-          <Link href="/admin" className="px-4 py-3 text-marinho/70 hover:text-marinho">
+          <Link href="/admin/produtos" className="px-4 py-3 text-marinho/70 hover:text-marinho">
             Cancelar
           </Link>
           {product && (
@@ -131,7 +143,7 @@ export function ProductForm({ product, brands }: { product?: EditableProduct; br
       </form>
 
       <aside className="space-y-6">
-        <div className="rounded-2xl bg-white p-6">
+        <div className={`${panelCard} p-5`}>
           <p className="mb-3 text-sm font-medium text-profundo">Foto</p>
           <div className="relative mb-4 grid aspect-square place-items-center overflow-hidden rounded-xl bg-offwhite">
             {preview ? (
@@ -170,7 +182,7 @@ export function ProductForm({ product, brands }: { product?: EditableProduct; br
               if (!confirm(`Apagar “${product.name}” do catálogo? Não dá para desfazer. Para só esconder, desmarque “Mostrar no site”.`))
                 e.preventDefault();
             }}
-            className="rounded-2xl bg-white p-6"
+            className={`${panelCard} p-5`}
           >
             <input type="hidden" name="id" value={product.id} />
             <button type="submit" className="flex items-center gap-2 text-sm font-medium text-red-700 hover:text-red-900">

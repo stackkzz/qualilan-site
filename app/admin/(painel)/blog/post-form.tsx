@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useActionState, useRef, useState } from "react";
 import { Markdown } from "@/components/markdown";
-import { Field, inputClass } from "../ui";
+import { Field, inputClass, panelCard } from "@/app/admin/ui";
 import { deletePost, savePost } from "./actions";
 
 export type EditablePost = {
@@ -50,9 +50,11 @@ export function PostForm({ post, categories }: { post?: EditablePost; categories
 
   return (
     <div className="grid gap-8 lg:grid-cols-[1fr_320px]">
-      <form action={action} className="space-y-5 rounded-2xl bg-white p-6 md:p-8" id="post-form">
+      <form action={action} className="space-y-5" id="post-form">
         {post && <input type="hidden" name="id" value={post.id} />}
 
+        <section className={`${panelCard} space-y-5 p-5 md:p-6`}>
+          <h2 className="text-sm font-semibold text-profundo">Artigo</h2>
         <Field label="Título" htmlFor="title">
           <input id="title" name="title" required minLength={3} maxLength={200} defaultValue={post?.title} className={inputClass} />
         </Field>
@@ -90,6 +92,10 @@ export function PostForm({ post, categories }: { post?: EditablePost; categories
           </Field>
         </div>
 
+        </section>
+
+        <section className={`${panelCard} space-y-5 p-5 md:p-6`}>
+          <h2 className="text-sm font-semibold text-profundo">Texto</h2>
         <div>
           <div className="mb-1.5 flex items-center justify-between">
             <label htmlFor="body" className="text-sm font-medium text-profundo">
@@ -163,6 +169,10 @@ export function PostForm({ post, categories }: { post?: EditablePost; categories
           </details>
         </div>
 
+        </section>
+
+        <section className={`${panelCard} space-y-5 p-5 md:p-6`}>
+          <h2 className="text-sm font-semibold text-profundo">Publicação</h2>
         <label className="flex items-center gap-3">
           <input type="checkbox" name="published" defaultChecked={post?.published ?? false} className="size-5 accent-royal" />
           <span>
@@ -170,6 +180,7 @@ export function PostForm({ post, categories }: { post?: EditablePost; categories
             <span className="block text-sm text-marinho/60">Desmarcado, o artigo fica salvo como rascunho.</span>
           </span>
         </label>
+        </section>
 
         {state?.error && (
           <p role="alert" className="rounded-lg bg-red-50 px-4 py-3 text-sm text-red-800">
@@ -177,11 +188,12 @@ export function PostForm({ post, categories }: { post?: EditablePost; categories
           </p>
         )}
 
-        <div className="flex flex-wrap items-center gap-3 pt-2">
+        {/* Barra de salvar sempre visível ao rolar o formulário */}
+        <div className="sticky bottom-0 z-10 -mx-5 flex flex-wrap items-center gap-3 border-t border-profundo/10 bg-white/95 px-5 py-3 md:mx-0 md:rounded-xl md:border">
           <button
             type="submit"
             disabled={pending}
-            className="rounded-full bg-royal px-6 py-3 font-semibold text-white hover:bg-profundo disabled:opacity-60"
+            className="rounded-lg bg-profundo px-5 py-2.5 text-sm font-semibold text-white hover:bg-royal disabled:opacity-60"
           >
             {pending ? "Salvando…" : post ? "Salvar alterações" : "Criar artigo"}
           </button>
@@ -197,7 +209,7 @@ export function PostForm({ post, categories }: { post?: EditablePost; categories
       </form>
 
       <aside className="space-y-6">
-        <div className="rounded-2xl bg-white p-6">
+        <div className={`${panelCard} p-5`}>
           <p className="mb-3 text-sm font-medium text-profundo">Capa</p>
           <div className="relative mb-4 grid aspect-[16/9] place-items-center overflow-hidden rounded-xl bg-offwhite">
             {cover ? (
@@ -236,7 +248,7 @@ export function PostForm({ post, categories }: { post?: EditablePost; categories
               if (!confirm(`Apagar “${post.title}”? Não dá para desfazer. Para só esconder, desmarque “Publicar no site”.`))
                 e.preventDefault();
             }}
-            className="rounded-2xl bg-white p-6"
+            className={`${panelCard} p-5`}
           >
             <input type="hidden" name="id" value={post.id} />
             <button type="submit" className="flex items-center gap-2 text-sm font-medium text-red-700 hover:text-red-900">

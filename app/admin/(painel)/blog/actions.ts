@@ -4,7 +4,7 @@ import { updateTag } from "next/cache";
 import { redirect } from "next/navigation";
 import { requireAdmin, slugify } from "@/lib/admin";
 import { POSTS_TAG } from "@/lib/blog";
-import type { FormState } from "../actions";
+import type { FormState } from "@/app/admin/actions";
 
 const MAX_IMAGE_BYTES = 4 * 1024 * 1024; // abaixo do limite de 4,5 MB do corpo da requisição na Vercel
 const IMAGE_TYPES: Record<string, string> = { "image/jpeg": "jpg", "image/png": "png", "image/webp": "webp" };

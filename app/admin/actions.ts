@@ -95,7 +95,7 @@ export async function saveProduct(_: FormState, formData: FormData): Promise<For
   }
 
   updateTag(PRODUCTS_TAG);
-  redirect(`/admin?salvo=${encodeURIComponent(name)}`);
+  redirect(`/admin/produtos?salvo=${encodeURIComponent(name)}`);
 }
 
 export async function deleteProduct(formData: FormData) {
@@ -109,5 +109,5 @@ export async function deleteProduct(formData: FormData) {
     await supabase.storage.from(BUCKET).remove([data.image_url.split(marker)[1]]);
   }
   updateTag(PRODUCTS_TAG);
-  redirect(data ? `/admin?removido=${encodeURIComponent(data.name)}` : "/admin");
+  redirect(data ? `/admin/produtos?removido=${encodeURIComponent(data.name)}` : "/admin/produtos");
 }

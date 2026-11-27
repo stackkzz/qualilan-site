@@ -1,7 +1,7 @@
 import { Suspense } from "react";
+import { PageBody, PageHeader, panelCard } from "@/app/admin/ui";
 import { PageLoader } from "@/components/qualilan-loader";
 import { requireAdmin } from "@/lib/admin";
-import { AdminHeader } from "../admin-header";
 import { setRequestStatus } from "./actions";
 
 type Item = { name: string; sku: string | null; qty: number };
@@ -9,7 +9,7 @@ type Item = { name: string; sku: string | null; qty: number };
 const statusLabel = { novo: "Novo", respondido: "Respondido", arquivado: "Arquivado" } as const;
 
 async function RequestList() {
-  const { supabase, user } = await requireAdmin();
+  const { supabase } = await requireAdmin();
   const { data, error } = await supabase
     .from("quote_requests")
     .select("id, name, company, email, phone, message, items, status, created_at")
@@ -20,20 +20,18 @@ async function RequestList() {
 
   return (
     <>
-      <AdminHeader email={user.email} />
-      <main className="mx-auto max-w-6xl px-5 py-10">
-        <h1 className="text-3xl font-bold tracking-tight text-profundo">Pedidos por e-mail</h1>
-        <p className="mt-1 text-marinho/60">
-          {data.filter((r) => r.status === "novo").length} novos. Pedidos enviados pelo formulário “Prefere receber por
-          e-mail?” da lista de orçamento.
-        </p>
+      <PageBody>
+        <PageHeader
+          title="Pedidos por e-mail"
+          description={`${data.filter((r) => r.status === "novo").length} novos. Chegam pelo “Prefere receber por e-mail?” da lista de orçamento.`}
+        />
 
-        <ul className="mt-6 space-y-4">
+        <ul className="space-y-4">
           {data.map((r) => {
             const items = r.items as Item[];
             const reply = `mailto:${r.email}?subject=${encodeURIComponent("Orçamento Qualilan")}`;
             return (
-              <li key={r.id} className="rounded-2xl bg-white p-6">
+              <li key={r.id} className={`${panelCard} p-6`}>
                 <div className="flex flex-wrap items-start justify-between gap-4">
                   <div>
                     <p className="font-semibold text-profundo">
@@ -94,21 +92,16 @@ async function RequestList() {
               </li>
             );
           })}
-          {data.length === 0 && <li className="rounded-2xl bg-white px-6 py-10 text-center text-marinho/60">Nenhum pedido ainda.</li>}
+          {data.length === 0 && <li className={`${panelCard} px-6 py-10 text-center text-marinho/60`}>Nenhum pedido ainda.</li>}
         </ul>
-      </main>
+      </PageBody>
     </>
   );
 }
 
 export default function AdminRequestsPage() {
   return (
-    <Suspense fallback={
-        <>
-          <div className="h-14 bg-profundo" />
-          <PageLoader />
-        </>
-      }>
+    <Suspense fallback={<PageLoader />}>
       <RequestList />
     </Suspense>
   );

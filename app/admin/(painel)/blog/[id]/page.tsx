@@ -1,13 +1,14 @@
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
+import { PageBody, PageHeader } from "@/app/admin/ui";
 import { PageLoader } from "@/components/qualilan-loader";
 import { requireAdmin } from "@/lib/admin";
-import { AdminHeader } from "../../admin-header";
 import { loadPostCategories } from "../load";
 import { PostForm, type EditablePost } from "../post-form";
 
 async function EditPost({ params }: { params: PageProps<"/admin/blog/[id]">["params"] }) {
-  const { supabase, user } = await requireAdmin();
+  const { supabase } = await requireAdmin();
   const { id } = await params;
   if (!/^[0-9a-f-]{36}$/i.test(id)) notFound();
   const { data } = await supabase
@@ -19,23 +20,21 @@ async function EditPost({ params }: { params: PageProps<"/admin/blog/[id]">["par
 
   return (
     <>
-      <AdminHeader email={user.email} />
-      <main className="mx-auto max-w-6xl px-5 py-10">
-        <h1 className="mb-6 text-3xl font-bold tracking-tight text-profundo">Editar artigo</h1>
+      <PageBody>
+        <Link href="/admin/blog" className="mb-3 inline-flex items-center gap-1 text-sm text-marinho/60 hover:text-profundo">
+          <span className="icon text-lg!">arrow_back</span>
+          Blog
+        </Link>
+        <PageHeader title="Editar artigo" />
         <PostForm post={data as EditablePost} categories={await loadPostCategories()} />
-      </main>
+      </PageBody>
     </>
   );
 }
 
 export default function EditPostPage({ params }: PageProps<"/admin/blog/[id]">) {
   return (
-    <Suspense fallback={
-        <>
-          <div className="h-14 bg-profundo" />
-          <PageLoader />
-        </>
-      }>
+    <Suspense fallback={<PageLoader />}>
       <EditPost params={params} />
     </Suspense>
   );

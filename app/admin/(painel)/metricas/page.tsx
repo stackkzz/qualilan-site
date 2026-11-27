@@ -1,9 +1,9 @@
 import Link from "next/link";
 import { Suspense } from "react";
+import { PageBody, PageHeader, panelCard } from "@/app/admin/ui";
 import { PageLoader } from "@/components/qualilan-loader";
 import { requireAdmin } from "@/lib/admin";
 import { getCategory, searchProducts, toProduct } from "@/lib/catalog";
-import { AdminHeader } from "../admin-header";
 
 type Event = { type: string; query: string | null; items: { slug: string; qty: number }[] | null; created_at: string };
 
@@ -21,7 +21,7 @@ function count<T>(list: T[], key: (t: T) => string | null | undefined) {
 
 // Busca e cálculo fora do componente (o React exige render puro; aqui usamos a hora atual).
 async function loadMetrics() {
-  const { supabase, user } = await requireAdmin();
+  const { supabase } = await requireAdmin();
   const since = new Date(Date.now() - 56 * DAY).toISOString();
   const [{ data: events, error }, { data: rows }] = await Promise.all([
     supabase.from("site_events").select("type, query, items, created_at").gte("created_at", since).order("created_at").limit(20000),
@@ -63,25 +63,20 @@ async function loadMetrics() {
   const searches = list.filter((e) => e.type === "busca" && inDays(e, 30));
   const topSearches = count(searches, (e) => e.query).slice(0, 10);
   const notFound = topSearches.filter(([q]) => searchProducts(products, { q }).length === 0);
-  return { user, cards, weeks, maxWeek, topProducts, topCategories, topSearches, notFound, bySlug };
+  return { cards, weeks, maxWeek, topProducts, topCategories, topSearches, notFound, bySlug };
 }
 
 async function Metrics() {
-  const { user, cards, weeks, maxWeek, topProducts, topCategories, topSearches, notFound, bySlug } = await loadMetrics();
+  const { cards, weeks, maxWeek, topProducts, topCategories, topSearches, notFound, bySlug } = await loadMetrics();
   return (
     <>
-      <AdminHeader email={user.email} />
-      <main className="mx-auto max-w-6xl space-y-8 px-5 py-10">
-        <div>
-          <h1 className="text-3xl font-bold tracking-tight text-profundo">Métricas do site</h1>
-          <p className="mt-1 text-marinho/60">
-            Últimos 7 e 30 dias. Contamos cliques e buscas, sem dados pessoais dos visitantes.
-          </p>
-        </div>
+      <PageBody>
+        <PageHeader title="Métricas do site" description="Últimos 7 e 30 dias. Contamos cliques e buscas, sem dados pessoais dos visitantes." />
+        <div className="space-y-6">
 
         <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {cards.map((c) => (
-            <li key={c.label} className="rounded-2xl bg-white p-5">
+            <li key={c.label} className={`${panelCard} p-5`}>
               <p className="text-sm text-marinho/60">{c.label}</p>
               <p className="mt-2 text-4xl font-bold tabular-nums text-profundo">{c.week}</p>
               <p className="mt-1 text-sm text-marinho/55">
@@ -91,7 +86,7 @@ async function Metrics() {
           ))}
         </ul>
 
-        <section className="rounded-2xl bg-white p-6">
+        <section className={`${panelCard} p-6`}>
           <h2 className="font-semibold text-profundo">Orçamentos por semana</h2>
           <p className="text-sm text-marinho/55">WhatsApp (lista e item) e e-mail.</p>
           <div
@@ -110,7 +105,7 @@ async function Metrics() {
         </section>
 
         <div className="grid gap-6 lg:grid-cols-2">
-          <section className="rounded-2xl bg-white p-6">
+          <section className={`${panelCard} p-6`}>
             <h2 className="font-semibold text-profundo">Produtos mais orçados (30 dias)</h2>
             <ol className="mt-4 space-y-2 text-sm">
               {topProducts.map(([slug, n]) => (
@@ -131,7 +126,7 @@ async function Metrics() {
             )}
           </section>
 
-          <section className="rounded-2xl bg-white p-6">
+          <section className={`${panelCard} p-6`}>
             <h2 className="font-semibold text-profundo">O que mais buscam (30 dias)</h2>
             <ol className="mt-4 space-y-2 text-sm">
               {topSearches.map(([q, n]) => (
@@ -154,7 +149,8 @@ async function Metrics() {
             )}
           </section>
         </div>
-      </main>
+        </div>
+      </PageBody>
     </>
   );
 }
@@ -162,12 +158,7 @@ async function Metrics() {
 export default function AdminMetricsPage() {
   return (
     <Suspense
-      fallback={
-        <>
-          <div className="h-14 bg-profundo" />
-          <PageLoader />
-        </>
-      }
+      fallback={<PageLoader />}
     >
       <Metrics />
     </Suspense>

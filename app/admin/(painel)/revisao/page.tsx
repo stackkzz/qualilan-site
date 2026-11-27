@@ -4,15 +4,14 @@ import { Suspense } from "react";
 import { PageLoader } from "@/components/qualilan-loader";
 import { requireAdmin } from "@/lib/admin";
 import { getCategory } from "@/lib/catalog";
-import { AdminHeader } from "../admin-header";
-import { inputClass } from "../ui";
+import { inputClass, PageBody, PageHeader, panelCard } from "@/app/admin/ui";
 import { reviewName } from "./actions";
 
 const one = (v: string | string[] | undefined) => (Array.isArray(v) ? v[0] : v) || undefined;
 
 // Revisão dos nomes gerados a partir da loja antiga: nome original ao lado, edita ou confirma, e o item sai da fila.
 async function Review({ searchParams }: { searchParams: PageProps<"/admin/revisao">["searchParams"] }) {
-  const { supabase, user } = await requireAdmin();
+  const { supabase } = await requireAdmin();
   const all = one((await searchParams).ver) === "todos";
   const { data, error } = await supabase
     .from("products")
@@ -25,22 +24,18 @@ async function Review({ searchParams }: { searchParams: PageProps<"/admin/revisa
 
   return (
     <>
-      <AdminHeader email={user.email} />
-      <main className="mx-auto max-w-6xl px-5 py-10">
-        <div className="flex flex-wrap items-end justify-between gap-4">
-          <div>
-            <h1 className="text-3xl font-bold tracking-tight text-profundo">Revisão de nomes</h1>
-            <p className="mt-1 max-w-2xl text-marinho/60">
-              Os nomes foram padronizados automaticamente a partir da loja antiga. Corrija o que precisar e salve, ou só
-              confirme. Cada produto revisado sai da fila.
-            </p>
-          </div>
-          <Link href={all ? "/admin/revisao" : "/admin/revisao?ver=todos"} className="text-sm font-semibold text-royal hover:underline">
-            {all ? "Ver só os pendentes" : "Ver todos"}
-          </Link>
-        </div>
+      <PageBody>
+        <PageHeader
+          title="Revisar nomes"
+          description="Os nomes foram padronizados automaticamente a partir da loja antiga. Corrija o que precisar e salve, ou só confirme. Cada produto revisado sai da fila."
+          action={
+            <Link href={all ? "/admin/revisao" : "/admin/revisao?ver=todos"} className="text-sm font-semibold text-royal hover:underline">
+              {all ? "Ver só os pendentes" : "Ver todos"}
+            </Link>
+          }
+        />
 
-        <div className="mt-6 rounded-2xl bg-white p-5">
+        <div className={`${panelCard} p-5`}>
           <p className="text-sm font-medium text-profundo">
             {done} de {data.length} revisados
           </p>
@@ -51,7 +46,7 @@ async function Review({ searchParams }: { searchParams: PageProps<"/admin/revisa
 
         <ul className="mt-6 space-y-3">
           {list.map((p) => (
-            <li key={p.id} className="rounded-2xl bg-white p-4">
+            <li key={p.id} className={`${panelCard} p-4`}>
               <form action={reviewName} className="flex flex-col gap-3 md:flex-row md:items-center">
                 <input type="hidden" name="id" value={p.id} />
                 <div className="relative size-14 shrink-0 overflow-hidden rounded-lg bg-offwhite">
@@ -79,10 +74,10 @@ async function Review({ searchParams }: { searchParams: PageProps<"/admin/revisa
             </li>
           ))}
           {list.length === 0 && (
-            <li className="rounded-2xl bg-white px-6 py-10 text-center text-marinho/60">Todos os nomes foram revisados.</li>
+            <li className={`${panelCard} px-6 py-10 text-center text-marinho/60`}>Todos os nomes foram revisados.</li>
           )}
         </ul>
-      </main>
+      </PageBody>
     </>
   );
 }
@@ -90,12 +85,7 @@ async function Review({ searchParams }: { searchParams: PageProps<"/admin/revisa
 export default function AdminReviewPage({ searchParams }: PageProps<"/admin/revisao">) {
   return (
     <Suspense
-      fallback={
-        <>
-          <div className="h-14 bg-profundo" />
-          <PageLoader />
-        </>
-      }
+      fallback={<PageLoader />}
     >
       <Review searchParams={searchParams} />
     </Suspense>
