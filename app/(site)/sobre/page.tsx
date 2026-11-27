@@ -20,11 +20,44 @@ export const metadata: Metadata = {
 
 // Fontes: LinkedIn da Qualilan (fundação, missão, "Top 5", áreas), loja.qualilan.com.br/quem-somos e Instagram @grupo.qualilan.
 const facts = [
-  { value: "2001", label: "Ano de fundação" },
-  { value: "Top 5", label: "Entre os distribuidores de cabeamento estruturado do Brasil" },
-  { value: "5", label: "Unidades com pronta entrega em SP e MG" },
-  { value: googleRating.score, label: `No Google, com ${googleRating.count} avaliações` },
-];
+  { value: "2001", label: "Ano de fundação", visual: "timeline" },
+  { value: "Top 5", label: "Entre os distribuidores de cabeamento estruturado do Brasil", visual: "medal" },
+  { value: "5", label: "Unidades com pronta entrega em SP e MG", visual: "pins" },
+  { value: googleRating.score, label: `No Google, com ${googleRating.count} avaliações`, visual: "stars" },
+] as const;
+
+// Detalhe acima de cada número: linha 2001→hoje, medalha, cinco pinos (um por unidade) e cinco estrelas.
+function FactVisual({ kind }: { kind: (typeof facts)[number]["visual"] }) {
+  if (kind === "timeline")
+    return (
+      <span className="flex w-full max-w-40 items-center gap-1.5 text-xs font-semibold text-marinho/50">
+        <span className="size-2 rounded-full bg-profundo" />
+        <span className="h-px flex-1 bg-gradient-to-r from-profundo to-laranja" />
+        <span className="size-2 rounded-full bg-laranja" />
+        hoje
+      </span>
+    );
+  if (kind === "medal") return <span className="icon icon-fill text-[26px]! text-laranja">workspace_premium</span>;
+  if (kind === "pins")
+    return (
+      <span className="flex gap-0.5">
+        {Array.from({ length: 5 }, (_, i) => (
+          <span key={i} className={`icon icon-fill text-[22px]! ${i === 0 ? "text-laranja" : "text-profundo/80"}`}>
+            location_on
+          </span>
+        ))}
+      </span>
+    );
+  return (
+    <span className="flex gap-0.5">
+      {Array.from({ length: 5 }, (_, i) => (
+        <span key={i} className="icon icon-fill text-[22px]! text-laranja">
+          star
+        </span>
+      ))}
+    </span>
+  );
+}
 
 const areas = [
   { icon: "settings_ethernet", title: "Infraestrutura de rede e conectividade", text: "Cabeamento estruturado, fibra óptica, switches e wireless.", href: "/catalogo/cabos-lan" },
@@ -48,7 +81,7 @@ export default function AboutPage() {
         <div aria-hidden className="tech-grid absolute inset-0 -z-10" />
         <FiberLines className="-z-10" />
         <div aria-hidden className="q-glow absolute right-[8%] top-1/2 -z-10 size-[34rem] -translate-y-1/2 rounded-full bg-[radial-gradient(closest-side,rgb(49_46_127/0.9),transparent)]" />
-        <div className="mx-auto grid max-w-6xl items-center gap-12 px-5 py-16 md:py-24 lg:grid-cols-[1.1fr_0.9fr]">
+        <div className="mx-auto grid max-w-6xl items-center gap-12 px-5 pt-16 pb-28 md:pt-24 md:pb-36 lg:grid-cols-[1.1fr_0.9fr]">
           <div>
             <h1 className="hero-title text-[2.5rem] font-bold leading-[1.05] tracking-[-0.03em] md:text-[3.5rem]">
               Há 25 anos conectando empresas à tecnologia certa.
@@ -70,14 +103,20 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Fatos */}
-      <section className="border-b border-profundo/10">
-        <dl className="reveal mx-auto grid max-w-6xl grid-cols-2 px-5 lg:grid-cols-4">
+      {/* Fatos: card que sobe sobre o fim do hero; cada número tem um detalhe visual ligado ao que ele significa */}
+      <section className="relative z-10 -mt-16 px-5 md:-mt-20">
+        <dl className="reveal-title mx-auto grid max-w-6xl grid-cols-2 overflow-hidden rounded-3xl bg-white shadow-[0_30px_70px_-35px_rgba(18,23,68,0.55)] ring-1 ring-profundo/5 lg:grid-cols-4">
           {facts.map((f, i) => (
-            <div key={f.label} className={`py-10 pr-6 ${i > 0 ? "lg:border-l lg:border-profundo/10 lg:pl-8" : ""} ${i % 2 === 1 ? "border-l border-profundo/10 pl-6 lg:pl-8" : ""}`}>
+            <div
+              key={f.label}
+              className={`flex flex-col p-6 md:p-8 ${i % 2 === 1 ? "border-l border-profundo/10" : ""} ${i >= 2 ? "border-t border-profundo/10 lg:border-t-0" : ""} ${i === 2 ? "lg:border-l" : ""}`}
+            >
               <dt className="sr-only">{f.label}</dt>
-              <dd className="text-4xl font-bold tracking-tight text-profundo md:text-5xl">{f.value}</dd>
-              <dd className="mt-2 max-w-[14rem] text-sm leading-snug text-marinho/60">{f.label}</dd>
+              <dd aria-hidden className="flex h-7 items-center">
+                <FactVisual kind={f.visual} />
+              </dd>
+              <dd className="mt-5 text-4xl font-bold leading-none tracking-[-0.03em] text-profundo tabular-nums md:text-5xl">{f.value}</dd>
+              <dd className="mt-3 text-sm leading-snug text-marinho/60">{f.label}</dd>
             </div>
           ))}
         </dl>

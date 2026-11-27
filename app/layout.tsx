@@ -10,7 +10,7 @@ const icons = [
   "delete", "deskphone", "dns", "domain", "done_all", "edit", "eco", "electric_bolt", "electrical_services", "event", "factory",
   "fingerprint", "graphic_eq", "grid_view", "groups", "hub", "inventory_2", "lightbulb", "local_hospital", "local_shipping", "location_on", "logout",
   "mail", "map", "menu", "play_circle", "playlist_add", "print", "remove", "request_quote", "savings", "schedule", "school", "search",
-  "settings_ethernet", "shopping_cart", "support_agent", "swap_vert", "sync_alt", "upload", "verified", "videocam", "view_stream",
+  "settings_ethernet", "shopping_cart", "star", "support_agent", "swap_vert", "sync_alt", "upload", "verified", "videocam", "view_stream",
   "visibility_off", "warehouse", "wifi", "workspace_premium",
 ].sort().join(","); // a API exige nomes em ordem alfabética
 
