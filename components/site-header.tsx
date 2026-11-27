@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { WhatsAppIcon } from "@/components/whatsapp-icon";
 import Link from "next/link";
+import { HomeLink } from "./home-link";
 import { site, whatsappLink } from "@/lib/site";
 import { QuoteCartButton } from "./quote-cart";
 
@@ -17,9 +18,9 @@ export function SiteHeader() {
     <>
       <header className="header-scroll sticky top-0 z-40 border-b border-profundo/10 bg-white">
         <div className="mx-auto flex h-16 max-w-6xl items-center gap-6 px-5 md:h-[4.5rem]">
-          <Link href="/" aria-label="Qualilan, página inicial" className="shrink-0">
+          <HomeLink aria-label="Qualilan, página inicial" className="shrink-0">
             <Image src="/brand/logo-azul.png" alt="Qualilan" width={140} height={48} preload className="w-28 sm:w-[8.5rem]" />
-          </Link>
+          </HomeLink>
 
           <nav aria-label="Principal" className="hidden md:block">
             <ul className="flex gap-7 whitespace-nowrap text-[15px] font-medium text-marinho/70">
