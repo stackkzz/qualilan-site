@@ -83,13 +83,16 @@ export default function Home() {
                 name="q"
                 type="search"
                 placeholder="Nome, marca ou código"
-                className="min-w-0 flex-1 bg-transparent px-3 py-3 text-base outline-none placeholder:text-marinho/40"
+                className="min-w-0 flex-1 bg-transparent px-2.5 py-3 text-base outline-none placeholder:text-marinho/40 sm:px-3"
               />
+              {/* No celular o botão vira só a seta, para o texto de exemplo caber inteiro */}
               <button
                 type="submit"
-                className="rounded-lg bg-profundo px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-royal"
+                aria-label="Buscar"
+                className="grid place-items-center rounded-lg bg-profundo px-3.5 py-3 text-sm font-semibold text-white transition-colors hover:bg-royal sm:px-6"
               >
-                Buscar
+                <span className="icon text-xl! sm:hidden">arrow_forward</span>
+                <span className="hidden sm:inline">Buscar</span>
               </button>
             </div>
           </form>
@@ -360,12 +363,12 @@ async function CategoriesSection() {
               <li key={c.slug} className="border-b border-r border-profundo/10">
                 <Link
                   href={`/catalogo/${c.slug}`}
-                  className="group relative isolate flex h-full items-center gap-4 overflow-hidden px-5 py-6 before:absolute before:inset-0 before:-z-10 before:origin-bottom before:scale-y-0 before:bg-profundo before:transition-transform before:duration-300 hover:before:scale-y-100 focus-visible:before:scale-y-100"
+                  className="group relative isolate flex h-full flex-col items-start gap-3 overflow-hidden px-4 py-5 before:absolute before:inset-0 before:-z-10 before:origin-bottom before:scale-y-0 before:bg-profundo before:transition-transform before:duration-300 hover:before:scale-y-100 focus-visible:before:scale-y-100 sm:flex-row sm:items-center sm:gap-4 sm:px-5 sm:py-6"
                 >
                   <span className="grid size-11 shrink-0 place-items-center rounded-lg bg-royal/8 text-royal transition-colors duration-300 group-hover:bg-white/10 group-hover:text-amarelo">
                     <span className="icon icon-hover-fill">{c.icon}</span>
                   </span>
-                  <span className="font-medium text-profundo transition-colors duration-300 group-hover:text-white">{c.name}</span>
+                  <span className="font-medium leading-snug text-profundo transition-colors duration-300 group-hover:text-white">{c.name}</span>
                 </Link>
               </li>
             ))}

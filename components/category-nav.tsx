@@ -140,10 +140,16 @@ export function CatalogSearch({ defaultValue, categoria }: { defaultValue?: stri
           type="search"
           defaultValue={defaultValue}
           placeholder="Nome, marca ou código"
-          className="min-w-0 flex-1 bg-transparent px-3 py-3 outline-none placeholder:text-marinho/45"
+          className="min-w-0 flex-1 bg-transparent px-2.5 py-3 outline-none placeholder:text-marinho/45 sm:px-3"
         />
-        <button type="submit" className="rounded-lg bg-profundo px-5 py-3 text-sm font-semibold text-white hover:bg-royal">
-          Buscar
+        {/* No celular o botão vira só a seta, para o texto de exemplo caber inteiro */}
+        <button
+          type="submit"
+          aria-label="Buscar"
+          className="grid place-items-center rounded-lg bg-profundo px-3.5 py-3 text-sm font-semibold text-white hover:bg-royal sm:px-5"
+        >
+          <span className="icon text-xl! sm:hidden">arrow_forward</span>
+          <span className="hidden sm:inline">Buscar</span>
         </button>
       </div>
     </form>
