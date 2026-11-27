@@ -60,12 +60,6 @@ export function NetworkMap() {
         <path d={DOTS_MID} stroke="#ffffff" strokeOpacity="0.32" strokeWidth="18" strokeLinecap="round" />
         <path d={DOTS_NEAR} stroke="#8EA2FF" strokeOpacity="0.55" strokeWidth="19" strokeLinecap="round" />
 
-        {/* Siglas dos estados, bem suaves, para o mapa se ler como SP + MG */}
-        <g className="fill-white/10 font-bold" style={{ fontSize: 240, letterSpacing: 20 }} aria-hidden>
-          <text x="1180" y="620" textAnchor="middle">MG</text>
-          <text x="360" y="1420" textAnchor="middle">SP</text>
-        </g>
-
         <circle cx={hub.x} cy={hub.y} r="420" fill="url(#hubGlow)" className="q-glow-svg" />
 
         {/* Rotas e "entregas" saindo da matriz */}

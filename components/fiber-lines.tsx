@@ -1,9 +1,10 @@
 // Fundo decorativo: "fibras ópticas" cruzando a seção, com pulsos de luz correndo por elas.
 // Só SVG + CSS (classe .fiber-pulse no globals.css); sem movimento para quem pede menos animação.
+// Feixe de três cabos em ondas suaves e quase paralelas (curvas simétricas: sem dobras bruscas).
 const paths = [
-  "M-50,430 C250,390 420,130 760,190 S1100,330 1260,100",
-  "M-50,530 C300,550 520,310 820,340 S1120,490 1260,390",
-  "M-50,210 C200,250 380,70 640,100 S1000,50 1260,170",
+  "M-60,300 C200,230 400,230 600,300 S1000,370 1260,300",
+  "M-60,370 C200,300 400,300 600,370 S1000,440 1260,370",
+  "M-60,450 C200,385 400,385 600,450 S1000,515 1260,450",
 ];
 
 const tones = {
@@ -38,16 +39,16 @@ export function FiberLines({
       </defs>
       {paths.map((d, i) => (
         <g key={d}>
-          <path d={d} fill="none" stroke={`url(#${id})`} strokeWidth="2" />
+          <path d={d} fill="none" stroke={`url(#${id})`} strokeWidth="1.5" />
           <path
             d={d}
             pathLength={1000}
             fill="none"
             stroke={t.pulse}
-            strokeWidth="4"
+            strokeWidth="2"
             strokeLinecap="round"
             className="fiber-pulse"
-            style={{ animationDuration: `${7 + i * 2}s`, animationDelay: `-${i * 2.5}s`, filter: `drop-shadow(0 0 6px ${t.pulse})` }}
+            style={{ animationDuration: `${7 + i * 2}s`, animationDelay: `-${i * 2.5}s`, filter: `drop-shadow(0 0 3px ${t.pulse})` }}
           />
         </g>
       ))}
