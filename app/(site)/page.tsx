@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { QuoteSteps } from "@/components/quote-steps";
+import { TestimonialsMarquee } from "@/components/testimonials-marquee";
 import { Wave } from "@/components/wave";
 import {
   categories,
@@ -9,7 +10,6 @@ import {
   mapsHref,
   partners,
   telHref,
-  testimonials,
   units,
   whatsappLink,
 } from "@/lib/site";
@@ -17,53 +17,6 @@ import cityNight from "@/public/ref/city-night.jpg";
 
 const quoteMessage = "Olá, Qualilan! Gostaria de um orçamento.";
 const specialistMessage = "Olá, Qualilan! Gostaria de falar com um especialista sobre um projeto.";
-
-// Os arcos do "Q" da marca, abertos como ondas de sinal.
-function SignalArcs() {
-  const rings = [
-    { r: 90, w: 22, o: 0.9, delay: 0 },
-    { r: 170, w: 22, o: 0.55, delay: 120 },
-    { r: 250, w: 20, o: 0.32, delay: 240 },
-    { r: 330, w: 18, o: 0.18, delay: 360 },
-  ];
-  return (
-    <svg viewBox="0 0 800 800" aria-hidden className="h-full w-full">
-      {rings.map(({ r, w, o, delay }) => (
-        <circle
-          key={r}
-          className="signal-arc"
-          style={{ animationDelay: `${delay}ms` }}
-          cx="400"
-          cy="400"
-          r={r}
-          fill="none"
-          stroke="#ffffff"
-          strokeOpacity={o * 0.35}
-          strokeWidth={w}
-          strokeLinecap="round"
-          pathLength={100}
-          strokeDasharray="74 26"
-          transform="rotate(52 400 400)"
-        />
-      ))}
-      <circle
-        className="signal-arc"
-        style={{ animationDelay: "480ms" }}
-        cx="400"
-        cy="400"
-        r="90"
-        fill="none"
-        stroke="#FF9900"
-        strokeWidth="22"
-        strokeLinecap="round"
-        pathLength={100}
-        strokeDasharray="10 90"
-        transform="rotate(-62 400 400)"
-      />
-    </svg>
-  );
-}
-
 
 function SectionHeading({ title, text, light }: { title: string; text?: string; light?: boolean }) {
   return (
@@ -338,32 +291,29 @@ export default function Home() {
 
       <QuoteSteps />
 
-      {/* Depoimentos reais publicados na loja */}
-      <section className="border-t border-profundo/10 bg-white py-24 md:py-32">
-        <div className="mx-auto max-w-6xl px-5">
-          <SectionHeading title="O que dizem nossos clientes" />
-          <ul className="reveal-sides mt-12 grid gap-6 md:grid-cols-2">
-            {testimonials.map((t) => (
-              <li key={t.name}>
-                <figure className="flex h-full flex-col rounded-2xl border border-profundo/10 p-8">
-                  <blockquote className="flex-1 text-lg leading-relaxed text-marinho/85">“{t.text}”</blockquote>
-                  <figcaption className="mt-6 flex items-center gap-3">
-                    <Image src={t.photo} alt="" width={48} height={48} className="size-12 rounded-full object-cover" />
-                    <span className="font-semibold text-profundo">{t.name}</span>
-                  </figcaption>
-                </figure>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </section>
+      <TestimonialsMarquee />
 
       {/* Chamada final */}
       <section className="bg-white pb-24 md:pb-32">
         <div className="mx-auto max-w-6xl px-5">
           <div className="relative overflow-hidden rounded-3xl bg-profundo px-8 py-12 text-white md:px-14 md:py-16">
-            <div className="signal-spin pointer-events-none absolute -right-40 -top-40 hidden size-[30rem] md:block">
-              <SignalArcs />
+            {/* Símbolo Q da marca emitindo sinal: anéis que se expandem e um brilho laranja respirando. */}
+            <div aria-hidden className="pointer-events-none absolute right-8 top-1/2 hidden size-[22rem] -translate-y-1/2 md:block lg:right-16">
+              <span className="q-glow absolute inset-12 rounded-full bg-laranja/60 blur-3xl" />
+              {[0, 1, 2].map((i) => (
+                <span
+                  key={i}
+                  style={{ animationDelay: `${i * 1.2}s` }}
+                  className={`q-ripple absolute inset-0 rounded-full border-2 ${i === 1 ? "border-laranja/60" : "border-white/35"}`}
+                />
+              ))}
+              <Image
+                src="/brand/q-branco.png"
+                alt=""
+                width={1204}
+                height={1244}
+                className="q-float absolute inset-14 h-auto w-[calc(100%-7rem)] drop-shadow-[0_20px_40px_rgba(0,0,26,0.5)]"
+              />
             </div>
             <div className="relative max-w-xl">
               <h2 className="text-3xl font-bold tracking-[-0.02em] md:text-4xl">

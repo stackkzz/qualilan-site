@@ -118,6 +118,12 @@ body {
   .marquee-track {
     animation: marquee 40s linear infinite;
   }
+  .marquee-slow {
+    animation-duration: 70s;
+  }
+  .marquee-reverse {
+    animation-direction: reverse;
+  }
   .marquee:hover .marquee-track,
   .marquee:focus-within .marquee-track {
     animation-play-state: paused;
@@ -139,6 +145,13 @@ body {
 
   /* Tudo abaixo é ligado à rolagem e feito pelo navegador. Sem suporte (Firefox), o conteúdo aparece parado. */
   @supports (animation-timeline: view()) {
+    /* Cabeçalho ganha sombra e fundo mais sólido assim que a página começa a rolar. */
+    .header-scroll {
+      animation: header-solid linear both;
+      animation-timeline: scroll(root);
+      animation-range: 0 120px;
+    }
+
     /* Parallax: a foto do hero desce mais devagar que a página. */
     .parallax {
       animation: parallax linear both;
@@ -209,6 +222,17 @@ body {
     animation: spin 5s linear infinite;
   }
 
+  /* Chamada final: o Q flutua, emite anéis de sinal e o brilho laranja respira. */
+  .q-float {
+    animation: float 5s ease-in-out infinite alternate;
+  }
+  .q-ripple {
+    animation: ripple 3.6s cubic-bezier(0.2, 0.7, 0.2, 1) infinite both;
+  }
+  .q-glow {
+    animation: glow 4s ease-in-out infinite alternate;
+  }
+
   /* Etiquetas que flutuam sobre a foto do hero. */
   .float-a {
     animation: float 4s ease-in-out infinite alternate;
@@ -240,6 +264,17 @@ body {
 }
 @keyframes caret {
   50% { border-color: transparent; }
+}
+@keyframes header-solid {
+  to { background-color: rgb(255 255 255 / 0.97); box-shadow: 0 10px 30px -18px rgb(18 23 68 / 0.35); }
+}
+@keyframes ripple {
+  from { transform: scale(0.55); opacity: 0.9; }
+  to { transform: scale(1.35); opacity: 0; }
+}
+@keyframes glow {
+  from { opacity: 0.45; transform: scale(0.9); }
+  to { opacity: 0.9; transform: scale(1.08); }
 }
 @keyframes float {
   from { transform: translateY(0); }

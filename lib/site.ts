@@ -109,9 +109,25 @@ export const customProjects = [
   },
 ];
 
-export const testimonials = [
-  { name: "Klebison Carmo", photo: "/ref/depoimentos/klebison.jpg", text: "Ótimo atendimento e parceria nos projetos executados. Hoje em dia é essencial a parceria do dia a dia, isso a Qualilan faz muito bem. Parabéns!" },
-  { name: "Natan Oliveira", photo: "/ref/depoimentos/natan.jpg", text: "Empresa qualificada e com ótimo atendimento, parabéns a todos os envolvidos. Qualilan, eu recomendo!" },
-  { name: "Cristiano Franco", photo: "/ref/depoimentos/cristiano.jpg", text: "Muito boa a experiência: pessoas comprometidas com a minha necessidade e com opções variadas de componentes para a aplicação." },
-  { name: "Fernando Camargo", photo: "/ref/depoimentos/fernando.jpg", text: "Excelente atendimento, variedade e qualidade de produtos por um preço justo." },
+// Avaliações públicas: Google Maps (unidades Bauru e Campinas, nov/2026) e depoimentos da loja antiga.
+// Trechos longos foram encurtados sem mudar o sentido.
+export const googleRating = { score: "5,0", count: 262, unit: "Bauru" };
+
+export type Testimonial = { name: string; text: string; source: "Google" | "Site"; unit?: string; photo?: string };
+
+export const testimonials: Testimonial[] = [
+  { name: "Andreia Bergamini", source: "Google", unit: "Bauru", text: "Fiquei impressionada com o atendimento e a simpatia dos funcionários! Tudo muito bem explicado nos detalhes." },
+  { name: "Marcelo Girsas", source: "Google", unit: "Campinas", text: "Tem uma grande variedade de materiais de rede a pronta entrega e sempre com excelente atendimento." },
+  { name: "Klebison Carmo", source: "Site", photo: "/ref/depoimentos/klebison.jpg", text: "Ótimo atendimento e parceria nos projetos executados. Hoje em dia é essencial a parceria do dia a dia, isso a Qualilan faz muito bem." },
+  { name: "Ian Verderesi", source: "Google", unit: "Bauru", text: "Precisei de uma antena específica em um prazo muito rápido e fui muito bem atendido. Obrigado e parabéns pelo atendimento." },
+  { name: "Odir Macedo", source: "Google", unit: "Campinas", text: "Excelente suporte técnico, produtos de ponta e o melhor custo-benefício. Recomendo!" },
+  { name: "Natan Oliveira", source: "Site", photo: "/ref/depoimentos/natan.jpg", text: "Empresa qualificada e com ótimo atendimento, parabéns a todos os envolvidos. Qualilan, eu recomendo!" },
+  { name: "Kleuber Henrique", source: "Google", unit: "Bauru", text: "Uma empresa confiável, que oferece materiais de alta qualidade, além de um pós-venda impecável." },
+  { name: "Wagner Santana", source: "Google", unit: "Campinas", text: "Atendimento muito bom, a equipe é muito atenciosa e prestativa. Produtos de qualidade, das melhores marcas." },
+  { name: "Cristiano Franco", source: "Site", photo: "/ref/depoimentos/cristiano.jpg", text: "Pessoas comprometidas com a minha necessidade e com opções variadas de componentes para a aplicação." },
+  { name: "Hannes Fischer", source: "Google", unit: "Bauru", text: "Atendimento fantástico, super atencioso. Logo entraram em contato pelo WhatsApp, com uma pessoa real do outro lado ajudando." },
+  { name: "Paulo Roberto Filomeno", source: "Google", unit: "Campinas", text: "Atendem muito bem o cliente, entregam rapidamente e têm preços competitivos." },
+  { name: "Douglas Pereira", source: "Google", unit: "Bauru", text: "Já conhecia o trabalho da empresa e tinha confiança no fornecimento de qualidade. Estamos muito satisfeitos com a parceria." },
+  { name: "Gabriel Barreto", source: "Google", unit: "Campinas", text: "Pessoal da loja 100% atencioso, tiraram todas as dúvidas e foram muito solícitos." },
+  { name: "Fernando Camargo", source: "Site", photo: "/ref/depoimentos/fernando.jpg", text: "Excelente atendimento, variedade e qualidade de produtos por um preço justo." },
 ];
