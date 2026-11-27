@@ -1,71 +1,163 @@
 import Image from "next/image";
 import Link from "next/link";
-import { site, telHref, units, whatsappLink } from "@/lib/site";
+import type { ReactNode } from "react";
+import { categories, site, telHref, units, whatsappLink } from "@/lib/site";
 import { CurrentYear } from "./current-year";
+
+// Ícones das redes desenhados com formas simples (sem biblioteca nem logo oficial em arquivo).
+const socialIcons: Record<string, ReactNode> = {
+  Instagram: (
+    <>
+      <rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" strokeWidth="2" />
+      <circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" strokeWidth="2" />
+      <circle cx="17.3" cy="6.7" r="1.2" fill="currentColor" />
+    </>
+  ),
+  LinkedIn: (
+    <>
+      <rect x="4" y="9" width="3.2" height="11" fill="currentColor" />
+      <circle cx="5.6" cy="5.6" r="1.9" fill="currentColor" />
+      <path d="M10 9h3v1.6c.6-1 1.8-1.9 3.6-1.9 3 0 3.6 2 3.6 4.6V20H17v-5.8c0-1.4 0-3-1.9-3s-2.1 1.4-2.1 2.9V20H10z" fill="currentColor" />
+    </>
+  ),
+  Facebook: (
+    <path d="M13.5 21v-7.5h2.6l.4-3h-3V8.6c0-.9.3-1.5 1.5-1.5h1.6V4.4c-.3 0-1.2-.1-2.3-.1-2.3 0-3.8 1.4-3.8 3.9v2.3H8v3h2.5V21z" fill="currentColor" />
+  ),
+  YouTube: (
+    <>
+      <rect x="2" y="5.5" width="20" height="13" rx="4" fill="currentColor" />
+      <path d="M10 9.2v5.6l4.8-2.8z" fill="#00001a" />
+    </>
+  ),
+};
+
+function Column({ title, children, wide }: { title: string; children: ReactNode; wide?: boolean }) {
+  return (
+    <div className={wide ? "col-span-2 lg:col-span-1" : undefined}>
+      <h2 className="text-sm font-semibold text-white">{title}</h2>
+      <ul className="mt-4 space-y-2.5 text-sm">{children}</ul>
+    </div>
+  );
+}
+
+const linkClass = "text-white/60 transition-colors hover:text-white";
 
 export function SiteFooter() {
   return (
-    <footer className="bg-marinho text-sm text-white/60">
-      <div className="mx-auto grid max-w-6xl gap-10 px-5 py-12 md:grid-cols-[1.2fr_1fr_1fr]">
-        <div>
-          <Image src="/brand/logo-branco.png" alt="Qualilan" width={140} height={48} />
-          <p className="mt-4 max-w-xs leading-relaxed">
-            Distribuidora de infraestrutura de rede, segurança eletrônica e conectividade.
-          </p>
+    <footer className="relative isolate overflow-hidden bg-marinho text-white">
+      {/* Marca d'água com o Q da marca. */}
+      <Image
+        src="/brand/q-branco.png"
+        alt=""
+        width={1204}
+        height={1244}
+        aria-hidden
+        className="pointer-events-none absolute -bottom-40 -right-24 -z-10 w-[34rem] opacity-[0.04]"
+      />
+
+      <div className="mx-auto max-w-6xl px-5">
+        {/* Faixa de contato */}
+        <div className="flex flex-col items-start justify-between gap-6 border-b border-white/10 py-12 md:flex-row md:items-center">
+          <div>
+            <p className="text-2xl font-bold tracking-tight md:text-3xl">Precisa de um orçamento?</p>
+            <p className="mt-2 text-white/60">Fale com o time de vendas pelo WhatsApp ou por e-mail.</p>
+          </div>
+          <div className="flex flex-wrap gap-3">
+            <a
+              href={whatsappLink("Olá, Qualilan! Gostaria de um orçamento.")}
+              className="inline-flex items-center gap-2 rounded-lg bg-laranja px-5 py-3 font-semibold text-profundo transition-colors hover:bg-amarelo"
+            >
+              <span className="icon text-xl!">chat</span>
+              {site.whatsappLabel}
+            </a>
+            <a
+              href={`mailto:${site.email}`}
+              className="inline-flex items-center gap-2 rounded-lg border border-white/20 px-5 py-3 font-semibold transition-colors hover:border-white/50"
+            >
+              <span className="icon text-xl!">mail</span>
+              Enviar e-mail
+            </a>
+          </div>
         </div>
-        <div>
-          <h2 className="mb-3 font-semibold text-white">Contato</h2>
-          <ul className="space-y-1.5">
-            <li>
-              <a href={whatsappLink("Olá, Qualilan! Gostaria de um orçamento.")} className="hover:text-white">
-                WhatsApp {site.whatsappLabel}
-              </a>
-            </li>
-            <li>
-              <a href={`mailto:${site.email}`} className="hover:text-white">
-                {site.email}
-              </a>
-            </li>
+
+        <div className="grid grid-cols-2 gap-x-8 gap-y-12 py-14 lg:grid-cols-[1.4fr_1fr_1fr_1.3fr]">
+          <div className="col-span-2 lg:col-span-1">
+            <Image src="/brand/logo-branco.png" alt="Qualilan" width={150} height={52} />
+            <p className="mt-5 max-w-xs text-sm leading-relaxed text-white/60">
+              Há mais de 25 anos distribuindo infraestrutura de rede, segurança eletrônica e conectividade das marcas
+              líderes.
+            </p>
+            <ul className="mt-6 flex gap-2" aria-label="Redes sociais">
+              {site.socials.map((s) => (
+                <li key={s.label}>
+                  <a
+                    href={s.href}
+                    target="_blank"
+                    rel="noopener"
+                    aria-label={s.label}
+                    className="grid size-10 place-items-center rounded-lg border border-white/15 text-white/70 transition-colors hover:border-laranja hover:bg-laranja hover:text-profundo"
+                  >
+                    <svg viewBox="0 0 24 24" className="size-[18px]" aria-hidden>
+                      {socialIcons[s.label]}
+                    </svg>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <Column title="Navegação">
+            {[
+              { label: "Catálogo", href: "/catalogo" },
+              { label: "Quem somos", href: "/sobre" },
+              { label: "Unidades", href: "/#unidades" },
+              { label: "Marcas parceiras", href: "/#marcas" },
+              { label: "Privacidade", href: "/privacidade" },
+            ].map((l) => (
+              <li key={l.href}>
+                <Link href={l.href} className={linkClass}>
+                  {l.label}
+                </Link>
+              </li>
+            ))}
+          </Column>
+
+          <Column title="Categorias">
+            {categories.slice(0, 6).map((c) => (
+              <li key={c.slug}>
+                <Link href={`/catalogo/${c.slug}`} className={linkClass}>
+                  {c.name}
+                </Link>
+              </li>
+            ))}
+          </Column>
+
+          <Column title="Unidades" wide>
             {units.map((u) => (
-              <li key={u.city}>
-                <a href={telHref(u.phone)} className="hover:text-white">
-                  {u.city} {u.phone}
+              <li key={u.city} className="flex items-baseline justify-between gap-4">
+                <span className="text-white/60">
+                  {u.city}
+                  {u.note && <span className="ml-1.5 text-xs text-amarelo">{u.note}</span>}
+                </span>
+                <a href={telHref(u.phone)} className="whitespace-nowrap font-medium text-white/85 hover:text-laranja">
+                  {u.phone}
                 </a>
               </li>
             ))}
-          </ul>
-        </div>
-        <div>
-          <h2 className="mb-3 font-semibold text-white">Qualilan</h2>
-          <ul className="space-y-1.5">
-            <li>
-              <Link href="/sobre" className="hover:text-white">
-                Quem somos
-              </Link>
-            </li>
-            <li>
-              <Link href="/catalogo" className="hover:text-white">
-                Catálogo
-              </Link>
-            </li>
-            <li>
-              <Link href="/privacidade" className="hover:text-white">
-                Privacidade
-              </Link>
-            </li>
-            {site.socials.map((s) => (
-              <li key={s.label}>
-                <a href={s.href} target="_blank" rel="noopener" className="hover:text-white">
-                  {s.label}
-                </a>
-              </li>
-            ))}
-          </ul>
+          </Column>
         </div>
       </div>
-      <p className="border-t border-white/10 px-5 py-5 text-center text-xs">
-        Qualilan, CNPJ {site.cnpj}. © <CurrentYear />
-      </p>
+
+      <div className="border-t border-white/10">
+        <div className="mx-auto flex max-w-6xl flex-col gap-2 px-5 py-6 text-xs text-white/45 sm:flex-row sm:justify-between">
+          <p>
+            © <CurrentYear /> Qualilan. CNPJ {site.cnpj}.
+          </p>
+          <Link href="/privacidade" className="hover:text-white">
+            Política de privacidade
+          </Link>
+        </div>
+      </div>
     </footer>
   );
 }

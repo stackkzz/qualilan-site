@@ -237,6 +237,9 @@ body {
   .flow {
     animation: dash 1.4s linear infinite;
   }
+  .flow-lg {
+    animation: dash-lg 1.6s linear infinite;
+  }
   .flow-slow {
     animation-duration: 3s;
   }
@@ -282,6 +285,9 @@ body {
 @keyframes header-solid {
   to { background-color: rgb(255 255 255 / 0.97); box-shadow: 0 10px 30px -18px rgb(18 23 68 / 0.35); }
 }
+@keyframes dash-lg {
+  to { stroke-dashoffset: -60; }
+}
 @keyframes dash {
   to { stroke-dashoffset: -30; }
 }
@@ -320,8 +326,14 @@ body {
 .flow {
   stroke-dasharray: 6 9;
 }
+.flow-lg {
+  stroke-dasharray: 24 36;
+}
 .flow-slow {
   stroke-dasharray: 3 9;
+}
+.flow-lg.flow-slow {
+  stroke-dasharray: 10 50;
 }
 .node-ping,
 .q-glow-svg {
