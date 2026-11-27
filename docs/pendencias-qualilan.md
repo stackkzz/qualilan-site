@@ -12,7 +12,9 @@ Lista para levar na apresentação do site novo. Os itens marcados como "decisã
 - **Formulário de orçamento:** o site atual tem um formulário (nome, e-mail, telefone, empresa, cargo). Para onde vão esses pedidos hoje, e querem manter um formulário além do WhatsApp?
 - **E-mail de contato:** o único e-mail público é `e-commerce@qualilan.com.br`. Ele continua valendo sem a loja, ou há outro (comercial, contato)?
 
-- **Sede x Matriz:** os Termos de Uso da loja dizem que a sede do CNPJ é em Bauru (R. Jorge Pimentel, 5-54), mas o site e o Google chamam Campinas de Matriz. Qual informação usar?
+- **Sede x Matriz:** três versões diferentes: os Termos de Uso da loja dizem sede em Bauru, o LinkedIn diz São Paulo e o site e o Google chamam Campinas de Matriz. Qual usar?
+- **Dois números de WhatsApp:** o site usa (14) 99619-2639 e o Linktree usa (14) 99788-7769. Qual é o oficial para orçamentos?
+- **"Top 5" e fotos do Instagram:** a página Sobre usa a frase do LinkedIn "Top 5 distribuidores de cabeamento estruturado no Brasil" e fotos do Instagram (Next Business Bauru, capacitação SmartFast). Confirmar que podem ser usadas.
 - **Blog:** a loja tem 3 posts de 2022/2023 (5G, sustentabilidade, Laserway). Querem manter um blog no site novo ou deixar de fora?
 
 ## Conteúdo
