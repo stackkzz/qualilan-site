@@ -24,11 +24,13 @@ const socialIcons: Record<string, ReactNode> = {
   Facebook: (
     <path d="M13.5 21v-7.5h2.6l.4-3h-3V8.6c0-.9.3-1.5 1.5-1.5h1.6V4.4c-.3 0-1.2-.1-2.3-.1-2.3 0-3.8 1.4-3.8 3.9v2.3H8v3h2.5V21z" fill="currentColor" />
   ),
+  // Triângulo vazado (evenodd): continua visível com qualquer cor de fundo, inclusive no hover.
   YouTube: (
-    <>
-      <rect x="2" y="5.5" width="20" height="13" rx="4" fill="currentColor" />
-      <path d="M10 9.2v5.6l4.8-2.8z" fill="#00001a" />
-    </>
+    <path
+      fillRule="evenodd"
+      d="M6 5.5h12a4 4 0 0 1 4 4v5a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4v-5a4 4 0 0 1 4-4ZM10 9.2v5.6l4.8-2.8Z"
+      fill="currentColor"
+    />
   ),
 };
 

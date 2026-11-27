@@ -8,8 +8,8 @@ const inter = Inter({ variable: "--font-inter", subsets: ["latin"] });
 const icons = [
   "account_balance", "add", "add_shopping_cart", "agriculture", "arrow_back", "bolt", "cable", "call", "chat", "check", "chevron_left", "chevron_right", "close",
   "delete", "deskphone", "dns", "domain", "done_all", "edit", "electric_bolt", "electrical_services", "factory",
-  "fingerprint", "grid_view", "hub", "inventory_2", "lightbulb", "local_hospital", "local_shipping", "location_on", "logout",
-  "mail", "map", "menu", "playlist_add", "print", "remove", "request_quote", "savings", "schedule", "school", "search",
+  "fingerprint", "graphic_eq", "grid_view", "hub", "inventory_2", "lightbulb", "local_hospital", "local_shipping", "location_on", "logout",
+  "mail", "map", "menu", "play_circle", "playlist_add", "print", "remove", "request_quote", "savings", "schedule", "school", "search",
   "settings_ethernet", "shopping_cart", "support_agent", "swap_vert", "sync_alt", "upload", "verified", "videocam", "view_stream",
   "visibility_off", "warehouse", "wifi", "workspace_premium",
 ].sort().join(","); // a API exige nomes em ordem alfabética
