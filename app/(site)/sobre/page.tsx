@@ -4,8 +4,13 @@ import Link from "next/link";
 import { IconTile } from "@/components/icon-tile";
 import { WhatsAppIcon, whatsappButtonClass } from "@/components/whatsapp-icon";
 import { googleRating, site, whatsappLink } from "@/lib/site";
-import nextBusiness from "@/public/ref/instagram/next-business.jpg";
-import smartfast from "@/public/ref/instagram/capacitacao-smartfast.jpg";
+import { FiberLines } from "@/components/fiber-lines";
+import { socialIcons } from "@/components/social-icons";
+import { Spotlight } from "@/components/spotlight";
+import condominios from "@/public/ref/instagram/condominios-treinamento.jpg";
+import equipe from "@/public/ref/instagram/next-business-equipe.jpg";
+import palestra from "@/public/ref/instagram/next-business-palestra.jpg";
+import smartfast from "@/public/ref/instagram/smartfast-treinamento.jpg";
 
 export const metadata: Metadata = {
   title: "Quem somos | Qualilan",
@@ -29,16 +34,20 @@ const areas = [
 ];
 
 const sustainability = [
-  { title: "GigaLAN Green, da Lightera", text: "Cabeamento estruturado com proposta mais sustentável, para projetos que olham para o impacto ambiental." },
-  { title: "Programa Green IT", text: "Projeto de tecnologia e sustentabilidade com a Unimed Araraquara, um dos nossos cases." },
-  { title: "Redes ópticas Laserway", text: "Redes 100% ópticas que reduzem o uso de plástico e o consumo de energia." },
+  { icon: "cable", title: "GigaLAN Green, da Lightera", text: "Cabeamento estruturado com proposta mais sustentável, para projetos que olham para o impacto ambiental." },
+  { icon: "local_hospital", title: "Programa Green IT", text: "Projeto de tecnologia e sustentabilidade com a Unimed Araraquara, um dos nossos cases." },
+  { icon: "bolt", title: "Redes ópticas Laserway", text: "Redes 100% ópticas que reduzem o uso de plástico e o consumo de energia." },
 ];
 
 export default function AboutPage() {
   return (
     <main className="overflow-x-clip bg-white">
       {/* Hero dividido: texto e foto real da equipe */}
-      <section className="relative overflow-hidden bg-profundo text-white">
+      <section className="relative isolate overflow-hidden bg-profundo text-white">
+        {/* Fundo: grade técnica + fibras com pulsos de luz + brilho atrás da foto */}
+        <div aria-hidden className="tech-grid absolute inset-0 -z-10" />
+        <FiberLines className="-z-10" />
+        <div aria-hidden className="q-glow absolute right-[8%] top-1/2 -z-10 size-[34rem] -translate-y-1/2 rounded-full bg-[radial-gradient(closest-side,rgb(49_46_127/0.9),transparent)]" />
         <div className="mx-auto grid max-w-6xl items-center gap-12 px-5 py-16 md:py-24 lg:grid-cols-[1.1fr_0.9fr]">
           <div>
             <h1 className="hero-title text-[2.5rem] font-bold leading-[1.05] tracking-[-0.03em] md:text-[3.5rem]">
@@ -50,10 +59,10 @@ export default function AboutPage() {
             </p>
           </div>
           <figure style={{ "--i": 2 } as React.CSSProperties} className="hero-in relative">
-            <div className="relative aspect-[4/3] overflow-hidden rounded-3xl">
-              <Image src={nextBusiness} alt="Equipe Qualilan no evento Next Business Bauru 2026" fill preload placeholder="blur" sizes="(min-width: 1024px) 480px, 100vw" className="object-cover object-top" />
+            <div className="relative aspect-[16/11] overflow-hidden rounded-3xl ring-1 ring-white/15 shadow-[0_30px_80px_-30px_rgba(0,0,26,0.9)]">
+              <Image src={equipe} alt="Equipe Qualilan com parceiros premiados no Next Business Bauru 2026" fill preload placeholder="blur" sizes="(min-width: 1024px) 520px, 100vw" className="object-cover object-top" />
             </div>
-            <figcaption className="absolute -bottom-5 left-6 flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm font-semibold text-profundo shadow-lg">
+            <figcaption className="float-a absolute -bottom-5 left-6 flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm font-semibold text-profundo shadow-lg">
               <span className="icon icon-fill text-lg! text-laranja">event</span>
               Next Business Bauru 2026
             </figcaption>
@@ -106,10 +115,11 @@ export default function AboutPage() {
           <h2 className="reveal-title max-w-2xl text-3xl font-bold tracking-[-0.02em] text-profundo md:text-[2.5rem]">
             Um ecossistema integrado para o seu projeto
           </h2>
+          <Spotlight>
           <ul className="reveal mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {areas.map((a) => (
               <li key={a.title}>
-                <Link href={a.href} className="lift group flex h-full flex-col rounded-2xl bg-white p-6">
+                <Link href={a.href} data-spot className="spot lift group flex h-full flex-col overflow-hidden rounded-2xl bg-white p-6">
                   <IconTile icon={a.icon} />
                   <h3 className="mt-5 font-semibold leading-snug text-profundo">{a.title}</h3>
                   <p className="mt-2 flex-1 text-[15px] leading-relaxed text-marinho/65">{a.text}</p>
@@ -118,6 +128,7 @@ export default function AboutPage() {
               </li>
             ))}
           </ul>
+          </Spotlight>
         </div>
       </section>
 
@@ -131,9 +142,10 @@ export default function AboutPage() {
             Eventos, treinamentos e capacitações que aproximam fabricantes, integradores e clientes.
           </p>
           <div className="reveal mt-12 grid gap-5 lg:grid-cols-3">
-            {/* A foto do evento já está no topo da página; aqui o card é só texto para não repetir a imagem */}
-            <article className="relative isolate flex min-h-80 flex-col justify-end overflow-hidden rounded-3xl bg-profundo p-8 text-white lg:col-span-2">
-              <span aria-hidden className="icon absolute right-8 top-8 -z-10 text-[9rem]! leading-none text-white/10">event</span>
+            {/* Foto diferente da do topo: o palco do evento, com o telão do Next Business */}
+            <article className="group relative isolate flex min-h-[26rem] flex-col justify-end overflow-hidden rounded-3xl p-8 text-white lg:col-span-2">
+              <Image src={palestra} alt="Palestra no Next Business Bauru, com o telão do evento e a plateia" fill placeholder="blur" sizes="(min-width: 1024px) 760px, 100vw" className="-z-20 object-cover object-[50%_30%] transition-transform duration-700 group-hover:scale-105" />
+              <div aria-hidden className="absolute inset-0 -z-10 bg-gradient-to-t from-marinho via-marinho/60 to-marinho/0" />
               <p className="text-sm font-semibold text-amarelo">Evento, novembro de 2026</p>
               <h3 className="mt-2 text-2xl font-bold">Next Business Bauru</h3>
               <p className="mt-2 max-w-lg text-white/80">
@@ -141,9 +153,9 @@ export default function AboutPage() {
                 infraestrutura das empresas.
               </p>
             </article>
-            <article className="flex flex-col overflow-hidden rounded-3xl border border-profundo/10">
-              <div className="relative aspect-[16/10]">
-                <Image src={smartfast} alt="Equipe da SmartFast na capacitação Control iD" fill sizes="(min-width: 1024px) 380px, 100vw" className="object-cover object-bottom" />
+            <article className="group flex flex-col overflow-hidden rounded-3xl border border-profundo/10">
+              <div className="relative aspect-[4/3] overflow-hidden">
+                <Image src={smartfast} alt="Instrutor da Control iD treinando a equipe técnica da SmartFast" fill placeholder="blur" sizes="(min-width: 1024px) 380px, 100vw" className="object-cover transition-transform duration-700 group-hover:scale-105" />
               </div>
               <div className="p-6">
                 <p className="text-sm font-semibold text-royal">Capacitação, setembro de 2026</p>
@@ -154,9 +166,11 @@ export default function AboutPage() {
                 </p>
               </div>
             </article>
-            <article className="flex gap-5 rounded-3xl bg-offwhite p-6 lg:col-span-2">
-              <IconTile icon="groups" size="lg" />
-              <div>
+            <article className="group grid overflow-hidden rounded-3xl bg-offwhite sm:grid-cols-2 lg:col-span-2">
+              <div className="relative aspect-[16/11] overflow-hidden sm:aspect-auto">
+                <Image src={condominios} alt="Turma do treinamento de controle de acesso para condomínios, em Bauru" fill placeholder="blur" sizes="(min-width: 1024px) 380px, 100vw" className="object-cover transition-transform duration-700 group-hover:scale-105" />
+              </div>
+              <div className="p-6 md:p-8">
                 <p className="text-sm font-semibold text-royal">Treinamento, setembro de 2026</p>
                 <h3 className="mt-1 text-lg font-bold text-profundo">Controle de acesso para condomínios</h3>
                 <p className="mt-2 text-[15px] leading-relaxed text-marinho/65">
@@ -165,24 +179,30 @@ export default function AboutPage() {
                 </p>
               </div>
             </article>
-            <article className="flex gap-5 rounded-3xl bg-offwhite p-6">
+            <a
+              href={site.socials[0].href}
+              target="_blank"
+              rel="noopener"
+              className="lift group flex flex-col rounded-3xl bg-offwhite p-6 md:p-8"
+            >
               <IconTile icon="school" size="lg" />
-              <div>
-                <h3 className="text-lg font-bold text-profundo">Conteúdo técnico</h3>
-                <p className="mt-2 text-[15px] leading-relaxed text-marinho/65">
-                  Dicas de especificação no Instagram: fibra monomodo ou multimodo, a câmera certa para cada ambiente e mais.
-                </p>
-              </div>
-            </article>
+              <h3 className="mt-6 text-lg font-bold text-profundo">Conteúdo técnico</h3>
+              <p className="mt-2 flex-1 text-[15px] leading-relaxed text-marinho/65">
+                Dicas de especificação no Instagram: fibra monomodo ou multimodo, a câmera certa para cada ambiente e mais.
+              </p>
+              <span className="mt-5 text-sm font-semibold text-royal group-hover:underline">Ver as dicas no Instagram</span>
+            </a>
           </div>
         </div>
       </section>
 
       {/* Sustentabilidade */}
-      <section className="bg-profundo py-20 text-white md:py-28">
-        <div className="mx-auto grid max-w-6xl gap-12 px-5 lg:grid-cols-[0.8fr_1.2fr]">
-          <div>
-            <span className="grid size-14 place-items-center rounded-2xl bg-white/10 text-[#7DDB8E]">
+      <section className="relative isolate overflow-hidden bg-profundo py-20 text-white md:py-28">
+        <div aria-hidden className="tech-grid absolute inset-0 -z-10" />
+        <FiberLines tone="green" className="-z-10" />
+        <div className="mx-auto max-w-6xl px-5">
+          <div className="reveal-title max-w-2xl">
+            <span className="grid size-14 place-items-center rounded-2xl bg-[#7DDB8E]/15 text-[#7DDB8E] ring-1 ring-[#7DDB8E]/30">
               <span className="icon icon-fill text-3xl!">eco</span>
             </span>
             <h2 className="mt-6 text-3xl font-bold tracking-[-0.02em] md:text-[2.5rem] md:leading-[1.1]">
@@ -192,11 +212,20 @@ export default function AboutPage() {
               Infraestrutura de rede também pode ser uma escolha mais consciente.
             </p>
           </div>
-          <ul className="reveal space-y-px overflow-hidden rounded-2xl bg-white/10">
+          {/* Cada card tem fundo próprio: na entrada, o fade não deixa aparecer cinza por trás */}
+          <ul className="reveal mt-12 grid gap-5 md:grid-cols-3">
             {sustainability.map((s) => (
-              <li key={s.title} className="bg-profundo p-6 md:p-8">
-                <h3 className="text-lg font-semibold">{s.title}</h3>
-                <p className="mt-2 text-white/70">{s.text}</p>
+              <li
+                key={s.title}
+                className="group relative overflow-hidden rounded-2xl border border-white/10 bg-[#1A2056] p-7 transition-colors hover:border-[#7DDB8E]/50"
+              >
+                {/* "Fibra" acesa no topo do card */}
+                <span aria-hidden className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#7DDB8E] to-transparent opacity-60 transition-opacity group-hover:opacity-100" />
+                <span className="grid size-12 place-items-center rounded-xl bg-[#7DDB8E]/12 text-[#7DDB8E]">
+                  <span className="icon text-2xl!">{s.icon}</span>
+                </span>
+                <h3 className="mt-6 text-lg font-semibold">{s.title}</h3>
+                <p className="mt-2 leading-relaxed text-white/70">{s.text}</p>
               </li>
             ))}
           </ul>
@@ -218,9 +247,12 @@ export default function AboutPage() {
                     href={s.href}
                     target="_blank"
                     rel="noopener"
-                    className="inline-flex items-center rounded-full border-2 border-profundo/15 px-5 py-2.5 font-semibold text-profundo transition-colors hover:border-profundo"
+                    aria-label={`${s.label} da Qualilan`}
+                    className="grid size-14 place-items-center rounded-2xl border-2 border-profundo/15 text-profundo transition-colors hover:border-profundo hover:bg-profundo hover:text-white"
                   >
-                    {s.label}
+                    <svg viewBox="0 0 24 24" className="size-6" aria-hidden>
+                      {socialIcons[s.label]}
+                    </svg>
                   </a>
                 ))}
             </div>
