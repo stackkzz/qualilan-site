@@ -5,7 +5,7 @@ import { AddToQuote } from "./quote-cart";
 
 export function ProductCard({ product }: { product: Product }) {
   return (
-    <li className="flex flex-col bg-white">
+    <li className="flex flex-col overflow-hidden rounded-2xl border border-profundo/10 bg-white">
       <Link href={`/produto/${product.slug}`} className="group flex flex-1 flex-col p-4">
         <div className="relative aspect-square overflow-hidden rounded-xl bg-offwhite">
           {product.image && (
@@ -44,8 +44,9 @@ export function ProductCard({ product }: { product: Product }) {
 }
 
 export function ProductGrid({ products }: { products: Product[] }) {
+  // Cards separados (antes era fundo cinza com 1 px de vão: sobrava cinza nos espaços vazios da última linha).
   return (
-    <ul className="grid grid-cols-2 gap-px overflow-hidden rounded-2xl bg-profundo/10 sm:grid-cols-3 lg:grid-cols-4">
+    <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
       {products.map((p) => (
         <ProductCard key={p.slug} product={p} />
       ))}

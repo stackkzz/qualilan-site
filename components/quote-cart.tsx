@@ -87,17 +87,18 @@ export function QuoteProvider({ children }: { children: ReactNode }) {
 }
 
 function QtyStepper({ item }: { item: QuoteItem }) {
-  const { setQty, remove } = useQuote();
+  const { setQty } = useQuote();
   const btn = "grid size-8 place-items-center rounded-md text-profundo hover:bg-white disabled:opacity-30";
   return (
     <div className="flex items-center rounded-lg bg-offwhite p-0.5">
       <button
         type="button"
         className={btn}
-        aria-label={item.qty === 1 ? `Remover ${item.name}` : `Diminuir quantidade de ${item.name}`}
-        onClick={() => (item.qty === 1 ? remove(item.slug) : setQty(item.slug, item.qty - 1))}
+        aria-label={`Diminuir quantidade de ${item.name}`}
+        disabled={item.qty <= 1}
+        onClick={() => setQty(item.slug, item.qty - 1)}
       >
-        <span className="icon text-lg!">{item.qty === 1 ? "delete" : "remove"}</span>
+        <span className="icon text-lg!">remove</span>
       </button>
       <label className="sr-only" htmlFor={`qty-${item.slug}`}>
         Quantidade de {item.name}
@@ -194,9 +195,9 @@ function QuoteDialog({ ref }: { ref: React.RefObject<HTMLDialogElement | null> }
                   <div className="min-w-0 flex-1">
                     <p className="line-clamp-2 text-[13px] font-medium leading-snug text-profundo">{i.name}</p>
                     {i.sku && <p className="mt-0.5 text-xs text-marinho/50">Cód. {i.sku}</p>}
-                    {/* Uma só forma de remover: o "−" vira lixeira quando a quantidade é 1 */}
-                    <div className="mt-2">
+                    <div className="mt-2 flex items-center justify-between gap-2">
                       <QtyStepper item={i} />
+                      <RemoveItem item={i} />
                     </div>
                   </div>
                 </li>
@@ -223,6 +224,35 @@ function QuoteDialog({ ref }: { ref: React.RefObject<HTMLDialogElement | null> }
         )}
       </div>
     </dialog>
+  );
+}
+
+// Remover item da lista: lixeira que pede confirmação no próprio lugar ("Remover? Sim / Não").
+function RemoveItem({ item }: { item: QuoteItem }) {
+  const { remove } = useQuote();
+  const [asking, setAsking] = useState(false);
+  if (asking) {
+    return (
+      <div className="flex items-center gap-1 text-xs" role="group" aria-label={`Confirmar remoção de ${item.name}`}>
+        <span className="mr-1 text-marinho/60">Remover?</span>
+        <button type="button" onClick={() => remove(item.slug)} className="rounded-md bg-red-600 px-2.5 py-1.5 font-semibold text-white hover:bg-red-700">
+          Sim
+        </button>
+        <button type="button" onClick={() => setAsking(false)} autoFocus className="rounded-md px-2.5 py-1.5 font-semibold text-marinho/70 hover:bg-offwhite">
+          Não
+        </button>
+      </div>
+    );
+  }
+  return (
+    <button
+      type="button"
+      onClick={() => setAsking(true)}
+      aria-label={`Remover ${item.name} da lista`}
+      className="grid size-9 shrink-0 place-items-center rounded-lg text-marinho/40 transition-colors hover:bg-red-50 hover:text-red-600"
+    >
+      <span className="icon text-xl!">delete</span>
+    </button>
   );
 }
 
