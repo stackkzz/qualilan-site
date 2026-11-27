@@ -91,9 +91,9 @@ export default function AboutPage() {
               elétrica, com time técnico especializado.
             </p>
           </div>
-          <figure style={{ "--i": 2 } as React.CSSProperties} className="hero-in relative">
+          <figure className="relative">
             <div className="relative aspect-[16/11] overflow-hidden rounded-3xl ring-1 ring-white/15 shadow-[0_30px_80px_-30px_rgba(0,0,26,0.9)]">
-              <Image src={equipe} alt="Equipe Qualilan com parceiros premiados no Next Business Bauru 2026" fill preload placeholder="blur" sizes="(min-width: 1024px) 520px, 100vw" className="object-cover object-top" />
+              <Image src={equipe} alt="Equipe Qualilan com parceiros premiados no Next Business Bauru 2026" fill preload placeholder="blur" sizes="(min-width: 1024px) 520px, 100vw" className="hero-photo object-cover object-top" />
             </div>
             <figcaption className="float-a absolute -bottom-5 left-6 flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm font-semibold text-profundo shadow-lg">
               <span className="icon icon-fill text-lg! text-laranja">event</span>

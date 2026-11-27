@@ -108,7 +108,7 @@ export function ProductListing({
         </nav>
       )}
       {pages > 1 && (
-        <p className="mt-3 text-center text-xs text-marinho/45">
+        <p className="mt-3 text-center text-xs text-marinho/65">
           Página {page} de {pages}, {PAGE_SIZE} produtos por página
         </p>
       )}

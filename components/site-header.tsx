@@ -15,7 +15,7 @@ const nav = [
 export function SiteHeader() {
   return (
     <>
-      <header className="header-scroll sticky top-0 z-40 border-b border-profundo/10 bg-white/85 backdrop-blur-lg">
+      <header className="header-scroll sticky top-0 z-40 border-b border-profundo/10 bg-white">
         <div className="mx-auto flex h-16 max-w-6xl items-center gap-6 px-5 md:h-[4.5rem]">
           <Link href="/" aria-label="Qualilan, página inicial" className="shrink-0">
             <Image src="/brand/logo-azul.png" alt="Qualilan" width={140} height={48} preload className="w-28 sm:w-[8.5rem]" />

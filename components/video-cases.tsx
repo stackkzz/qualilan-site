@@ -72,7 +72,6 @@ export function VideoCases() {
                   type="button"
                   onClick={() => setPlaying(true)}
                   className="absolute inset-0 size-full"
-                  aria-label={`Assistir ao case de sucesso: ${current.client}`}
                 >
                   <Image
                     key={current.id}
@@ -92,6 +91,7 @@ export function VideoCases() {
                     </svg>
                   </span>
                   <span className="absolute bottom-0 left-0 p-6 text-left text-white">
+                    <span className="sr-only">Assistir ao case de sucesso: </span>
                     <span className="block text-xl font-bold md:text-2xl">{current.client}</span>
                     {current.tag && <span className="text-sm text-white/75">{current.tag}</span>}
                   </span>

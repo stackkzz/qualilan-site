@@ -48,7 +48,7 @@ export function FiberLines({
             strokeWidth="2"
             strokeLinecap="round"
             className="fiber-pulse"
-            style={{ animationDuration: `${7 + i * 2}s`, animationDelay: `-${i * 2.5}s`, filter: `drop-shadow(0 0 3px ${t.pulse})` }}
+            style={{ animationDuration: `${7 + i * 2}s`, animationDelay: `-${i * 2.5}s` }}
           />
         </g>
       ))}

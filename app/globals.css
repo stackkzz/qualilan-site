@@ -526,3 +526,8 @@ body:has(#catalog-q) .header-search {
   4%, 21% { opacity: 1; transform: none; }
   25%, 100% { opacity: 0; transform: translateY(-6px); }
 }
+
+/* Seções fora da tela ficam com as animações em loop pausadas (AnimationGate marca as visíveis). */
+html[data-gated] main :is(section, [data-anim]):not([data-visible]) * {
+  animation-play-state: paused !important;
+}

@@ -109,7 +109,7 @@ export function SiteFooter() {
                   {u.city}
                   {u.note && <span className="ml-1.5 text-xs text-amarelo">{u.note}</span>}
                 </span>
-                <a href={telHref(u.phone)} className="whitespace-nowrap font-medium text-white/85 hover:text-laranja">
+                <a href={telHref(u.phone)} className="inline-block whitespace-nowrap py-2 font-medium text-white/85 hover:text-laranja md:py-0">
                   {u.phone}
                 </a>
               </li>
@@ -119,7 +119,7 @@ export function SiteFooter() {
       </div>
 
       <div className="border-t border-white/10">
-        <div className="mx-auto flex max-w-6xl flex-col gap-2 px-5 py-6 text-xs text-white/45 sm:flex-row sm:justify-between">
+        <div className="mx-auto flex max-w-6xl flex-col gap-2 px-5 py-6 text-xs text-white/65 sm:flex-row sm:justify-between">
           <p>
             © <CurrentYear /> Qualilan. CNPJ {site.cnpj}.
           </p>

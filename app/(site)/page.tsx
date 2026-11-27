@@ -109,7 +109,7 @@ export default function Home() {
           </div>
         </div>
         <div aria-hidden className="pointer-events-none absolute inset-y-0 right-0 hidden w-[38%] lg:block">
-          <div className="float-a absolute right-[18%] top-[26%] flex items-center gap-3 rounded-xl border border-white/15 bg-white/10 px-4 py-3 text-sm text-white backdrop-blur-md">
+          <div className="float-a absolute right-[18%] top-[26%] flex items-center gap-3 rounded-xl border border-white/15 bg-[#2A2F66]/90 px-4 py-3 text-sm text-white">
             <span className="grid size-9 place-items-center rounded-lg bg-laranja text-profundo">
               <span className="icon text-xl!">verified</span>
             </span>
@@ -118,7 +118,7 @@ export default function Home() {
               <span className="text-white/70">das marcas líderes</span>
             </span>
           </div>
-          <div className="float-b absolute bottom-[22%] right-[30%] flex items-center gap-3 rounded-xl border border-white/15 bg-white/10 px-4 py-3 text-sm text-white backdrop-blur-md">
+          <div className="float-b absolute bottom-[22%] right-[30%] flex items-center gap-3 rounded-xl border border-white/15 bg-[#2A2F66]/90 px-4 py-3 text-sm text-white">
             <span className="relative flex size-2.5">
               <span className="absolute inline-flex size-full rounded-full bg-[#25d366] opacity-75 motion-safe:animate-ping" />
               <span className="relative inline-flex size-2.5 rounded-full bg-[#25d366]" />
